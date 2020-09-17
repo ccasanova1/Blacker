@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<title>Blacker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?php echo base_url('assets/css/emojionearea.min.css'); ?>">
+<style>
+html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+#cuerpoPiblicaciones a{text-decoration:none;}
+#cuerpoPiblicaciones a:hover{text-decoration:underline;}
+</style>
+<body class="w3-theme-l5">
+
+<!-- Navbar -->
+<div class="w3-top w3-mobile" style="position: relative">
+ <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="<?php echo base_url()?>" class="w3-bar-item w3-button w3-padding-large w3-theme-d4">Blacker</a>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+  <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+      <a href="#" class="w3-bar-item w3-button">One new friend request</a>
+      <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
+      <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
+    </div>
+  </div>
+  <?php if($seleccion == 'usuario'): ?>
+    <form action="<?php echo base_url('inicio/buscar')?>" method="POST">
+    <input class="w3-input w3-bar-item w3-mobile w3-padding-large w3-border " type="text" id="buscador" name="publicarBusqueda" placeholder="<?php echo $buscar ?>">
+    </form>
+  <?php endif; ?>
+  <div class="w3-dropdown-hover w3-hide-small w3-hover-white w3-right">
+    <button class="w3-button w3-padding-large" title="Notifications">
+      <img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+    </button>     
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px; right:0">
+      <a href="<?php echo base_url('login/logout'); ?>" class="w3-bar-item w3-button">Salir</a>
+      <a href="<?php echo base_url('inicio/configuracion'); ?>" class="w3-bar-item w3-button">Configuracion</a>
+      <a href="#" class="w3-bar-item w3-button">no se que</a>
+    </div>
+  </div>
+   <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large" >
+    <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 1</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 2</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 3</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large" >Mi Perfil</a>
+  </div>
+ </div>
+
+</div>
+
+<!-- Page Container -->
+<div class="w3-container w3-content" style="max-width:1400px;padding-top:20px">     
+  <!-- The Grid -->
+  <div class="w3-row">
+    <!-- Left Column -->
+    <div class="w3-col m3">
+      <!-- Profile -->
+      <div class="w3-card w3-round w3-white">
+        <div class="w3-container">
+         <h4 class="w3-center"><?php echo $perfil->nombre_entidad; ?></h4>
+         <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <hr>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Calle: <?php if(!empty($perfil->calle)){ echo $perfil->calle;}else{ echo "Sin ninguna calle";} ?></p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Esquina: <?php if(!empty($perfil->esquina)){ echo $perfil->esquina;}else{ echo "Sin ninguna esquina";} ?></p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Numero Puerta: <?php if(!empty($perfil->numero)){ echo $perfil->numero;}else{ echo "Sin ninguna numero de puerta";} ?></p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
+          <?php if (empty($sigue->estado)): ?>
+          <form method="POST" id="frm-seguir">
+          <input class="" type="text" id="id-seguir" value="<?php echo $perfil->id_cuenta; ?>" name="seguir" hidden>
+          <button class="w3-button w3-block w3-green" id="btn-seguir" title="Seguir">Seguir</button>
+          </form>
+          <?php elseif ($sigue->estado == 'rechazado'): ?>
+            <p class="w3-red w3-center" >Rechazado</p> 
+          <?php elseif ($seguir->estado == 'siguiendo'): ?>
+            <p class="w3-green w3-center" >Amigos</p> 
+          <?php endif; ?>
+            
+        </div>
+      </div>
+      <br>
+    
+      
+      
+      <!-- Alert Box -->
+      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
+          <i class="fa fa-remove"></i>
+        </span>
+        <p><strong>Hey!</strong></p>
+        <p>People are looking at your profile. Find out who.</p>
+      </div>
+        
+    <!-- End Left Column -->
+    </div>
+    
+    <!-- Middle Column -->
+    <div class="w3-col m7">
+  
+      <div id="cuerpoPublicaciones">
+        
+      </div>
+      
+    <!-- End Middle Column -->
+    </div>
+    
+    <!-- Right Column -->
+    <div class="w3-col m2">
+      <div class="w3-card w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p>Upcoming Events:</p>
+          <img src="/w3images/forest.jpg" alt="Forest" style="width:100%;">
+          <p><strong>Holiday</strong></p>
+          <p>Friday 15:00</p>
+          <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
+        </div>
+      </div>
+      <br>
+      
+      <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
+        <p>ADS</p>
+      </div>
+      <br>
+
+      
+    <!-- End Right Column -->
+    </div>
+    
+  <!-- End Grid -->
+  </div>
+  
+<!-- End Page Container -->
+</div>
+<br>
+
+
+<script src="<?=base_url('assets/js/jquery.min.js') ?>"></script>
+<script type="text/javascript" src="<?=base_url('assets/js/emojionearea.min.js'); ?>"></script>
+
+<script>
+  var baseurl = "<?=base_url()?>";
+  var sigueEstado = "<?php echo $sigue->estado ?>";
+  var id_cuenta = "<?php echo $perfil->id_cuenta ?>";
+// Accordion
+function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-theme-d1";
+  } else { 
+    x.className = x.className.replace("w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-theme-d1", "");
+  }
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+</script>
+<script src="<?=base_url('assets/js/publicarPagina.js') ?>"></script>
+<script src="<?=base_url('assets/js/sigue.js') ?>"></script>
+</body>
+</html> 

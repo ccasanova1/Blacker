@@ -1,0 +1,321 @@
+html {
+    font-size: 15px;
+}
+
+body {
+    color: #fff;
+}
+
+.encabezado {
+    background: rgb(245, 125, 61);
+    padding: .5rem;
+    border-bottom: 1px groove;
+}
+
+.encabezado .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+}
+
+.encabezado .logo img {
+    color: #fff;
+    width: 120px;
+    height: auto;
+}
+
+.boton-menu {
+    border: 0;
+    font-size: 2rem;
+    margin: 0;
+    padding: 0 .5rem;
+    background: transparent;
+    color: #fff;
+    margin-left: auto;
+}
+
+.boton-menu:focus {
+    outline: 0;
+}
+
+#menu-principal {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 100%;
+    flex: 1 1 100%;
+}
+
+#menu-principal ul {
+    padding: 0;
+    list-style: none;
+    margin: 1rem 0 0 0;
+}
+
+#menu-principal ul a {
+    display: block;
+    padding: .8rem 0;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    border-top: 1px solid #303030;
+}
+
+#menu-principal ul li button{
+    background: rgb(245, 125, 61);
+    color: white;
+}
+
+#menu-principal ul a:hover,
+#menu-principal ul li.active a,
+.aside .h5 a:hover,
+.parte1 a:hover{
+    color: #AA3433;
+}
+.login{
+    color: black;
+}
+#principio {
+    padding-top: 5.6rem;
+    padding-bottom: 5.6rem;
+}
+
+.form-login {
+    margin-top: 2rem;
+    margin: auto;
+}
+
+.form-login label {
+    font-size: 20px;
+}
+
+.boton-login {
+    background: #132A59;
+    border: 0;
+}
+
+#formulario2,
+#formulario3 {
+    display: none;
+}
+
+.piedepagina {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: #1E1E1E;
+    color: #fff;
+    text-align: center;
+    font-size: .9rem;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 1rem 0;
+    z-index: 10;
+}
+
+#laterali {
+    display: none;
+}
+
+.aside .h5 a{
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+
+
+.aside a img {
+    margin: 0;
+    padding: 1rem;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+}
+
+.aside  {
+    flex: 1 1 auto;
+}
+
+.aside  ul {
+    padding: 0;
+    list-style: none;
+}
+
+.aside  ul a {
+    display: block;
+    padding: .8rem 0;
+    text-decoration: none;
+    color: black;
+    text-transform: uppercase;
+
+}
+
+.aside  ul a i {
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0 .5rem;
+    background: transparent;
+    color: #fff;
+}
+
+.aside .h5 a:hover,
+.parte1 a p.h6:hover{
+    color: #AA3433;
+    border-bottom: 3px solid;
+}
+
+.parte1 a img {
+    display: block;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+}
+
+.parte1 {
+    background: #1E1E1E;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1);
+    z-index: 10;
+    
+}
+.parte1 .buscar{
+    max-width: 60%;
+}
+.parte1 a p,
+.parte1 p{
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: clip;
+    text-decoration: none;
+    color: #fff;
+    
+}
+
+.parte2 {
+    background: #4F2828;
+}
+
+.parte3 {
+    background: #201010;
+}
+
+.comentario {
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: clip;
+}
+
+.comentario p {
+    word-wrap: break-word;
+}
+
+@media (min-width: 768px) {
+    .unete {
+        border-right: 1px groove #fff;
+    }
+    .unete,
+    .conten-login {
+        margin-top: 1rem;
+    }
+    .boton-login {
+        margin: auto;
+        max-width: 50%;
+    }
+    #buscador{
+        width: 200px;
+    }
+    #menu-principal {
+        height: auto !important;
+        display: block;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        margin-left: auto;
+    }
+    #menu-principal ul {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        align-items: center;
+
+    }
+    #menu-principal ul li #opciones{
+        border: 0px;
+        border-left: 1px groove;
+        font-size: 30px
+    }
+   
+    #menu-principal ul li a {
+        padding: .1rem;
+        text-transform: capitalize;
+        margin: 0 .3rem;
+        border-top: 0px;
+        border-bottom: 3px solid transparent;
+    }
+    #menu-principal ul li a img{
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+    }
+    #menu-principal ul li.active a,
+    #menu-principal ul li a:hover {
+        color: rgba(0, 0, 0, 1);
+        border-bottom: 3px solid;
+    }
+    
+    #menu-principal ul li #opciones:hover,
+    #menu-principal ul li #perfil:hover{
+        border-bottom: 0px;
+    }
+    #opcion{
+    color: black;
+    background: rgb(245, 125, 61);
+    border-bottom: 0px;
+    }
+    
+    #opcion a:hover{
+        background: rgb(245, 125, 61);
+        color: red;
+    }
+
+    
+    
+    
+@media (min-width: 992px) {
+    #laterali {
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        left: 0;
+        align-items: center;
+        background: #f2f2f2;
+        z-index: 10;
+        
+    }
+    #buscador{
+        width: 250px;
+    }
+    .nav-aside {
+        margin-top: 2rem;
+        flex: 1 1 100%;
+    }    
+    .col-aside1 {
+        align-self: flex-end;
+    }
+}
+
+@media (min-width: 1200px) {
+    #buscador{
+        width: 350px;
+    }
+}
+    /*# sourceMappingURL=estilos.css.map */

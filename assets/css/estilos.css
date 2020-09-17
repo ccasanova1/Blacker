@@ -1,0 +1,28 @@
+.texto{
+	padding: 10rem 0.7rem !important
+}
+
+.formulario{
+	padding: 0 0.7rem !important 
+}
+
+#about{
+	margin-top: 3rem;
+}
+
+footer{
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+
+@media (max-width: 992px){
+	.texto{
+		padding: 0.5rem 0 !important
+	}
+footer{
+	position: relative;
+	width: 100%;
+}
+}
