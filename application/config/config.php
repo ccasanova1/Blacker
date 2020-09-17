@@ -25,6 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 //$config['base_url'] = 'http://blacker.com.uy';
 $config['base_url'] = 'http://192.168.2.202/frontend/';
+$config['base_url_assets'] = 'http://192.168.2.202/frontend/';
 
 /*
 |--------------------------------------------------------------------------

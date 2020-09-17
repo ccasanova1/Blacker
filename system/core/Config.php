@@ -110,6 +110,30 @@ class CI_Config {
 			$this->set_item('base_url', $base_url);
 		}
 
+		if (empty($this->config['base_url_assets']))
+		{
+			if (isset($_SERVER['SERVER_ADDR']))
+			{
+				if (strpos($_SERVER['SERVER_ADDR'], ':') !== FALSE)
+				{
+					$server_addr = '['.$_SERVER['SERVER_ADDR'].']';
+				}
+				else
+				{
+					$server_addr = $_SERVER['SERVER_ADDR'];
+				}
+
+				$base_url_assets = (is_https() ? 'https' : 'http').'://'.$server_addr
+					.substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'], basename($_SERVER['SCRIPT_FILENAME'])));
+			}
+			else
+			{
+				$base_url_assets = 'http://localhost/';
+			}
+
+			$this->set_item('base_url_assets', $base_url_assets);
+		}
+
 		log_message('info', 'Config Class Initialized');
 	}
 
