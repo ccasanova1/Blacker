@@ -251,8 +251,9 @@ function openNav() {
 }
 
 var slideIndex = 1;
+<?php if ($seleccion == "usuario"):  ?>
 showDivs(slideIndex);
-
+<?php endif; ?>
 function plusDivs(n) {
   showDivs(slideIndex += n);
 }

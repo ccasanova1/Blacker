@@ -81,6 +81,7 @@ class Albums extends CI_Controller {
 		$albums = $this->Model_album->get_album_view($id, $limite);
 		if (empty($albums)) {
 			$data['estado'] = 'vacio';
+			$data['publicacion'] = "<div class='w3-container w3-center w3-card w3-white w3-round w3-margin'><br><p>No se encontraron mas albums</p></div>";
 			echo json_encode($data);
 		}else{
 			$i = 0;
@@ -91,25 +92,55 @@ class Albums extends CI_Controller {
 				$date2 = new DateTime(date("Y-m-d H:m:s"));
 				$diff = $date1->diff($date2);
 				$dateTotal = $this->Model_publicacion->get_format_time($diff);
-				$data[$i]['albums'] = "
-						<div class='w3-container w3-card w3-white w3-round w3-margin' id='album_$value->id_album'><br>
+				$data[$i]['albums'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='album_$value->id_album'><br>";
+				if ($id == $this->session->userdata("id")) {
+						$data[$i]['albums'] .= "<span class='w3-right' ><button id='btn-eliminar-album' type='button' value='$value->id_album' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+				}
+				/*$data[$i]['albums'] = "
+						<div class='w3-row'>
+						<div class='w3-mobile w3-col' style='width:90%'>
                 			<span class='w3-right w3-opacity'>$dateTotal</span>
                 			<a href='".base_url('albums/fotos/'.$value->id_album.'/'.urlencode(strtr($this->encrypt->encode($id),array('+' => '.', '=' => '-', '/' => '~'))))."'>
-                				<h4>$value->ruta</h4><br>
+                				<h4>$value->ruta
                 			</a>
-                			";
+                		</div>
+                		<div class='w3-mobile w3-col' style='width:10%'>
+        					<span class='w3-right w3-opacity'>$dateTotal</span>
+        				</div>
+        				</div>
+                			";*/
+                $data[$i]['albums'] .="
+						<div class='w3-row'>
+						<div class='w3-mobile w3-col' style='width:90%'>
+        				<a href='".base_url('albums/fotos/'.$value->id_album.'/'.urlencode(strtr($this->encrypt->encode($id),array('+' => '.', '=' => '-', '/' => '~'))))."'><h4>$value->ruta<h4></a>
+						</div>
+        				<div class='w3-mobile w3-col' style='width:10%'>
+        				<span class='w3-right w3-opacity'>$dateTotal</span>
+        				</div>
+        				</div>
+        				<hr class='w3-clear'>
+        		";
                 $meGusta = $this->Model_megusta->get_megusta_album($value->id_album,$this->session->userdata("id"));
         		if ($meGusta->estado == 'like') {
         			$colorLike = 'w3-green';
         		}else{
         			$colorLike = 'w3-theme-d1';
         		}
-          		$data[$i]['albums'] .="
+          		/*$data[$i]['albums'] .="
           				<div id='Megusta'>
         					<button id='btn-megusta$i' type='button' value='$value->id_album' class='w3-button $colorLike w3-margin-bottom'><i class='fa fa-thumbs-up'></i>Like</button>
         					<span id='MegustaCant'>$meGusta->countMegusta</span>
         				</div> 
       					<div class='w3-row' id='comentarios'>
+      				";*/
+      			$data[$i]['albums'] .="
+          				<div id='Megusta' style='margin-top: 10px' class='w3-row'>
+          				<div class='w3-mobile w3-col ' style='width:100%'>
+        					<button id='btn-megusta$i' type='button' value='$value->id_album' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
+        					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
+        				</div>
+        				</div> 
+      					<div class='w3-row w3-border-top' id='comentarios'>
       				";
       			$comentarios = $this->Model_comentarios->get_comentarios_albums($value->id_album);
       			foreach ($comentarios as $value2) {
@@ -160,7 +191,7 @@ class Albums extends CI_Controller {
 		$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
 		$this->Model_album->set_album($ruta->nombre, $albumNuevo, $this->session->userdata('id'));
 		$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$albumNuevo";
-		mkdir($dir, 755, TRUE);
+		mkdir($dir, 777, TRUE);
 		echo 'ok';
 	}
 
@@ -221,6 +252,7 @@ class Albums extends CI_Controller {
 		$fotos = $this->Model_album->get_fotos($id, $limite, $id_album, $this->session->userdata('id'));
 		if (empty($fotos)) {
 			$data['estado'] = 'vacio';
+			$data['publicacion'] = "<div class='w3-container w3-center w3-card w3-white w3-round w3-margin'><br><p>No se encuentran mas fotos en este album</p></div>";
 			echo json_encode($data);
 		}else{
 			$i = 0;
@@ -271,11 +303,13 @@ class Albums extends CI_Controller {
         			$colorLike = 'w3-theme-d1';
         		}
           		$data[$i]['fotos'] .="
-          				<div id='Megusta'>
-        					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-margin-bottom'><i class='fa fa-thumbs-up'></i>Like</button>
-        					<span id='MegustaCant'>$meGusta->countMegusta</span>
+          				<div id='Megusta' style='margin-top: 10px' class='w3-row'>
+          				<div class='w3-mobile w3-col ' style='width:100%'>
+        					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
+        					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
+        				</div>
         				</div> 
-      					<div class='w3-row' id='comentarios'>
+      					<div class='w3-row w3-border-top' id='comentarios'>
       				";
       			$comentarios = $this->Model_comentarios->get_comentarios($value->id_publicacion);
       			foreach ($comentarios as $value2) {

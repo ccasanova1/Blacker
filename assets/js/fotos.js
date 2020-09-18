@@ -18,16 +18,21 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {id_cuenta:id_cuenta,id_album:id_album},
 			success: function(resultado){
-				//var json = JSON.parse(resultado.publicacion);
-				$.each(JSON.parse(resultado), function(index, value){
+				resultado = JSON.parse(resultado);
+				if (resultado.estado == 'vacio') {
 					//alert(value);
-					$('#cuerpoFotos').append(value.fotos);
-					recargarEmojis(value.idc);  
-				});
-				//$('#cuerpoPiblicaciones').html(resultado);
-				limite = 3;
-				bandera = true;  
-				
+					$('#cuerpoFotos').append(resultado.publicacion);
+					bandera = false;
+				}else{
+					$.each(resultado, function(index, value){
+						//alert(value);
+						$('#cuerpoFotos').append(value.fotos);
+						recargarEmojis(value.idc);  
+					});
+					//$('#cuerpoPiblicaciones').html(resultado);
+					limite = 3;
+					bandera = true;  
+				}
 			}
 		});
 
@@ -47,11 +52,10 @@ $(document).ready(function(){
 					url: baseurl+'Albums/obtenerFotos',
 					type: 'POST',
 					data: {id_cuenta:id_cuenta,limite:limite,id_album:id_album},
-
 					success: function(resultado){
 						resultado = JSON.parse(resultado);
 						if (resultado.estado == 'vacio') {
-							alert('No se encuentran mas publicaciones');
+							$('#cuerpoFotos').append(resultado.publicacion);
 							bandera = false;
 						}else{
 							$.each(resultado, function(index, value){

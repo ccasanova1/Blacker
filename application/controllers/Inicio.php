@@ -17,9 +17,8 @@ class Inicio extends CI_Controller {
 		$this->load->model("Model_notificaciones");
 		$this->load->model("Model_grupo");
 		$this->load->model("Model_configuracion");
-		$this->load->helper(array('crear_grupo_rules'));
+		$this->load->helper(array('crear_grupo_rules','configuracion_rules','file'));
 		$this->form_validation->set_error_delimiters('', '');
-		$this->load->helper('configuracion_rules');
 		$this->load->library('encrypt');
 	}
 
@@ -402,6 +401,7 @@ class Inicio extends CI_Controller {
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
+			'encrypt_name' => TRUE,
             ];
             $this->load->library("upload", $config);
 		    $pais = $this->input->post('paisUsuario');
@@ -423,8 +423,13 @@ class Inicio extends CI_Controller {
             	$data = array(
                 'pais' => $pais,
                 'telefono' => $telefono,
-                'foto_perfil' => $foto_perfil['upload_data']['file_name'],
-            );
+                'foto_perfil' => 'imagenes/'.$foto_perfil['upload_data']['file_name'],
+            	);
+            	$respuestaFoto = $this->Model_usuario->get_fotoPerfil($this->session->userdata("id"));
+            	$pos = strpos($respuestaFoto->foto_perfil, "predeterminado1");
+            	if ($pos === FALSE) {            		
+            		unlink('/var/www/html/frontend/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
+            	}
             }
             $config = array(
             	'not_publicacion' => ($this->input->post('mostrarPublicaciones') == 'si') ? 'si' : 'no',
@@ -465,6 +470,7 @@ class Inicio extends CI_Controller {
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
+			'encrypt_name' => TRUE,
 			];
             $this->load->library("upload", $config);
             $nombreEntidad = $this->input->post('nombreEntidad');
@@ -485,8 +491,13 @@ class Inicio extends CI_Controller {
             	$data = array(
                 	'pais' => $paisPagina,
                 	'telefono' => $telefonoPagina,
-                	'foto_perfil' => $foto_perfil['upload_data']['file_name'],
+                	'foto_perfil' => 'imagenes/'.$foto_perfil['upload_data']['file_name'],
             	);
+            	$respuestaFoto = $this->Model_usuario->get_fotoPerfil($this->session->userdata("id"));
+            	$pos = strpos($respuestaFoto->foto_perfil, "predeterminado1");
+            	if ($pos === FALSE) {            		
+            		unlink('/var/www/html/frontend/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
+            	}
             }
             $this->Model_configuracion->update_usuario($data,$this->session->userdata("id"));
             $data2 = array(

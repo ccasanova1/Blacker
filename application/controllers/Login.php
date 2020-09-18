@@ -114,6 +114,7 @@ class Login extends CI_Controller {
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
+			'encrypt_name' => TRUE,
             ];
             $this->load->library("upload", $config);
             $email = $this->input->post('email');
@@ -139,13 +140,14 @@ class Login extends CI_Controller {
             );
             }else{
             	$foto_perfil = array('upload_data' => $this->upload->data());
+            	//chmod("/var/www/html/frontend/assets/imagenes/".$foto_perfil['upload_data']['file_name'], 0777);
             	$data = array(
                 'email' => $email,
                 'pass' => $hash,
                 'fecha_creacion' => $fechacreacion,
                 'pais' => $pais,
                 'telefono' => $telefono,
-                'foto_perfil' => $foto_perfil['upload_data']['file_name'],
+                'foto_perfil' =>  "imagenes/".$foto_perfil['upload_data']['file_name'],
                 'activador' => $hash2,
             );
             }
@@ -174,9 +176,9 @@ class Login extends CI_Controller {
 				'id_album' => $respuesta->id_album,
 			);
 			$dir = "/var/www/html/frontend/assets/albumes/".$dato;
-			mkdir($dir, 755, TRUE);
+			mkdir($dir, 0777, TRUE);
 			$dir2 = "/var/www/html/frontend/assets/albumes/".$dato."/Predeterminado";
-			mkdir($dir2, 755, TRUE);
+			mkdir($dir2, 0777, TRUE);
 			$conf['protocol'] = 'smtp';
 			$conf['smtp_host'] = 'blacker.com.uy';
 			$conf['smtp_port'] = 465;
@@ -206,6 +208,8 @@ class Login extends CI_Controller {
 				}
 				sleep(1);
 			}
+			$this->session->set_flashdata('info','Se a enviado un correo para poder activar la cuenta');
+			$this->session->set_flashdata('estado','esperando');
 		}elseif ($seleccion == 'Pagina') {
 			$rules = getregistroRules2();
 		  	$this->form_validation->set_rules($rules);
@@ -234,6 +238,7 @@ class Login extends CI_Controller {
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
+			'encrypt_name' => TRUE,
 			];
             $this->load->library("upload", $config);
             $email = $this->input->post('email');
@@ -245,8 +250,8 @@ class Login extends CI_Controller {
 			$telefono = $this->input->post('telefono');
 			$nombre_pag = $this->input->post('nombre_pag');
             if(!$this->upload->do_upload('foto_perfil') ){
-                    $foto_perfil = "imagenes/predeterminado1.svg";
-                    $data = array(
+                $foto_perfil = "imagenes/predeterminado1.svg";
+                $data = array(
                 'email' => $email,
                 'pass' => $hash,
                 'fecha_creacion' => $fechacreacion,
@@ -257,17 +262,17 @@ class Login extends CI_Controller {
             );
             }else{
             	$foto_perfil = array('upload_data' => $this->upload->data());
+            	//chmod("/var/www/html/frontend/assets/imagenes/".$foto_perfil['upload_data']['file_name'], 0777);
             	$data = array(
                 'email' => $email,
                 'pass' => $hash,
                 'fecha_creacion' => $fechacreacion,
                 'pais' => $pais,
                 'telefono' => $telefono,
-                'foto_perfil' => $foto_perfil['upload_data']['file_name'],
-                'activacion' => $hash2,
+                'foto_perfil' => "imagenes/".$foto_perfil['upload_data']['file_name'],
+                'activador' => $hash2,
             );
             }
-            
             $this->Model_usuario->set_usuario($data);
             $id = $this->Model_usuario->get_usuario_comp($email);
             $data2 = array(
@@ -282,9 +287,9 @@ class Login extends CI_Controller {
 				'id_album' => $respuesta->id_album,
 			);
 			$dir = "/var/www/html/frontend/assets/albumes/".$dato;
-			mkdir($dir, 755, TRUE);
+			mkdir($dir, 0777, TRUE);
 			$dir2 = "/var/www/html/frontend/assets/albumes/".$dato."/Predeterminado";
-			mkdir($dir2, 755, TRUE);		
+			mkdir($dir2, 0777, TRUE);		
 			$this->Model_perfiles->set_perfil_pagina($data2);
 			$conf['protocol'] = 'smtp';
 			$conf['smtp_host'] = 'blacker.com.uy';
@@ -315,6 +320,8 @@ class Login extends CI_Controller {
 				}
 				sleep(1);
 			}
+			$this->session->set_flashdata('info','Se a enviado un correo para poder activar la cuenta');
+			$this->session->set_flashdata('estado','esperando');
 		}
 	}
 

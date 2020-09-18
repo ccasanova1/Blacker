@@ -24,7 +24,6 @@ $(document).ready(function(){
 					$('#cuerpoPublicaciones').append(resultado.publicacion);
 					bandera = false;
 				}else{
-					
 					$.each(resultado, function(index, value){
 						//alert(value);
 						$('#cuerpoPublicaciones').append(value.publicacion);

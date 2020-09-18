@@ -38,28 +38,34 @@ html, body {
     <div class="w3-col l4 12 texto" >
        <form action="<?php base_url('login/loguear');?>" method="POST" id="frm-login">
         <?php if($this->session->flashdata('estado') == 'activado'): ?>
-                                <div class="w3-col w3-margin-top" id="activado">
-                                <div class="w3-panel w3-pale-green w3-border" role="alert">
-                                    <?php  echo $this->session->flashdata('info'); ?>
-                                </div>
-                            </div>
-                            <?php elseif($this->session->flashdata('estado')== 'activo'): ?>
-                                <div class="w3-col w3-margin-top" id="activo">
-                                <div class="w3-panel w3-pale-yellow w3-border" role="alert">
-                                    <?php echo $this->session->flashdata('info'); ?>
-                                </div>
-                            </div>
-                            <?php elseif($this->session->flashdata('estado')== 'inactivo'): ?>
-                                <div class="w3-col w3-margin-top" id="no_existe">
-                                <div class="w3-panel w3-pale-red w3-border" role="alert">
-                                    <?php echo $this->session->flashdata('info'); ?>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                            <div class="w3-col w3-margin-top w3-hide" id="error">
-                                <div class="w3-panel w3-pale-red w3-border" role="alert">
-                                </div>
-                            </div>
+          <div class="w3-col w3-margin-top" id="activado">
+            <div class="w3-panel w3-pale-green w3-border" role="alert">
+              <?php  echo $this->session->flashdata('info'); ?>
+            </div>
+          </div>
+        <?php elseif($this->session->flashdata('estado')== 'activo'): ?>
+          <div class="w3-col w3-margin-top" id="activo">
+            <div class="w3-panel w3-pale-yellow w3-border" role="alert">
+              <?php echo $this->session->flashdata('info'); ?>
+            </div>
+          </div>
+        <?php elseif($this->session->flashdata('estado')== 'inactivo'): ?>
+          <div class="w3-col w3-margin-top" id="no_existe">
+            <div class="w3-panel w3-pale-red w3-border" role="alert">
+              <?php echo $this->session->flashdata('info'); ?>
+          </div>
+        </div>
+        <?php elseif($this->session->flashdata('estado')== 'esperando'): ?>
+          <div class="w3-col w3-margin-top" id="no_existe">
+            <div class="w3-panel w3-pale-red w3-border" role="alert">
+              <?php echo $this->session->flashdata('info'); ?>
+          </div>
+        </div>
+        <?php endif; ?>
+        <div class="w3-col w3-margin-top w3-hide" id="error">
+          <div class="w3-panel w3-pale-red w3-border" role="alert">
+          </div>
+        </div>
      <div class="w3-col w3-margin-top" id="email">
       <label> Email</label>
       <input class="w3-input w3-border" type="email" name="email" placeholder="ejemplo@ejemplo.com">

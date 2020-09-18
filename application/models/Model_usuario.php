@@ -35,6 +35,15 @@ class Model_usuario extends CI_Model {
 		return $resultado->result();
 	}
 
+	public function get_fotoPerfil($data){
+		$this->db->select('foto_perfil');
+		$this->db->from('cuenta_frontend');
+		$this->db->where('id_cuenta', $data);
+		$resultado = $this->db->get();
+		return $resultado->row();
+		
+	}
+
 	public function activacion($data){
 		$this->db->where('activador', $data);
 		$respuesta = $this->db->get('cuenta_frontend');

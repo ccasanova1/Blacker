@@ -4,14 +4,14 @@ $("#btn-configurar").click(function (event) {
     event.preventDefault();
     var formdata = new FormData($("#frm-configuracion")[0]);
     $.ajax({
-        url: 'http://localhost/frontend/inicio/configurar',
+        url: 'configurar',
         type: 'POST',
         data: formdata,
         cache:false,
         contentType:false,
         processData:false,
         success: function () {
-            window.location.href = "http://localhost/frontend";
+            //window.location.href = "./inicio";
         },
         error: function (xhr) {
             

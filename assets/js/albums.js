@@ -17,16 +17,21 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {id_cuenta:id_cuenta},
 			success: function(resultado){
-				//var json = JSON.parse(resultado.publicacion);
-				$.each(JSON.parse(resultado), function(index, value){
+				resultado = JSON.parse(resultado);
+				if (resultado.estado == 'vacio') {
 					//alert(value);
-					$('#cuerpoAlbums').append(value.albums);
-					recargarEmojis(value.idc);  
-				});
-				//$('#cuerpoPiblicaciones').html(resultado);
-				limite = 6;
-				bandera = true;  
-				
+					$('#cuerpoAlbums').append(resultado.publicacion);
+					bandera = false;
+				}else{
+					$.each(resultado, function(index, value){
+						//alert(value);
+						$('#cuerpoAlbums').append(value.albums);
+						recargarEmojis(value.idc);  
+					});
+					//$('#cuerpoPiblicaciones').html(resultado);
+					limite = 6;
+					bandera = true;  
+				}	
 			}
 		});
 
@@ -64,7 +69,8 @@ $(document).ready(function(){
 					success: function(resultado){
 						resultado = JSON.parse(resultado);
 						if (resultado.estado == 'vacio') {
-							alert('No se encuentran mas publicaciones');
+							//alert(value);
+							$('#cuerpoAlbums').append(resultado.publicacion);
 							bandera = false;
 						}else{
 							$.each(resultado, function(index, value){
