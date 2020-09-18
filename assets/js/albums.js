@@ -87,22 +87,24 @@ $(document).ready(function(){
 	$(document).on("click","#contenerComentario button",function(){
     	var id_album = $(this).val();
     	var comentario = $('#album_'+id_album+' #contComentario').val();
-    	$.ajax({
-			url: baseurl+'Comentarios/comentarAlbum',
-			type: 'POST',
-			data: {id_album:id_album,comentario:comentario},
-			success: function(resultado){
-				$('#album_'+id_album+' #comentarios').html('');
-				//var json = JSON.parse(resultado.publicacion);
-				$.each(JSON.parse(resultado), function(index, value){
-					//alert(value);
-					$('#album_'+id_album+' #comentarios').append(value.comentarios);
-				});
-				$('#album_'+id_album+' #contComentario').val('');
-				$('#album_'+id_album+' #contComentario').text('');
-				//$('#cuerpoPiblicaciones').html(resultado); 
-			}
-		});
+    	if (comentario != '') {
+	    	$.ajax({
+				url: baseurl+'Comentarios/comentarAlbum',
+				type: 'POST',
+				data: {id_album:id_album,comentario:comentario},
+				success: function(resultado){
+					$('#album_'+id_album+' #comentarios').html('');
+					//var json = JSON.parse(resultado.publicacion);
+					$.each(JSON.parse(resultado), function(index, value){
+						//alert(value);
+						$('#album_'+id_album+' #comentarios').append(value.comentarios);
+					});
+					$('#album_'+id_album+' #contComentario').val('');
+					$('#album_'+id_album+' #contComentario').text('');
+					//$('#cuerpoPiblicaciones').html(resultado); 
+				}
+			});
+    	}
   	});
 
   	$(document).on("click","#Megusta button",function(){

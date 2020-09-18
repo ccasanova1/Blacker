@@ -63,7 +63,12 @@ class Model_album extends CI_Model {
 	public function get_album_view($data, $limite){
 		$this->db->select('album.id_album,album.nombre,album.ruta,album.fecha');
 		$this->db->from('album');
+		$this->db->join('grupo', 'grupo.id_album = album.id_album', 'left');
 		$this->db->where('album.id_cuenta', $data);
+		$this->db->group_start();
+		$this->db->where('grupo.id_grupo IS NULL');
+		$this->db->or_where("grupo.id_grupo = ''");
+		$this->db->group_end();
 		$this->db->group_by("album.id_album");
 		if ($limite == 0) {
 			$this->db->limit(6);

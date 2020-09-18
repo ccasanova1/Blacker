@@ -159,7 +159,7 @@ class Albums extends CI_Controller {
 		$albumNuevo = $this->input->post('albumNuevo');
 		$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
 		$this->Model_album->set_album($ruta->nombre, $albumNuevo, $this->session->userdata('id'));
-		$dir = "C:/xampp/htdocs/frontend/assets/albumes/$ruta->nombre/$albumNuevo";
+		$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$albumNuevo";
 		mkdir($dir, 755, TRUE);
 		echo 'ok';
 	}
