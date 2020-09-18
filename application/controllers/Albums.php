@@ -230,13 +230,30 @@ class Albums extends CI_Controller {
 				$date2 = new DateTime(date("Y-m-d H:m:s"));
 				$diff = $date1->diff($date2);
 				$dateTotal = $this->Model_publicacion->get_format_time($diff);
-				$data[$i]['fotos'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='fotos_$value->id_publicacion'><br>
+				$data[$i]['fotos'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='fotos_$value->id_publicacion'><br>";
+				if ($value->id_cuenta == $this->session->userdata("id")) {
+						$data[$i]['fotos'] .= "<span class='w3-right' ><button id='btn-eliminar-foto' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+				}
+				/*$data[$i]['fotos'] .= "
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<span class='w3-right w3-opacity'>$dateTotal</span>
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4><br></a>
         				<hr class='w3-clear'>
         				<p>$value->texto</p>
-        			";
+        			";*/
+        		$data[$i]['fotos'] .="
+						<div class='w3-row'>
+						<div class='w3-mobile w3-col' style='width:90%'>
+        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4></a>
+        				</div>
+        				<div class='w3-mobile w3-col' style='width:10%'>
+        				<span class='w3-right w3-opacity'>$dateTotal</span>
+        				</div>
+        				</div>
+        				<hr class='w3-clear'>
+        				<p>$value->texto</p>
+        		";
         		if (!empty($value->nombreAlbum)){
         			$data[$i]['fotos'] .= "
             				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
