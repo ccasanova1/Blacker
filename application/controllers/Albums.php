@@ -44,7 +44,7 @@ class Albums extends CI_Controller {
 		$respuesta4 = $this->Model_usuario->get_usuario($id);
 		$respuesta5 = $this->Model_amigos->get_amigo_especifico($id, $this->session->userdata('id'));
 		$datos['perfil'] = $resultado;
-		$datos['perfil']->id_cuenta = $this->encrypt->encode($datos['perfil']->id_cuenta);
+		$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
 		$datos['cuenta'] = $respuesta4;
 		$datos['amigo'] = $respuesta5;
 		if (empty($datos['amigo'])) {
@@ -187,7 +187,7 @@ class Albums extends CI_Controller {
 		$respuesta4 = $this->Model_usuario->get_usuario($id);
 		$respuesta5 = $this->Model_amigos->get_amigo_especifico($id, $this->session->userdata('id'));
 		$datos['perfil'] = $resultado;
-		$datos['perfil']->id_cuenta = $this->encrypt->encode($datos['perfil']->id_cuenta);
+		$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
 		$datos['cuenta'] = $respuesta4;
 		$datos['amigo'] = $respuesta5;
 		if (empty($datos['amigo'])) {
