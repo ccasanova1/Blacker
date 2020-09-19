@@ -62,7 +62,6 @@ class Model_publicacion extends CI_Model {
 	}
 
 	public function get_publicacion_unico($data, $data2, $limite, $estado){
-		$this->db = $this->load->database('prueba', TRUE);
 		$this->db->select('publicacion.id_publicacion, publicacion.texto, publicacion.fecha, foto.titulo, album.nombre AS nombreAlbum, album.ruta, video.enlace, cuenta_frontend.foto_perfil,cuenta_frontend.id_cuenta , perfil_usuario.nombre AS nombrePerfil, perfil_usuario.apellido, count(gusta1.id_publicacion) as countMegusta');
 		$this->db->from('publicacion');
 		$this->db->join('foto', 'publicacion.id_publicacion = foto.id_foto', 'left');

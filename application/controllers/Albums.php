@@ -114,9 +114,9 @@ class Albums extends CI_Controller {
 						<div class='w3-mobile w3-col' style='width:90%'>
         				<a href='".base_url('albums/fotos/'.$value->id_album.'/'.urlencode(strtr($this->encrypt->encode($id),array('+' => '.', '=' => '-', '/' => '~'))))."'><h4>$value->ruta<h4></a>
 						</div>
-        				<div class='w3-mobile w3-col' style='width:10%'>
+        				<!--<div class='w3-mobile w3-col' style='width:10%'>
         				<span class='w3-right w3-opacity'>$dateTotal</span>
-        				</div>
+        				</div>-->
         				</div>
         				<hr class='w3-clear'>
         		";
@@ -155,7 +155,7 @@ class Albums extends CI_Controller {
         						</a>
         					</div>
         					<div class='w3-rest'>
-            					<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>
+            					<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
         						<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>
         							<h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfil $value2->apellido</h6>
         						</a>
@@ -279,9 +279,9 @@ class Albums extends CI_Controller {
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4></a>
         				</div>
-        				<div class='w3-mobile w3-col' style='width:10%'>
+        				<!--<div class='w3-mobile w3-col' style='width:10%'>
         				<span class='w3-right w3-opacity'>$dateTotal</span>
-        				</div>
+        				</div>-->
         				</div>
         				<hr class='w3-clear'>
         				<p>$value->texto</p>
@@ -322,7 +322,7 @@ class Albums extends CI_Controller {
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest'>
-            				<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>
+            				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfil $value2->apellido</h6></a>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>

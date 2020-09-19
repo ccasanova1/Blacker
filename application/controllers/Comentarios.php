@@ -27,7 +27,7 @@ class Comentarios extends CI_Controller {
         		<img src='".base_url("assets/imagenes/$comentarios->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
         		</div>
         		<div class='w3-rest'>
-            	<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>
+            	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
         		<h6 style='margin:0px; margin-top:10px'>$comentarios->nombrePerfil $comentarios->apellido</h6>
                 <p style='margin:0px; margin-bottom:10px'>$comentarios->contenido</p>
 				</div>
@@ -66,7 +66,7 @@ class Comentarios extends CI_Controller {
        			<img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
        			</div>
        			<div class='w3-rest'>
-       	    	<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>
+       	    	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
        			<h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfil $value2->apellido</h6>
        	        <p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				</div>
@@ -103,7 +103,7 @@ class Comentarios extends CI_Controller {
        			<img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
        			</div>
        			<div class='w3-rest'>
-       	    	<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal </span>
+       	    	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
        			<h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfil $value2->apellido</h6>
        	        <p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				</div>
