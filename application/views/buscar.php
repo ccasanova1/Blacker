@@ -74,9 +74,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                             }?></h4>
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($ocupacion)){ echo $ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($pais)){ echo $pais;} ?></p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($fecha_nac)){ echo $fecha_nac;} ?></p>
+          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($pais)){ echo $pais;} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($telefono)){ echo $telefono;}else{ echo "Sin telefono";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->genero)){ echo $perfil->genero;}else{ echo "Sin especificar genero";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->estado_sentimental)){ echo $perfil->estado_sentimental;}else{ echo "Sin estado sentimental";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->ocupacion)){ echo $perfil->ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
         </div>
       </div>
       <br>

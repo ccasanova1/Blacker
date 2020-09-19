@@ -27,7 +27,7 @@ class Inicio extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
         if($this->session->userdata("seleccion") == "usuario"){
             $respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_3($this->session->userdata('id'));
 
             $datos = array(
                 'nombre' => $respuesta2->nombre,
@@ -37,9 +37,10 @@ class Inicio extends CI_Controller {
                 'buscar' => 'Buscar',
                 'ocupacion' => $respuesta2->ocupacion,
                 'pais' => $respuesta->pais,
+                'telefono' => $respuesta->telefono,
                 'fecha_nac' => $respuesta2->fecha_nacimiento,
                 'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
             );
             $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
 			$datos['perfil'] = $resultado;
@@ -68,7 +69,6 @@ class Inicio extends CI_Controller {
 				$albums = $this->Model_album->get_album($this->session->userdata("id"));
 				$datos['albums'] = $albums;
         }
-        
 		$this->load->view('inicio', $datos);
 	}
 
@@ -391,6 +391,8 @@ class Inicio extends CI_Controller {
                 	'fechaNacUsuario' => form_error('fechaNacUsuario'),
                     'fechaNacUsuario' => $fecha_nac,
                     'seleccion' => $seleccion,
+                    'password' => form_error('password'),
+					'rep_password' => form_error('rep_password'),
 					);
 			echo json_encode($errors);
 			$this->output->set_status_header(400);
@@ -408,10 +410,11 @@ class Inicio extends CI_Controller {
 		    $telefono = $this->input->post('telefonoUsuario');
             $nombre = $this->input->post('nombreUsuario');
 			$apellido = $this->input->post('apellidoUsuario');
-			$fecha_nac = $this->input->post('fechaNacUsuario');+
+			$fecha_nac = $this->input->post('fechaNacUsuario');
 			$estado_sentimental = $this->input->post('estadoSentimentalUsuario');
 			$ocupacion = $this->input->post('ocupacionUsuario');
 			$genero = $this->input->post('generoUsuario');
+			$password = $this->input->post('password');
             if(!$this->upload->do_upload('fotoUsuario') ){
                 $data = array(
                 'pais' => $pais,
@@ -431,10 +434,14 @@ class Inicio extends CI_Controller {
             		unlink('/var/www/html/frontend/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
             	}
             }
+            if (!empty($password)) {
+				$data['pass'] = password_hash($password, PASSWORD_BCRYPT);
+			}
             $config = array(
             	'not_publicacion' => ($this->input->post('mostrarPublicaciones') == 'si') ? 'si' : 'no',
-            	'not_comentario' => ($this->input->post('permitirComentarios') == 'si') ? 'si' : 'no',
-            	'not_megusta' => ($this->input->post('permitirMeGustas') == 'si') ? 'si' : 'no',
+            	'not_comentario' => ($this->input->post('mostrarComentarios') == 'si') ? 'si' : 'no',
+            	'not_megusta' => ($this->input->post('mostarMeGustas') == 'si') ? 'si' : 'no',
+            	'not_comparte' => ($this->input->post('mostrarComparte') == 'si') ? 'si' : 'no',
             );
             $this->Model_configuracion->update_configuracion($config,$this->session->userdata("id"));
             $this->Model_configuracion->update_usuario($data,$this->session->userdata("id"));
@@ -459,6 +466,8 @@ class Inicio extends CI_Controller {
                 	'esquinaPagina' => form_error('esquinaPagina'),
                 	'telefonoPagina' => form_error('telefonoPagina'),
                 	'descripcionPagina' => form_error('descripcionPagina'),
+                	'password' => form_error('password'),
+					'rep_password' => form_error('rep_password'),
                 	'seleccion' => $seleccion,
 					);
 			echo json_encode($errors);
@@ -480,6 +489,7 @@ class Inicio extends CI_Controller {
 			$esquinaPagina = $this->input->post('esquinaPagina');
 			$telefonoPagina = $this->input->post('telefonoPagina');
 			$descripcionPagina = $this->input->post('descripcionPagina');
+			$password = $this->input->post('password');
             if(!$this->upload->do_upload('foto_perfil') ){
                 $data = array(
                 	'pais' => $paisPagina,
@@ -499,6 +509,9 @@ class Inicio extends CI_Controller {
             		unlink('/var/www/html/frontend/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
             	}
             }
+            if (!empty($password)) {
+				$data['pass'] = password_hash($password, PASSWORD_BCRYPT);
+			}
             $this->Model_configuracion->update_usuario($data,$this->session->userdata("id"));
             $data2 = array(
 						'nombre_entidad' => $nombreEntidad,

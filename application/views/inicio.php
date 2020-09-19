@@ -80,16 +80,19 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                                     }else{
                                 echo "<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~')))."'>".$perfil->nombre.' '.$perfil->apellido."</a>";
                             }?></h4>
-         <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="width:106px;height:106px" alt="Avatar"></p>
          <hr>
          <?php if($seleccion == 'pagina'): ?>
            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($calle)){ echo $calle;}else{ echo "Sin calle registrada";} ?></p>
            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($numero)){ echo $numero;}else{ echo "Sin numero de puerta";} ?></p>
            <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($esquina)){ echo $esquina;}else{ echo "Sin esquina registrada";}  ?></p>
          <?php else:?>
-           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($ocupacion)){ echo $ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
-           <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($pais)){ echo $pais;} ?></p>
-           <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($fecha_nac)){ echo $fecha_nac;} ?></p>
+          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($pais)){ echo $pais;} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($telefono)){ echo $telefono;}else{ echo "Sin telefono";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->genero)){ echo $perfil->genero;}else{ echo "Sin especificar genero";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->estado_sentimental)){ echo $perfil->estado_sentimental;}else{ echo "Sin estado sentimental";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->ocupacion)){ echo $perfil->ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
          <?php endif; ?>
         </div>
       </div>

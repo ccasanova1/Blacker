@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Model_configuracion extends CI_Model {
 
 	public function get_configuracion($data){
-		$this->db->select('pais, telefono, nombre, apellido, fecha_nacimiento, estado_sentimental, ocupacion, genero, nombre_entidad, calle, numero, esquina, descripcion, not_publicacion, not_comentario, not_megusta');
+		$this->db->select('pais, telefono, nombre, apellido, fecha_nacimiento, estado_sentimental, ocupacion, genero, nombre_entidad, calle, numero, esquina, descripcion, not_publicacion, not_comentario, not_megusta, not_comparte');
 		$this->db->from('cuenta_frontend');
 		$this->db->join('perfil_usuario', 'cuenta_frontend.id_cuenta = perfil_usuario.id_cuenta', 'left');
 		$this->db->join('perfil_pagina', 'cuenta_frontend.id_cuenta = perfil_pagina.id_cuenta', 'left');
@@ -22,12 +22,6 @@ class Model_configuracion extends CI_Model {
 		not_megusta = '".$data['not_megusta']."'
 		WHERE id_cuenta = ".$data2;
 		$this->db->query($sql);
-		/*$this->db->set('a.not_publicacion', $data['not_publicacion']);
-		$this->db->set('a.not_comentario', $data['not_comentario']);
-		$this->db->set('a.not_megusta', $data['not_megusta']);
-		$this->db->where('b.id_cuenta', $data2);
-		$this->db->where('a.id_configuracion', 'b.id_configuracion');
-		$this->db->update('configuracion AS a , establece AS b');*/
 	}
 
 	public function update_usuario($data, $data2){

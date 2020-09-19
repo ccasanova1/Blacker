@@ -12,6 +12,24 @@
                           'alpha_numeric_spaces' => 'El %s solo puede tener letras, numeros y espacios'
             	    ),
         	),
+          array(
+                 'field' => 'password',
+                 'label' => 'Contraseña',
+                 'rules' => 'min_length[6]|max_length[20]|alpha_numeric',
+                 'errors' => array(
+                           'min_length' => 'Minimo 6 caracteres',
+                           'max_length' => 'Maximo 20 caracteres',
+                           'alpha_numeric' => 'Solo letras y numeros',
+                  ),
+          ),
+          array(
+                 'field' => 'rep_password',
+                 'label' => 'Contraseñas',
+                 'rules' => 'matches[password]',
+                 'errors' => array(
+                          'matches' => 'Las %s no coinciden',
+                  ),
+          ),
        		array(
          	       'field' => 'apellidoUsuario',
          	       'label' => 'Apellido',
@@ -26,9 +44,8 @@
           array(
                  'field' => 'estadoSentimentalUsuario',
                  'label' => 'Estado sentimental',
-                 'rules' => 'required|trim|min_length[5]|max_length[20]|alpha_numeric_spaces',
+                 'rules' => 'trim|min_length[5]|max_length[20]|alpha_numeric_spaces',
                  'errors' => array(
-                          'required' => 'Ingrese un %s',
                           'min_length' => 'El %s tiene que tener minimo 5 caracteres',
                           'max_length' => 'El %s solo puede tener un maximo de 20 caracteres',
                           'alpha_numeric_spaces' => 'El %s solo puede tener letras, numeros y espacios'
@@ -46,9 +63,8 @@
           array(
                  'field' => 'generoUsuario',
                  'label' => 'Genero',
-                 'rules' => 'required|in_list[Hombre,Mujer,Otro]',
+                 'rules' => 'in_list[Hombre,Mujer,Otro]',
                  'errors' => array(
-                          'required' => 'Ingrese un %s',
                           'in_list' => '%s Incorrecto',
                   ),
           ),
@@ -94,20 +110,36 @@
                   ),
             ),
             array(
+                 'field' => 'password',
+                 'label' => 'Contraseña',
+                 'rules' => 'min_length[6]|max_length[20]|alpha_numeric',
+                 'errors' => array(
+                           'min_length' => 'Minimo 6 caracteres',
+                           'max_length' => 'Maximo 20 caracteres',
+                           'alpha_numeric' => 'Solo letras y numeros',
+                  ),
+          ),
+          array(
+                 'field' => 'rep_password',
+                 'label' => 'Contraseñas',
+                 'rules' => 'matches[password]',
+                 'errors' => array(
+                          'matches' => 'Las %s no coinciden',
+                  ),
+          ),
+            array(
                    'field' => 'numeroPagina',
                    'label' => 'Numero',
-                   'rules' => 'required|trim|numeric',
+                   'rules' => 'trim|numeric',
                    'errors' => array(
-                           'required' => 'Ingrese un %s',
                            'numeric' => 'Ingrese solo valores numericos',
                     ),
             ),
             array(
                  'field' => 'esquinaPagina',
                  'label' => 'Numero',
-                 'rules' => 'required|trim|min_length[2]|max_length[30]|alpha_numeric_spaces',
+                 'rules' => 'trim|min_length[2]|max_length[30]|alpha_numeric_spaces',
                  'errors' => array(
-                          'required' => 'Ingrese un %s',
                           'min_length' => 'La %s tiene que tener minimo 2 caracteres',
                           'max_length' => 'La %s solo puede tener un maximo de 30 caracteres',
                           'alpha_numeric_spaces' => 'La %s solo puede tener letras, numeros y espacios'
@@ -116,9 +148,8 @@
             array(
                    'field' => 'telefonoPagina',
                    'label' => 'Telefono',
-                   'rules' => 'required|trim|numeric',
+                   'rules' => 'trim|numeric',
                    'errors' => array(
-                           'required' => 'Ingrese un %s',
                            'numeric' => 'Solo numeros',
                     ),
             ),

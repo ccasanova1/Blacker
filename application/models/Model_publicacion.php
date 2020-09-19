@@ -53,7 +53,8 @@ class Model_publicacion extends CI_Model {
 			$this->db->where('publicacion.fecha <= amigo.fecha');
 		}*/
 		$this->db->group_by('publicacion.id_publicacion');
-		$this->db->order_by('comparte.Fecha DESC, publicacion.fecha DESC');
+		$this->db->order_by("if(comparte.Fecha IS NOT NULL AND comparte.Fecha != '', comparte.Fecha, publicacion.fecha) DESC");
+		//$this->db->order_by('comparte.Fecha DESC, publicacion.fecha DESC');
 		if ($limite == 0) {
 			$this->db->limit(3);
 		}else{

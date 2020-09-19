@@ -54,8 +54,7 @@ class Model_perfiles extends CI_Model {
 	}
 
 	public function increment_visit($id){
-		$this->db->set('visitas', 'visitas+1', false);
-		$this->db->where('id_cuenta', $id);
-		$this->db->update('cuenta_frontend');
+		$sql = "UPDATE cuenta_frontend SET visitas = visitas + 1 WHERE id_cuenta = ".$id;
+		$this->db->query($sql);
 	}
 }

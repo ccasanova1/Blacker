@@ -16,6 +16,7 @@ class Publicacion extends CI_Controller {
 		$this->load->model("Model_grupo");
 		$this->load->model("Model_comentarios");
 		$this->load->model("Model_megusta");
+		$this->load->model("Model_amigos");
 		$this->load->library('form_validation');
 		$this->load->helper(array('publicar_rules','string'));
 		$this->form_validation->set_error_delimiters('', '');
@@ -87,7 +88,9 @@ class Publicacion extends CI_Controller {
 				if (!empty($video)) {
 						$this->Model_publicacion->set_video($respuesta,$video);
 				}
-				//$this->Model_notificaciones->set_notificacion_publicacion($this->session->userdata("id"));
+				if ($this->session->userdata("seleccion") == 'usuario') {
+					$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+				}
 			}elseif($this->upload->display_errors('','') == "You did not select a file to upload.") {
 				if (empty($comentario) AND empty($video)) {
 					$errors = array(
@@ -114,7 +117,9 @@ class Publicacion extends CI_Controller {
 						'id_publicacion' => $respuesta->id_publicacion,
 						'id_usuario' => $this->session->userdata("id"),
 					);*/
-					//$this->Model_notificaciones->set_notificacion_publicacion($this->session->userdata("id"));
+					if ($this->session->userdata("seleccion") == 'usuario') {
+						$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+					}
 				}
 			}else{
 				$errors = array(
@@ -410,8 +415,16 @@ class Publicacion extends CI_Controller {
 						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
 					}
 					$data[$i]['publicacion'] .="
-						<div class='w3-row'>
-						<div class='w3-mobile w3-col' style='width:90%'>
+						<div class='w3-row'>";
+					if (!empty($value->id_compartida) AND $value->id_cuenta_comparte == $this->session->userdata('id')) {
+						$data[$i]['publicacion'] .="
+							<div class='w3-mobile w3-col' style='width:100%; margin-bottom:5px'>
+	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil_comparte")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+	        				<h6><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'>$value->nombrePerfilComparte $value->apellidoComparte</a> Comparte</h6>
+	        				</div>";
+					}
+					$data[$i]['publicacion'] .="
+						<div class='w3-mobile w3-col' style='width:100%'>
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4></a>
         				</div>
@@ -428,7 +441,15 @@ class Publicacion extends CI_Controller {
 						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
 					}
 					$data[$i]['publicacion'] .="
-						<div class='w3-row'>
+						<div class='w3-row'>";
+					if (!empty($value->id_compartida) AND $value->id_cuenta == $this->session->userdata('id')) {
+						$data[$i]['publicacion'] .="
+							<div class='w3-mobile w3-col' style='width:100%; margin-bottom:5px'>
+	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil_comparte")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+	        				<h6><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'>$value->nombrePerfilComparte $value->apellidoComparte</a> Comparte</h6>
+	        				</div>";
+					}
+					$data[$i]['publicacion'] .="
 						<div class='w3-mobile w3-col' style='width:90%'>
         				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfilPagina</h4></a>
@@ -463,7 +484,8 @@ class Publicacion extends CI_Controller {
         					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
         					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
         				</div>";
-        		if ($value->id_cuenta !=  $this->session->userdata("id")) {
+        		$amigos = $this->Model_amigos->get_amigo_especifico($value->id_cuenta,$this->session->userdata("id"));
+        		if ($value->id_cuenta !=  $this->session->userdata("id") AND $amigos->estado == 'amigos') {
         				$data[$i]['publicacion'] .="<div id='Compartir' class='w3-mobile w3-col ' style='width:30%'>
         				<button id='btn-compartir$i' type='button' value='$value->id_publicacion' class='w3-button w3-right'>Compartir</button>
         				</div>";

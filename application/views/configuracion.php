@@ -69,9 +69,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                             }?></h4>
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($ocupacion)){ echo $ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($pais)){ echo $pais;} ?></p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($fecha_nac)){ echo $fecha_nac;} ?></p>
+          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($pais)){ echo $pais;} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($telefono)){ echo $telefono;}else{ echo "Sin telefono";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->genero)){ echo $perfil->genero;}else{ echo "Sin especificar genero";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->estado_sentimental)){ echo $perfil->estado_sentimental;}else{ echo "Sin estado sentimental";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->ocupacion)){ echo $perfil->ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
         </div>
       </div>
       <br>
@@ -122,10 +125,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <form id="frm-configuracion" class="w3-container" action="<?php echo base_url('Inicio/cargarConfiguracion')?>" method="POST">
                 <?php if ($this->session->userdata("seleccion") == "usuario"): ?>
                 <div class="w3-bottombar" style="margin-left: 1rem">
-                <h6 style="margin-top: 0.5rem;margin-right: 1rem">Configuracion de publicaciones</h6>
+                <h6 style="margin-top: 0.5rem;margin-right: 1rem">Configuracion de notificaciones</h6>
                   <p><input type="checkbox" id="checkPublicacion" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem" name="mostrarPublicaciones" <?php if ($configuracion->not_publicacion == 'si'){ echo "checked='true'";} ?>><label>Mostrar Publicaciones</label></p>
-                  <p><input type="checkbox" id="checkComentario" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem" name="permitirComentarios" <?php if ($configuracion->not_comentario == 'si'){ echo "checked='true'";} ?>><label>Permitir Comentarios</label></p>
-                  <p><input type="checkbox" id="checkMeGusta" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="permitirMeGustas" <?php if ($configuracion->not_megusta == 'si'){ echo "checked='true'";} ?>><label>Permitir Me Gustas</label></p>
+                  <p><input type="checkbox" id="checkComentario" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem" name="mostrarComentarios" <?php if ($configuracion->not_comentario == 'si'){ echo "checked='true'";} ?>><label>Mostrar Comentarios</label></p>
+                  <p><input type="checkbox" id="checkMeGusta" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarMeGustas" <?php if ($configuracion->not_megusta == 'si'){ echo "checked='true'";} ?>><label>Mostrar Me Gusta</label></p>
+                  <p><input type="checkbox" id="checkComparte" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarComparte" <?php if ($configuracion->not_comparte == 'si'){ echo "checked='true'";} ?>><label>Mostrar Comparten</label></p>
                 </div>
                 <div style="margin-left: 1rem">
                   <h6 style="margin-top: 0.5rem;margin-right: 1rem">Configuracion de Usuario</h6>
@@ -398,8 +402,30 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                       <option value="Zambia ">Zambia </option>
                       <option value="Zimbabue ">Zimbabue </option>
                   </select></p></div>
-                  <div id="telefonoUsuario"><p><label>Telefono</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="telefonoUsuario" value="<?php echo $configuracion->telefono ?>"></p></div>
-                  <div id="fotoUsuario"><p><label>Canbiar foto perfil</label><br><input type="file" class="custom-file-input" id="customFileLang" lang="es" style="margin-top: 0.5rem;margin-right: 1rem" name="fotoUsuario" ></p></div>
+                  <div id="telefonoUsuario">
+                    <p>
+                      <label>Telefono</label>
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="telefonoUsuario" value="<?php echo $configuracion->telefono ?>">
+                    </p>
+                  </div>
+                  <div id="fotoUsuario">
+                    <p>
+                      <label>Canbiar foto perfil</label><br>
+                      <input type="file" class="custom-file-input" id="customFileLang" lang="es" style="margin-top: 0.5rem;margin-right: 1rem" name="fotoUsuario" >
+                    </p>
+                  </div>
+                  <div id="password">
+                    <p>
+                      <label>Contraseña</label>
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" value="">
+                    </p>
+                  </div>
+                  <div id="rep_password">
+                    <p>
+                      <label>Contraseña</label>
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" value="">
+                    </p>
+                  </div>
                 </div>
                 <?php elseif ($this->session->userdata("seleccion") == "pagina"): ?>
                 <div style="margin-left: 1rem">
@@ -668,6 +694,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                   <div id="esquinaPagina"><p><label>Esquina</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="esquinaPagina" value="<?php echo $configuracion->esquina ?>"></p></div>
                   <div id="telefonoPagina"><p><label>Telefono</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="telefonoPagina" value="<?php echo $configuracion->telefono ?>"></p></div>
                   <div id="descripcionPagina"><p><label>Descripcion</label><textarea style="margin-top: 0.5rem;margin-right: 1rem; width: 100%" rows="3"  name="descripcionPagina" value="<?php echo $configuracion->descripcion ?>"><?php echo $configuracion->descripcion ?></textarea></p></div>
+                  <div id="password">
+                    <p>
+                      <label>Contraseña</label>
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" value="">
+                    </p>
+                  </div>
+                  <div id="rep_password">
+                    <p>
+                      <label>Contraseña</label>
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" value="">
+                    </p>
+                  </div>
                 </div>
                 <?php endif; ?>
                 <button type="submit" id="btn-configurar" class="w3-button w3-theme" style="margin-top: 0.5rem"><i class="fa fa-pencil"></i> Configurar</button>

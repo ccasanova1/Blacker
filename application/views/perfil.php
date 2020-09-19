@@ -76,9 +76,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                             }?></h4>
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->ocupacion)){ echo $perfil->ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->fecha_nac)){ echo $perfil->fecha_nac;} ?></p>
+         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
+         <?php if ($amigo->estado == 'amigos' OR $amigoEstado->banderaPerfil != 'OK'): ?>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($cuenta->telefono)){ echo $cuenta->telefono;}else{ echo "Sin telefono";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->genero)){ echo $perfil->genero;}else{ echo "Sin especificar genero";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->estado_sentimental)){ echo $perfil->estado_sentimental;}else{ echo "Sin estado sentimental";} ?></p>
+          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($perfil->ocupacion)){ echo $perfil->ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
+        <?php endif; ?>
         <?php if (empty($amigo->estado) and $amigoEstado->banderaPerfil == 'OK'): ?>
          
           <form method="POST" id="frm-amigo">
