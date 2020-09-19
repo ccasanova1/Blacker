@@ -190,7 +190,7 @@ $(document).ready(function(){
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
 				if (resultado.estado == 'Bien') {
-					window.location.href = baseurl+"inicio/perfil/"+resultado.id_cuenta;
+					window.location.replace(baseurl+"inicio/perfil/"+resultado.id_cuenta);
 				}else{
 					alert("Esta publicacion ya la compartido");
 				}

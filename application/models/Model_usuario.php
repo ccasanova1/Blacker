@@ -40,8 +40,22 @@ class Model_usuario extends CI_Model {
 		$this->db->from('cuenta_frontend');
 		$this->db->where('id_cuenta', $data);
 		$resultado = $this->db->get();
+		$resultado = $resultado->row();
+		if (empty($resultado)) {
+			return FALSE;
+		}else{
+			return TRUE;
+		}
+	}
+
+	public function get_premium($data){
+		$this->db->select('*');
+		$this->db->from('perfil_pagina');
+		$this->db->join('compra', 'compra.id_pagina = perfil_pagina.id_cuenta', 'INNER');
+		$this->db->where('NOW() >= compra.fecha_inicio');
+		$this->db->where('NOW() <= compra.fecha_fin');
+		$resultado = $this->db->get("cuenta_frontend");
 		return $resultado->row();
-		
 	}
 
 	public function activacion($data){

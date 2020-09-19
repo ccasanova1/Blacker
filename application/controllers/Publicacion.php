@@ -90,6 +90,11 @@ class Publicacion extends CI_Controller {
 				}
 				if ($this->session->userdata("seleccion") == 'usuario') {
 					$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+				}else{
+					$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
+					if($controlPremium){
+						$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+					}
 				}
 			}elseif($this->upload->display_errors('','') == "You did not select a file to upload.") {
 				if (empty($comentario) AND empty($video)) {
@@ -119,6 +124,11 @@ class Publicacion extends CI_Controller {
 					);*/
 					if ($this->session->userdata("seleccion") == 'usuario') {
 						$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+					}else{
+						$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
+						if($controlPremium){
+							$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+						}
 					}
 				}
 			}else{
@@ -416,7 +426,7 @@ class Publicacion extends CI_Controller {
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>";
-					if (!empty($value->id_compartida) AND $value->id_cuenta_comparte == $this->session->userdata('id')) {
+					if (!empty($value->id_compartida) AND $value->id_cuenta_comparte == $id_cuenta) {
 						$data[$i]['publicacion'] .="
 							<div class='w3-mobile w3-col' style='width:100%; margin-bottom:5px'>
 	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil_comparte")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
@@ -485,10 +495,12 @@ class Publicacion extends CI_Controller {
         					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
         				</div>";
         		$amigos = $this->Model_amigos->get_amigo_especifico($value->id_cuenta,$this->session->userdata("id"));
-        		if ($value->id_cuenta !=  $this->session->userdata("id") AND $amigos->estado == 'amigos') {
+        		if (!empty($amigos)) {
+        			if ($value->id_cuenta !=  $this->session->userdata("id") AND $amigos->estado == 'amigos') {
         				$data[$i]['publicacion'] .="<div id='Compartir' class='w3-mobile w3-col ' style='width:30%'>
         				<button id='btn-compartir$i' type='button' value='$value->id_publicacion' class='w3-button w3-right'>Compartir</button>
         				</div>";
+        			}
         		}		
         		$data[$i]['publicacion'] .="		
         				</div> 
