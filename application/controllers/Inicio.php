@@ -442,6 +442,7 @@ class Inicio extends CI_Controller {
             	'not_comentario' => ($this->input->post('mostrarComentarios') == 'si') ? 'si' : 'no',
             	'not_megusta' => ($this->input->post('mostarMeGustas') == 'si') ? 'si' : 'no',
             	'not_comparte' => ($this->input->post('mostrarComparte') == 'si') ? 'si' : 'no',
+            	'not_perfil' => ($this->input->post('mostrarPerfil') == 'si') ? 'si' : 'no',
             );
             $this->Model_configuracion->update_configuracion($config,$this->session->userdata("id"));
             $this->Model_configuracion->update_usuario($data,$this->session->userdata("id"));

@@ -51,19 +51,17 @@
             array(
                     'field' => 'nombre',
                     'label' => 'Nombre',
-                    'rules' => 'required|trim|alpha',
+                    'rules' => 'required|trim',
                     'errors' => array(
                            'required' => 'Ingrese un %s',
-                           'alpha' => 'Ingrese solo valores alfabeticos',
                     ),
             ),
             array(
                    'field' => 'apellido',
                    'label' => 'Apellido',
-                   'rules' => 'required|trim|alpha',
+                   'rules' => 'required|trim',
                    'errors' => array(
                            'required' => 'Ingrese un %s',
-                           'alpha' => 'Ingrese solo valores alfabeticos',
                     ),
             ),
             array(
@@ -128,11 +126,10 @@
             ),
             array(
                     'field' => 'nombre_pag',
-                    'label' => 'Nombre',
+                    'label' => 'Nombre pagina',
                     'rules' => 'required|trim',
                     'errors' => array(
                            'required' => 'Ingrese un %s',
-                           
                     ),
             ),
         );

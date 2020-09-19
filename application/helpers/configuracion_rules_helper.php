@@ -4,12 +4,11 @@
         	array(
             	    'field' => 'nombreUsuario',
             	    'label' => 'Nombre',
-            	    'rules' => 'required|trim|min_length[2]|max_length[20]|alpha_numeric_spaces',
+            	    'rules' => 'required|trim|min_length[2]|max_length[20]',
             	    'errors' => array(
              	            'required' => 'Ingrese un %s',
              	            'min_length' => 'El %s tiene que tener minimo 2 caracteres',
                           'max_length' => 'El %s solo puede tener un maximo de 20 caracteres',
-                          'alpha_numeric_spaces' => 'El %s solo puede tener letras, numeros y espacios'
             	    ),
         	),
           array(
@@ -33,22 +32,21 @@
        		array(
          	       'field' => 'apellidoUsuario',
          	       'label' => 'Apellido',
-         	       'rules' => 'required|trim|min_length[2]|max_length[20]|alpha_numeric_spaces',
+         	       'rules' => 'required|trim|min_length[2]|max_length[20]',
          	       'errors' => array(
                           'required' => 'Ingrese un %s',
                           'min_length' => 'El %s tiene que tener minimo 2 caracteres',
                           'max_length' => 'El %s solo puede tener un maximo de 20 caracteres',
-                          'alpha_numeric_spaces' => 'El %s solo puede tener letras, numeros y espacios'
             	    ),
         	),
           array(
                  'field' => 'estadoSentimentalUsuario',
                  'label' => 'Estado sentimental',
-                 'rules' => 'trim|min_length[5]|max_length[20]|alpha_numeric_spaces',
+                 'rules' => 'trim|min_length[5]|max_length[20]|alpha',
                  'errors' => array(
                           'min_length' => 'El %s tiene que tener minimo 5 caracteres',
                           'max_length' => 'El %s solo puede tener un maximo de 20 caracteres',
-                          'alpha_numeric_spaces' => 'El %s solo puede tener letras, numeros y espacios'
+                          'alpha' => 'El %s solo puede tener letras, numeros y espacios'
                   ),
           ),
           array(
@@ -101,12 +99,11 @@
             array(
                     'field' => 'nombreEntidad',
                     'label' => 'Nombre pagina',
-                    'rules' => 'required|trim|min_length[2]|max_length[20]|alpha_numeric_spaces',
+                    'rules' => 'required|trim|min_length[2]|max_length[20]',
                     'errors' => array(
                           'required' => 'Ingrese un %s',
                           'min_length' => 'El %s tiene que tener minimo 2 caracteres',
                           'max_length' => 'El %s solo puede tener un maximo de 20 caracteres',
-                          'alpha_numeric_spaces' => 'El %s solo puede tener letras, numeros y espacios'
                   ),
             ),
             array(
@@ -137,12 +134,11 @@
             ),
             array(
                  'field' => 'esquinaPagina',
-                 'label' => 'Numero',
-                 'rules' => 'trim|min_length[2]|max_length[30]|alpha_numeric_spaces',
+                 'label' => 'Esquina',
+                 'rules' => 'trim|min_length[2]|max_length[30]',
                  'errors' => array(
                           'min_length' => 'La %s tiene que tener minimo 2 caracteres',
                           'max_length' => 'La %s solo puede tener un maximo de 30 caracteres',
-                          'alpha_numeric_spaces' => 'La %s solo puede tener letras, numeros y espacios'
                   ),
           ),
             array(

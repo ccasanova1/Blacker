@@ -165,6 +165,8 @@ class Login extends CI_Controller {
             	'not_publicacion' => 'si',
             	'not_comentario' => 'si',
             	'not_megusta' => 'si',
+            	'not_comparte' => 'si',
+            	'not_perfil' => 'si',
             );
 			$this->Model_perfiles->set_perfil_usuario($data2);
             $this->Model_perfiles->set_configuracion($config,$id->id_cuenta);

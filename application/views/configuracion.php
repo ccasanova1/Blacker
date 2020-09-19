@@ -130,6 +130,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                   <p><input type="checkbox" id="checkComentario" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem" name="mostrarComentarios" <?php if ($configuracion->not_comentario == 'si'){ echo "checked='true'";} ?>><label>Mostrar Comentarios</label></p>
                   <p><input type="checkbox" id="checkMeGusta" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarMeGustas" <?php if ($configuracion->not_megusta == 'si'){ echo "checked='true'";} ?>><label>Mostrar Me Gusta</label></p>
                   <p><input type="checkbox" id="checkComparte" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarComparte" <?php if ($configuracion->not_comparte == 'si'){ echo "checked='true'";} ?>><label>Mostrar Comparten</label></p>
+                  <p><input type="checkbox" id="checkPerfil" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarPerfil" <?php if ($configuracion->not_perfil == 'si'){ echo "checked='true'";} ?>><label>Mostrar cambios Perfil</label></p>
                 </div>
                 <div style="margin-left: 1rem">
                   <h6 style="margin-top: 0.5rem;margin-right: 1rem">Configuracion de Usuario</h6>
@@ -417,13 +418,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                   <div id="password">
                     <p>
                       <label>Contraseña</label>
-                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" value="">
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" type="password" value="">
                     </p>
                   </div>
                   <div id="rep_password">
                     <p>
                       <label>Contraseña</label>
-                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" value="">
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" type="password" value="">
                     </p>
                   </div>
                 </div>
@@ -697,13 +698,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                   <div id="password">
                     <p>
                       <label>Contraseña</label>
-                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" value="">
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" type="password" value="">
                     </p>
                   </div>
                   <div id="rep_password">
                     <p>
                       <label>Contraseña</label>
-                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" value="">
+                      <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" type="password" value="">
                     </p>
                   </div>
                 </div>
