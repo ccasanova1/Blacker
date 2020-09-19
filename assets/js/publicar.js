@@ -181,12 +181,25 @@ $(document).ready(function(){
 		});
   	});
 
+  	$(document).on("click","#Compartir button",function(){
+    	var id_publicacion = $(this).val();
+    	$.ajax({
+			url: baseurl+'Compartir/comparte',
+			type: 'POST',
+			data: {id_publicacion:id_publicacion},
+			success: function(resultado){
+				resultado = JSON.parse(resultado);
+				if (resultado.estado == 'Bien') {
+					window.location.href = baseurl+"inicio/perfil/"+resultado.id_cuenta;
+				}else{
+					alert("Esta publicacion ya la compartido");
+				}
+			}
+		});
+  	});
+
 });
-	/*$("#contenerComentario button").click(function(){
-  console.log('algo');
-  console.log($(this).val());
-  //alert($(this).val());
-});*/
+
 
 
 

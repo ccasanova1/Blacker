@@ -310,13 +310,15 @@ class Publicacion extends CI_Controller {
           				<div id='Megusta' class='w3-mobile w3-col ' style='width:70%'>
         					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
         					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
-        				</div>
-        				<div id='Compartir' class='w3-mobile w3-col ' style='width:30%'>
-        				<button id='btn-compartir$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'>Compartir</button>
-        				</div>
+        				</div>";
+        		if ($value->id_cuenta != $this->session->userdata("id")) {
+        				$data[$i]['publicacion'] .="<div id='Compartir' class='w3-mobile w3-col ' style='width:30%'>
+        				<button id='btn-compartir$i' type='button' value='$value->id_publicacion' class='w3-button w3-right'>Compartir</button>
+        				</div>";
+        		}		
+        		$data[$i]['publicacion'] .="		
         				</div> 
-      					<div class='w3-row w3-border-top' id='comentarios'>
-      				";
+      					<div class='w3-row w3-border-top' id='comentarios'>";
       			$comentarios = $this->Model_comentarios->get_comentarios($value->id_publicacion);
       			foreach ($comentarios as $value2) {
       				$date1 = new DateTime($value2->fecha);
@@ -397,32 +399,21 @@ class Publicacion extends CI_Controller {
 		}else{
 			$i = 0;		
 			$data = array();
-			/*foreach ($publicaciones as $value) {
-				$data['publicaciones'][$i] = array(
-					'id_publicacion' => $value->id_publicacion,
-					'foto_perfil' => base_url('assets/'.$value->foto_perfil),
-					'nombrePerfil' => $value->nombrePerfil,
-					'apellido' => $value->apellido,
-					'texto' => $value->texto
-					'nombreAlbum' => $value->nombreAlbum,
-					'rutacompleta' => base_url('assets/albumes/'.$value->nombreAlbum.'/'.$value->ruta."/".$value->titulo)
-					'titulo' => $value->titulo
-				);
-			}*/
 			foreach ($publicaciones as $value) {
 				$date1 = new DateTime($value->fecha);
 				$date2 = new DateTime(date("Y-m-d H:m:s"));
 				$diff = $date1->diff($date2);
 				$dateTotal = $this->Model_publicacion->get_format_time($diff);
-				$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' style='padding-top:0px' id='publi_$value->id_publicacion'><br>";
+				if (empty($value->nombrePerfilPagina)) {
+					$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' style='padding-top:0px' id='publi_$value->id_publicacion'><br>";
 					if ($value->id_cuenta == $this->session->userdata("id")) {
 						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
-        				<img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'>
-        				<a href=''><h4>$value->nombrePerfil $value->apellido</h4><br></a>
+        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
         				<span class='w3-right w3-opacity'>$dateTotal</span>
@@ -431,6 +422,25 @@ class Publicacion extends CI_Controller {
         				<hr class='w3-clear'>
         				<p>$value->texto</p>
         			";
+				}else{
+					$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' style='padding-top:0px' id='publi_$value->id_publicacion'><br>";
+					if ($value->id_cuenta == $this->session->userdata("id")) {
+						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+					}
+					$data[$i]['publicacion'] .="
+						<div class='w3-row'>
+						<div class='w3-mobile w3-col' style='width:90%'>
+        				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfilPagina</h4></a>
+        				</div>
+        				<!--<div class='w3-mobile w3-col' style='width:10%'>
+        				<span class='w3-right w3-opacity'>$dateTotal</span>
+        				</div>-->
+        				</div>
+        				<hr class='w3-clear'>
+        				<p>$value->texto</p>
+        			";
+				}
         		if (!empty($value->nombreAlbum)){
         			$data[$i]['publicacion'] .= "
             				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
@@ -448,14 +458,19 @@ class Publicacion extends CI_Controller {
         			$colorLike = 'w3-theme-d1';
         		}
           		$data[$i]['publicacion'] .="
-          		        <div id='Megusta' style='margin-top: 10px' class='w3-row'>
-          				<div class='w3-mobile w3-col ' style='width:100%'>
+          				<div style='margin-top: 10px' class='w3-row'>
+          				<div id='Megusta' class='w3-mobile w3-col ' style='width:70%'>
         					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
         					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
-        				</div>
+        				</div>";
+        		if ($value->id_cuenta !=  $this->session->userdata("id")) {
+        				$data[$i]['publicacion'] .="<div id='Compartir' class='w3-mobile w3-col ' style='width:30%'>
+        				<button id='btn-compartir$i' type='button' value='$value->id_publicacion' class='w3-button w3-right'>Compartir</button>
+        				</div>";
+        		}		
+        		$data[$i]['publicacion'] .="		
         				</div> 
-      					<div class='w3-row w3-border-top' id='comentarios'>
-      				";
+      					<div class='w3-row w3-border-top' id='comentarios'>";
       			$comentarios = $this->Model_comentarios->get_comentarios($value->id_publicacion);
       			foreach ($comentarios as $value2) {
       				$date1 = new DateTime($value2->fecha);
@@ -580,14 +595,14 @@ class Publicacion extends CI_Controller {
         			$colorLike = 'w3-theme-d1';
         		}
           		$data[$i]['publicacion'] .="
-          		        <div id='Megusta' style='margin-top: 10px' class='w3-row'>
-          				<div class='w3-mobile w3-col ' style='width:100%'>
+          				<div style='margin-top: 10px' class='w3-row'>
+          				<div id='Megusta' class='w3-mobile w3-col ' style='width:70%'>
         					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
         					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
-        				</div>
+        				</div>";	
+        		$data[$i]['publicacion'] .="		
         				</div> 
-      					<div class='w3-row w3-border-top' id='comentarios'>
-      				";
+      					<div class='w3-row w3-border-top' id='comentarios'>";
       			$comentarios = $this->Model_comentarios->get_comentarios($value->id_publicacion);
       			foreach ($comentarios as $value2) {
       				$date1 = new DateTime($value2->fecha);
@@ -702,14 +717,19 @@ class Publicacion extends CI_Controller {
         			$colorLike = 'w3-theme-d1';
         		}
           		$data[$i]['publicacion'] .="
-          		        <div id='Megusta' style='margin-top: 10px' class='w3-row'>
-          				<div class='w3-mobile w3-col ' style='width:100%'>
+          				<div style='margin-top: 10px' class='w3-row'>
+          				<div id='Megusta' class='w3-mobile w3-col ' style='width:70%'>
         					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
         					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
-        				</div>
+        				</div>";
+        		if ($value->id_cuenta !=  $this->session->userdata("id")) {
+        				$data[$i]['publicacion'] .="<div id='Compartir' class='w3-mobile w3-col ' style='width:30%'>
+        				<button id='btn-compartir$i' type='button' value='$value->id_publicacion' class='w3-button w3-right'>Compartir</button>
+        				</div>";
+        		}		
+        		$data[$i]['publicacion'] .="		
         				</div> 
-      					<div class='w3-row w3-border-top' id='comentarios'>
-      				";
+      					<div class='w3-row w3-border-top' id='comentarios'>";
       			$comentarios = $this->Model_comentarios->get_comentarios($value->id_publicacion);
       			foreach ($comentarios as $value2) {
       				$date1 = new DateTime($value2->fecha);
