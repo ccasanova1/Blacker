@@ -25,7 +25,6 @@ $(document).ready(function(){
 				}
 			}
 		});
-
 	
 	var banderaScroll = true;
 	//if (banderaPerfil !=) {}
@@ -43,16 +42,12 @@ $(document).ready(function(){
 					success: function(resultado){
 						resultado = JSON.parse(resultado);
 						if (resultado.estado == 'vacio') {
-								//alert(value);
 								$('#cuerpoBusqueda').append(resultado.busqueda);
 							bandera = false;
 						}else{
 							$.each(resultado, function(index, value){
-							//alert(value);
-								console.log(value);
 								$('#cuerpoBusqueda').append(value.busqueda);
 							});
-							//$('#cuerpoPiblicaciones').html(resultado);
 							bandera = true;
 							banderaScroll = true;
 							limite = resultado.limite;
@@ -64,11 +59,6 @@ $(document).ready(function(){
 		}
 	});
 });
-	/*$("#contenerComentario button").click(function(){
-  console.log('algo');
-  console.log($(this).val());
-  //alert($(this).val());
-});*/
 
 
 

@@ -1,9 +1,8 @@
 $(document).ready(function(){
 	$("#btn-seguir").click(function(ev){
-		console.log($("#id-seguir").serialize())
 		var formdata = new FormData($("#frm-seguir")[0]);
 		$.ajax({
-			url: 'http://localhost/frontend/inicio/add_amigo',
+			url: baseurl+'Inicio/add_sigue',
 			type: 'POST',
 			data: formdata,
 			cache:false,

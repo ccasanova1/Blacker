@@ -11,7 +11,7 @@ $("#btn-configurar").click(function (event) {
         contentType:false,
         processData:false,
         success: function () {
-            window.location.href = "./inicio";
+            window.location.replace(baseurl);
         },
         error: function (xhr) {
             

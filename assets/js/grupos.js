@@ -2,17 +2,17 @@ $(document).ready(function(){
 
 	function recargarEmojis(idc){
 	$(idc).emojioneArea({
-      pickerPosition: "right",
+      pickerPosition: "bottom",
     });
 	}
 
 	var bandera = false;
 	var limite = 0;
 	$("#descripcionGrupo").emojioneArea({
-      pickerPosition: "right"
+      pickerPosition: "bottom"
     });
     $("#publicarTexto").emojioneArea({
-      pickerPosition: "right"
+      pickerPosition: "bottom"
     });
     
 
@@ -28,7 +28,7 @@ $(document).ready(function(){
             contentType:false,
 			success: function(grupo){
 				var nombreGrupo = $("#nombreGrupo").val();
-				window.location.href = baseurl+"Grupos/verGrupo/"+grupo;  
+				window.location.replace(baseurl+"Grupos/verGrupo/"+grupo);  
 			},
 			error: function(xhr){
 				$("#nombreGrupoID > div").html('');
@@ -61,16 +61,12 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {id_grupo:id_grupo},
 			success: function(resultado){
-				//var json = JSON.parse(resultado.publicacion);
 				$.each(JSON.parse(resultado), function(index, value){
-					//alert(value);
 					$('#cuerpoPublicaciones').append(value.publicacion);
 					recargarEmojis(value.idc);  
 				});
-				//$('#cuerpoPiblicaciones').html(resultado);
 				limite = 3;
-				bandera = true;  
-				
+				bandera = true;  	
 			}
 		});
 	}
@@ -114,7 +110,6 @@ $(document).ready(function(){
 		if (!banderaScroll || id_grupo == '') {
 			return
 		}
-		console.log(limite);
 		if (bandera) {
 		    if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
 		    	banderaScroll = false;	
@@ -122,7 +117,6 @@ $(document).ready(function(){
 					url: baseurl+'Publicacion/obtenerPuclicacionesGrupo',
 					type: 'POST',
 					data: {limite:limite,id_grupo:id_grupo},
-
 					success: function(resultado){
 						resultado = JSON.parse(resultado);
 						if (resultado.estado == 'vacio') {
@@ -130,15 +124,11 @@ $(document).ready(function(){
 							bandera = false;
 						}else{
 							$.each(resultado, function(index, value){
-							//alert(value);
-								console.log(value);
 								$('#cuerpoPiblicaciones').append(value.publicacion);
 								recargarEmojis(value.idc);  
 							});
-							//$('#cuerpoPiblicaciones').html(resultado);
 							bandera = true;
 							banderaScroll = true;
-							
 							limite = resultado.limite;
 						}
 					}
@@ -156,15 +146,11 @@ $(document).ready(function(){
 			data: {id_publicacion:id_publicacion,comentario:comentario},
 			success: function(resultado){
 				$('#publi_'+id_publicacion+' #comentarios').html('');
-				//var json = JSON.parse(resultado.publicacion);
 				$.each(JSON.parse(resultado), function(index, value){
-					//alert(value);
-					console.log(value);
 					$('#publi_'+id_publicacion+' #comentarios').append(value.comentarios);
 				});
 				$('#publi_'+id_publicacion+' #contComentario').val('');
 				$('#publi_'+id_publicacion+' #contComentario').text('');
-				//$('#cuerpoPiblicaciones').html(resultado); 
 			}
 		});
   	});
@@ -178,7 +164,6 @@ $(document).ready(function(){
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
 				$('#publi_'+id_publicacion+' #MegustaCant').text(resultado.countMegusta);
-				console.log(resultado.estado);
 				if (resultado.estado == 'like') {
 					$('#publi_'+id_publicacion+' #Megusta button').removeClass('w3-theme-d1');
 					$('#publi_'+id_publicacion+' #Megusta button').addClass('w3-green');

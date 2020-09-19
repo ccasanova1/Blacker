@@ -372,7 +372,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", Arial, Helvetica, sans-serif}
   <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank" class="w3-hover-text-green">w3.css</a></p>
 </div>
     <script src="<?=base_url('assets/js/jquery.min.js') ?>"></script>
+    <script>
+      var baseurl = "<?=base_url()?>";
+    </script>
     <script src="<?=base_url('assets/js/registro.js') ?>"></script>
+
 <!--
 To use this code on your website, get a free API key from Google.
 Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp

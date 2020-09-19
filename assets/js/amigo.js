@@ -1,9 +1,8 @@
 $(document).ready(function(){
 	$("#btn-amigo").click(function(ev){
-		console.log($("#id-amigo").serialize())
 		var formdata = new FormData($("#frm-amigo")[0]);
 		$.ajax({
-			url: 'http://192.168.2.202/frontend/inicio/add_amigo',
+			url: baseurl+'Inicio/add_amigo',
 			type: 'POST',
 			data: formdata,
 			cache:false,
@@ -22,7 +21,7 @@ $(document).ready(function(){
 	$("#btn-aceptar").click(function(){
 		var id = $(this).val();
 		$.ajax({
-			url: 'http://192.168.2.202/frontend/inicio/aceptar_amigo',
+			url: baseurl+'Inicio/aceptar_amigo',
 			type: 'POST',
 			data: {id:id},
 			success: function(){    
@@ -34,7 +33,7 @@ $(document).ready(function(){
 	$("#btn-rechazar").click(function(){
 		var id = $(this).val();
 		$.ajax({
-			url: 'http://192.168.2.202/frontend/inicio/rechazar_amigo',
+			url: baseurl+'Inicio/rechazar_amigo',
 			type: 'POST',
 			data: {id:id},
 			success: function(){    

@@ -9,9 +9,6 @@ $(document).ready(function(){
 
 	var bandera = false;
 	var limite = 0;
-	/*$("#publicarTexto").emojioneArea({
-      pickerPosition: "right"
-    });*/
     
 	$.ajax({
 			url: baseurl+'Albums/obtenerFotos',
@@ -20,16 +17,13 @@ $(document).ready(function(){
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
 				if (resultado.estado == 'vacio') {
-					//alert(value);
 					$('#cuerpoFotos').append(resultado.publicacion);
 					bandera = false;
 				}else{
 					$.each(resultado, function(index, value){
-						//alert(value);
 						$('#cuerpoFotos').append(value.fotos);
 						recargarEmojis(value.idc);  
 					});
-					//$('#cuerpoPiblicaciones').html(resultado);
 					limite = 3;
 					bandera = true;  
 				}
@@ -37,14 +31,12 @@ $(document).ready(function(){
 		});
 
 	var banderaScroll = true;
-	//if (banderaPerfil !=) {}
 	$(window).on("scroll", function() {
 		var scrollHeight = $(document).height();
 		var scrollPosition = $(window).height() + $(window).scrollTop();
 		if (!banderaScroll) {
 			return
 		}
-		console.log(limite);
 		if (bandera) {
 		    if((scrollHeight - scrollPosition) / scrollHeight === 0) {
 		    	banderaScroll = false;	
@@ -59,12 +51,9 @@ $(document).ready(function(){
 							bandera = false;
 						}else{
 							$.each(resultado, function(index, value){
-							//alert(value);
-								console.log(value);
 								$('#cuerpoFotos').append(value.fotos);
 								recargarEmojis(value.idc);  
 							});
-							//$('#cuerpoPiblicaciones').html(resultado);
 							bandera = true;
 							banderaScroll = true;
 							limite = resultado.limite;
@@ -85,14 +74,11 @@ $(document).ready(function(){
 				data: {id_publicacion:id_foto,comentario:comentario},
 				success: function(resultado){
 					$('#fotos_'+id_foto+' #comentarios').html('');
-					//var json = JSON.parse(resultado.publicacion);
 					$.each(JSON.parse(resultado), function(index, value){
-						//alert(value);
 						$('#fotos_'+id_foto+' #comentarios').append(value.comentarios);
 					});
 					$('#fotos_'+id_foto+' #contComentario').val('');
 					$('#fotos_'+id_foto+' #contComentario').text('');
-					//$('#cuerpoPiblicaciones').html(resultado); 
 				}
 			});
     	}
@@ -107,7 +93,6 @@ $(document).ready(function(){
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
 				$('#fotos_'+id_foto+' #MegustaCant').text(resultado.countMegusta);
-				console.log(resultado.estado);
 				if (resultado.estado == 'like') {
 					$('#fotos_'+id_foto+' #Megusta button').removeClass('w3-theme-d1');
 					$('#fotos_'+id_foto+' #Megusta button').addClass('w3-green');
@@ -128,7 +113,6 @@ $(document).ready(function(){
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
 				$('#Comentario_pers'+id_comentario+' #MegustaComentCant').text(resultado.countMegustaComent);
-				console.log(resultado.estado);
 				if (resultado.estado == 'like') {
 					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-theme-d1');
 					$('#Comentario_pers'+id_comentario+' button').addClass('w3-green');

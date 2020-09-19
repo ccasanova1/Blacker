@@ -23,15 +23,14 @@ $("#registrar").click(function (event) {
     event.preventDefault();
     var formdata = new FormData($("#frm-login")[0]);
     $.ajax({
-        url: 'http://192.168.2.202/frontend/login/registro',
+        url: baseurl+'Login/registro',
         type: 'POST',
         data: formdata,
         cache:false,
         contentType:false,
         processData:false,
         success: function () {
-            //window.location.href = "http://192.168.2.202/frontend";
-            alert("Se a enviado un correo a su Email para poder activar su cuenta");
+            window.location.replace(baseurl);
         },
         error: function (xhr) {
             

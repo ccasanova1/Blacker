@@ -57,7 +57,6 @@ $(document).ready(function(){
 		if (!banderaScroll) {
 			return
 		}
-		console.log(limite);
 		if (bandera) {
 		    if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
 		    	banderaScroll = false;	
@@ -74,8 +73,6 @@ $(document).ready(function(){
 							bandera = false;
 						}else{
 							$.each(resultado, function(index, value){
-							//alert(value);
-								console.log(value);
 								$('#cuerpoAlbums').append(value.albums);
 								recargarEmojis(value.idc);  
 							});
@@ -122,7 +119,6 @@ $(document).ready(function(){
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
 				$('#album_'+id_album+' #MegustaCant').text(resultado.countMegusta);
-				console.log(resultado.estado);
 				if (resultado.estado == 'like') {
 					$('#album_'+id_album+' #Megusta button').removeClass('w3-theme-d1');
 					$('#album_'+id_album+' #Megusta button').addClass('w3-green');
@@ -143,7 +139,6 @@ $(document).ready(function(){
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
 				$('#Comentario_pers'+id_comentario+' #MegustaComentCant').text(resultado.countMegustaComent);
-				console.log(resultado.estado);
 				if (resultado.estado == 'like') {
 					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-theme-d1');
 					$('#Comentario_pers'+id_comentario+' button').addClass('w3-green');

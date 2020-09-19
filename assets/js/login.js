@@ -1,11 +1,11 @@
 $(document).ready(function(){
 	$("#frm-login").submit(function(ev){
 		$.ajax({
-			url: 'login/loguear',
+			url: baseurl+'login/loguear',
 			type: 'POST',
 			data: $(this).serialize(),
 			success: function(){
-				window.location.href = "http://192.168.2.202/frontend/inicio";
+				window.location.replace(baseurl);
 			},
 			error: function(xhr){
 				$("#activado > div").html('');
