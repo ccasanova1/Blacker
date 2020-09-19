@@ -78,22 +78,24 @@ $(document).ready(function(){
 	$(document).on("click","#contenerComentario button",function(){
     	var id_foto = $(this).val();
     	var comentario = $('#fotos_'+id_foto+' #contComentario').val();
-    	$.ajax({
-			url: baseurl+'Comentarios/comentar',
-			type: 'POST',
-			data: {id_publicacion:id_foto,comentario:comentario},
-			success: function(resultado){
-				$('#fotos_'+id_foto+' #comentarios').html('');
-				//var json = JSON.parse(resultado.publicacion);
-				$.each(JSON.parse(resultado), function(index, value){
-					//alert(value);
-					$('#fotos_'+id_foto+' #comentarios').append(value.comentarios);
-				});
-				$('#fotos_'+id_foto+' #contComentario').val('');
-				$('#fotos_'+id_foto+' #contComentario').text('');
-				//$('#cuerpoPiblicaciones').html(resultado); 
-			}
-		});
+    	if (comentario != '') {
+    		$.ajax({
+				url: baseurl+'Comentarios/comentar',
+				type: 'POST',
+				data: {id_publicacion:id_foto,comentario:comentario},
+				success: function(resultado){
+					$('#fotos_'+id_foto+' #comentarios').html('');
+					//var json = JSON.parse(resultado.publicacion);
+					$.each(JSON.parse(resultado), function(index, value){
+						//alert(value);
+						$('#fotos_'+id_foto+' #comentarios').append(value.comentarios);
+					});
+					$('#fotos_'+id_foto+' #contComentario').val('');
+					$('#fotos_'+id_foto+' #contComentario').text('');
+					//$('#cuerpoPiblicaciones').html(resultado); 
+				}
+			});
+    	}
   	});
 
   	$(document).on("click","#Megusta button",function(){
@@ -112,6 +114,27 @@ $(document).ready(function(){
 				}else{
 					$('#fotos_'+id_foto+' #Megusta button').removeClass('w3-green');
 					$('#fotos_'+id_foto+' #Megusta button').addClass('w3-theme-d1');
+				}
+			}
+		});
+  	});
+
+  	$(document).on("click",".Comentario_pers button",function(){
+    	var id_comentario = $(this).val();
+    	$.ajax({
+			url: baseurl+'Megusta/setMegustaComentario',
+			type: 'POST',
+			data: {id_comentario:id_comentario},
+			success: function(resultado){
+				resultado = JSON.parse(resultado);
+				$('#Comentario_pers'+id_comentario+' #MegustaComentCant').text(resultado.countMegustaComent);
+				console.log(resultado.estado);
+				if (resultado.estado == 'like') {
+					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-theme-d1');
+					$('#Comentario_pers'+id_comentario+' button').addClass('w3-green');
+				}else{
+					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-green');
+					$('#Comentario_pers'+id_comentario+' button').addClass('w3-theme-d1');
 				}
 			}
 		});

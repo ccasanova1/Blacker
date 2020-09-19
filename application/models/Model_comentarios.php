@@ -39,14 +39,16 @@ class Model_comentarios extends CI_Model {
 	}
 
 	public function get_comentarios_albums($data){
-		$this->db->select('comentario.id_comentario, comentario.contenido, comentario.fecha, comentario.id_usuario, comentario.fecha, cuenta_frontend.foto_perfil, perfil_usuario.nombre AS nombrePerfil, perfil_usuario.apellido');
+		$this->db->select('comentario.id_comentario, comentario.contenido, comentario.fecha, comentario.id_usuario, comentario.fecha, cuenta_frontend.foto_perfil, perfil_usuario.nombre AS nombrePerfil, perfil_usuario.apellido, count(gusta2.id_comentario) as countMegustaComent');
 		$this->db->from('comentario');
 		$this->db->join('recibe2', 'recibe2.id_comentario = comentario.id_comentario', 'inner');
 		$this->db->join('album', 'album.id_album = recibe2.id_album', 'inner');
 		$this->db->join('cuenta_frontend', 'cuenta_frontend.id_cuenta = comentario.id_usuario', 'inner');
 		$this->db->join('perfil_usuario', 'cuenta_frontend.id_cuenta = perfil_usuario.id_cuenta', 'inner');
+		$this->db->join('gusta2', 'gusta2.id_comentario = comentario.id_comentario', 'left');
 		$this->db->where('album.id_album', $data);
 		$this->db->order_by('comentario.fecha', 'DESC');
+		$this->db->group_by("comentario.id_comentario");
 		$this->db->limit(3);
 		$resultado = $this->db->get();
 		return $resultado->result();

@@ -66,6 +66,33 @@ class Model_megusta extends CI_Model {
 		return $resultado;
 	}
 
+	public function setget_megusta_comentario($data, $data2){
+		$this->db->select('id_comentario');
+		$this->db->from('gusta2');
+		$this->db->where('id_comentario', $data);
+		$this->db->where('id_usuario', $data2);
+		$resultado = $this->db->get();
+		if (empty($resultado->row())) {
+			$this->db->set('id_comentario', $data);
+			$this->db->set('id_usuario', $data2);
+			$this->db->insert('gusta2');
+			$this->db->select("count(id_comentario) as countMegustaComent, 'like' AS estado");
+			$this->db->from('gusta2');
+			$this->db->where('id_comentario', $data);
+			$resultado2 = $this->db->get();
+			return $resultado2->row();
+		}else{
+			$this->db->where('id_comentario', $data);
+			$this->db->where('id_usuario', $data2);
+			$this->db->delete('gusta2');
+			$this->db->select("count(id_comentario) as countMegustaComent, 'notlike' AS estado");
+			$this->db->from('gusta2');
+			$this->db->where('id_comentario', $data);
+			$resultado2 = $this->db->get();
+			return $resultado2->row();
+		}
+	}
+
 	public function setget_megusta_album($data, $data2){
 		$this->db->select('id_album');
 		$this->db->from('gusta3');

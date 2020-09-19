@@ -134,4 +134,25 @@ $(document).ready(function(){
 		});
   	});
 
+  	$(document).on("click",".Comentario_pers button",function(){
+    	var id_comentario = $(this).val();
+    	$.ajax({
+			url: baseurl+'Megusta/setMegustaComentario',
+			type: 'POST',
+			data: {id_comentario:id_comentario},
+			success: function(resultado){
+				resultado = JSON.parse(resultado);
+				$('#Comentario_pers'+id_comentario+' #MegustaComentCant').text(resultado.countMegustaComent);
+				console.log(resultado.estado);
+				if (resultado.estado == 'like') {
+					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-theme-d1');
+					$('#Comentario_pers'+id_comentario+' button').addClass('w3-green');
+				}else{
+					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-green');
+					$('#Comentario_pers'+id_comentario+' button').addClass('w3-theme-d1');
+				}
+			}
+		});
+  	});
+
 });

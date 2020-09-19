@@ -78,7 +78,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <h4 class="w3-center"><?php if($seleccion == 'pagina'){
                                     echo $perfil->nombre_entidad;       
                                     }else{
-                                echo $perfil->nombre.' '.$perfil->apellido;
+                                echo "<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~')))."'>".$perfil->nombre.' '.$perfil->apellido."</a>";
                             }?></h4>
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>

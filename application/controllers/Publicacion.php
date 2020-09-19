@@ -17,7 +17,7 @@ class Publicacion extends CI_Controller {
 		$this->load->model("Model_comentarios");
 		$this->load->model("Model_megusta");
 		$this->load->library('form_validation');
-		$this->load->helper(array('publicar_rules'));
+		$this->load->helper(array('publicar_rules','string'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->load->library('encrypt');
 	}
@@ -233,7 +233,6 @@ class Publicacion extends CI_Controller {
 			echo json_encode($data);
 		}else{
 			$i = 0;
-			$o = 0;
 			$data = array();
 			/*foreach ($publicaciones as $value) {
 				$data['publicaciones'][$i] = array(
@@ -307,17 +306,19 @@ class Publicacion extends CI_Controller {
         			$colorLike = 'w3-theme-d1';
         		}
           		$data[$i]['publicacion'] .="
-          				<div id='Megusta' style='margin-top: 10px' class='w3-row'>
-          				<div class='w3-mobile w3-col ' style='width:100%'>
+          				<div style='margin-top: 10px' class='w3-row'>
+          				<div id='Megusta' class='w3-mobile w3-col ' style='width:70%'>
         					<button id='btn-megusta$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'><i class='fa fa-thumbs-up'></i></button>
         					<span class='w3-left' style='margin: 10px; margin-top: 10px' id='MegustaCant' >$meGusta->countMegusta</span>	
+        				</div>
+        				<div id='Compartir' class='w3-mobile w3-col ' style='width:30%'>
+        				<button id='btn-compartir$i' type='button' value='$value->id_publicacion' class='w3-button $colorLike w3-left'>Compartir</button>
         				</div>
         				</div> 
       					<div class='w3-row w3-border-top' id='comentarios'>
       				";
       			$comentarios = $this->Model_comentarios->get_comentarios($value->id_publicacion);
       			foreach ($comentarios as $value2) {
-
       				$date1 = new DateTime($value2->fecha);
 					$date2 = new DateTime(date("Y-m-d H:m:s"));
 					$diff = $date1->diff($date2);
@@ -333,9 +334,9 @@ class Publicacion extends CI_Controller {
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido </a><button id='btn-megustaComent' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido </a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -344,15 +345,13 @@ class Publicacion extends CI_Controller {
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina </a><button id='btn-megustaComent' type='button' value='id_comentario' class='w3-button $colorLikeComent' style='height=15px; padding:5px; margin: 5px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina </a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='id_comentario' class='w3-button $colorLikeComent' style='height=15px; padding:5px; margin: 5px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
-					}
-					$o++;
-      				
+					}    				
       			}
       			$data[$i]['publicacion'] .="</div>";
       			$data[$i]['publicacion'] .= "
@@ -396,7 +395,7 @@ class Publicacion extends CI_Controller {
 			$data['publicacion'] = "<div class='w3-container w3-center w3-card w3-white w3-round w3-margin'><br><p>No se encuentran mas publicaciones de este usuario</p></div>";
 			echo json_encode($data);
 		}else{
-			$i = 0;
+			$i = 0;		
 			$data = array();
 			/*foreach ($publicaciones as $value) {
 				$data['publicaciones'][$i] = array(
@@ -463,14 +462,20 @@ class Publicacion extends CI_Controller {
 					$date2 = new DateTime(date("Y-m-d H:m:s"));
 					$diff = $date1->diff($date2);
 					$dateTotal = $this->Model_publicacion->get_format_time($diff);
+					$meGustaComent = $this->Model_megusta->get_megusta_comentario($value2->id_comentario,$this->session->userdata("id"));
+					if ($meGustaComent->estado == 'like') {
+	        			$colorLikeComent = 'w3-green';
+	        		}else{
+	        			$colorLikeComent = 'w3-theme-d1';
+	        		}
       				if (empty($value2->nombrePerfilPagina)) {
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfil $value2->apellido</h6></a>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -479,9 +484,9 @@ class Publicacion extends CI_Controller {
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfilPagina</h6></a>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -589,14 +594,20 @@ class Publicacion extends CI_Controller {
 					$date2 = new DateTime(date("Y-m-d H:m:s"));
 					$diff = $date1->diff($date2);
 					$dateTotal = $this->Model_publicacion->get_format_time($diff);
+					$meGustaComent = $this->Model_megusta->get_megusta_comentario($value2->id_comentario,$this->session->userdata("id"));
+					if ($meGustaComent->estado == 'like') {
+	        			$colorLikeComent = 'w3-green';
+	        		}else{
+	        			$colorLikeComent = 'w3-theme-d1';
+	        		}
       				if (empty($value2->nombrePerfilPagina)) {
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfil $value2->apellido</h6></a>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -605,9 +616,9 @@ class Publicacion extends CI_Controller {
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfilPagina</h6></a>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -705,14 +716,20 @@ class Publicacion extends CI_Controller {
 					$date2 = new DateTime(date("Y-m-d H:m:s"));
 					$diff = $date1->diff($date2);
 					$dateTotal = $this->Model_publicacion->get_format_time($diff);
+					$meGustaComent = $this->Model_megusta->get_megusta_comentario($value2->id_comentario,$this->session->userdata("id"));
+					if ($meGustaComent->estado == 'like') {
+	        			$colorLikeComent = 'w3-green';
+	        		}else{
+	        			$colorLikeComent = 'w3-theme-d1';
+	        		}
       				if (empty($value2->nombrePerfilPagina)) {
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfil $value2->apellido</h6></a>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -721,9 +738,9 @@ class Publicacion extends CI_Controller {
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
-        					<div class='w3-rest'>
+        					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><h6 style='margin:0px; margin-top:10px'>$value2->nombrePerfilPagina</h6></a>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";

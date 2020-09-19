@@ -119,22 +119,24 @@ $(document).ready(function(){
 	$(document).on("click","#contenerComentario button",function(){
     	var id_publicacion = $(this).val();
     	var comentario = $('#publi_'+id_publicacion+' #contComentario').val();
-    	$.ajax({
-			url: baseurl+'Comentarios/comentar',
-			type: 'POST',
-			data: {id_publicacion:id_publicacion,comentario:comentario},
-			success: function(resultado){
-				$('#publi_'+id_publicacion+' #comentarios').html('');
-				//var json = JSON.parse(resultado.publicacion);
-				$.each(JSON.parse(resultado), function(index, value){
-					//alert(value);
-					$('#publi_'+id_publicacion+' #comentarios').append(value.comentarios);
-				});
-				$('#publi_'+id_publicacion+' #contComentario').val('');
-				$('#publi_'+id_publicacion+' #contComentario').text('');
-				//$('#cuerpoPiblicaciones').html(resultado); 
-			}
-		});
+    	if (comentario != '') {
+    		$.ajax({
+				url: baseurl+'Comentarios/comentar',
+				type: 'POST',
+				data: {id_publicacion:id_publicacion,comentario:comentario},
+				success: function(resultado){
+					$('#publi_'+id_publicacion+' #comentarios').html('');
+					//var json = JSON.parse(resultado.publicacion);
+					$.each(JSON.parse(resultado), function(index, value){
+						//alert(value);
+						$('#publi_'+id_publicacion+' #comentarios').append(value.comentarios);
+					});
+					$('#publi_'+id_publicacion+' #contComentario').val('');
+					$('#publi_'+id_publicacion+' #contComentario').text('');
+					//$('#cuerpoPiblicaciones').html(resultado); 
+				}
+			});
+    	}
   	});
 
   	$(document).on("click","#Megusta button",function(){
@@ -153,6 +155,27 @@ $(document).ready(function(){
 				}else{
 					$('#publi_'+id_publicacion+' #Megusta button').removeClass('w3-green');
 					$('#publi_'+id_publicacion+' #Megusta button').addClass('w3-theme-d1');
+				}
+			}
+		});
+  	});
+
+  	$(document).on("click",".Comentario_pers button",function(){
+    	var id_comentario = $(this).val();
+    	$.ajax({
+			url: baseurl+'Megusta/setMegustaComentario',
+			type: 'POST',
+			data: {id_comentario:id_comentario},
+			success: function(resultado){
+				resultado = JSON.parse(resultado);
+				$('#Comentario_pers'+id_comentario+' #MegustaComentCant').text(resultado.countMegustaComent);
+				console.log(resultado.estado);
+				if (resultado.estado == 'like') {
+					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-theme-d1');
+					$('#Comentario_pers'+id_comentario+' button').addClass('w3-green');
+				}else{
+					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-green');
+					$('#Comentario_pers'+id_comentario+' button').addClass('w3-theme-d1');
 				}
 			}
 		});
