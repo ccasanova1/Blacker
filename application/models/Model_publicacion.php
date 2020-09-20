@@ -113,8 +113,10 @@ class Model_publicacion extends CI_Model {
 		$this->db->from('publicacion');
 		$resultado = $this->db->get();
 		$resultado = $resultado->row();
-		$fecha = date("Y-m-d H:i:s",strtotime($resultado->Fecha."+ 1 days"));
-		if ($fecha >= date('Y-m-d H:i:s')) {
+		$d1 = new DateTime($resultado->Fecha);
+		$d2 = new DateTime(date('Y-m-d H:i:s'));
+		$d1->modify('+1 day');
+		if ($d1 <= $d2) {
 			$resultado = TRUE;
 		}else{
 			$resultado = FALSE;

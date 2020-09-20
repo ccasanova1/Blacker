@@ -66,9 +66,10 @@ $(document).ready(function(){
             processData:false,
             contentType:false,
 			success: function(resultado){
+				resultado = JSON.parse(resultado);
 				if (resultado.estado == 'limitada') {
 					//alert(value);
-					alert("Supero el limite de publicaciones diarias. Contrate el servicio Premium para obtener publicaciones limitadas.");
+					alert("Supero el limite de publicaciones diarias. Contrate el servicio Premium para obtener publicaciones ilimitadas.");
 					bandera = false;
 				}else{
 					location.reload();
