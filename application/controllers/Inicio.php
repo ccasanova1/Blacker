@@ -17,7 +17,7 @@ class Inicio extends CI_Controller {
 		$this->load->model("Model_notificaciones");
 		$this->load->model("Model_grupo");
 		$this->load->model("Model_configuracion");
-		$this->load->helper(array('crear_grupo_rules','configuracion_rules','file'));
+		$this->load->helper(array('crear_grupo_rules','configuracion_rules','file','suscripcion_rules'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->load->library('encrypt');
 	}
@@ -211,36 +211,37 @@ class Inicio extends CI_Controller {
 	}
 
 	public function suscribirce(){
-		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
-		$bloqueado = $this->Model_amigos->get_sigue_pagina($id, $this->session->userdata('id'));
-		if ($bloqueado != null AND $bloqueado != '') {
-			if ($bloqueado->estado == 'Bloqueado') {
-				redirect(base_url('?error=BlockPage'));
-			}
-		}
 		$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
-		if($this->session->userdata("seleccion") == "usuario"){
-			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
+		if($this->session->userdata("seleccion") == "pagina"){
+			$respuesta2 = $this->Model_perfiles->get_perfil_pagina($this->session->userdata("id"));
             $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
+            $controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
             $datos = array(
-                'nombre' => $respuesta2->nombre,
-                'apellido' => $respuesta2->apellido,
+                'nombre_pagina' => $respuesta2->nombre_entidad,
                 "foto_perfil" => $respuesta->foto_perfil,
                 'seleccion' => $this->session->userdata("seleccion"),
+                'pais' => $respuesta->pais,
                 'buscar' => 'Buscar',
+  				'calle' => $respuesta2->calle,
+  				'numero' => $respuesta2->numero,
+  				'esquina' => $respuesta2->esquina,
+  				'descripcion' => $respuesta2->descripcion,
+                'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
                 'notificaciones' => $respuesta3,
                 'premium' => $controlPremium,
-            ); 			
+            );
+                $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
+				$datos['perfil'] = $resultado;
+				$albums = $this->Model_album->get_album($this->session->userdata("id"));
+				$datos['albums'] = $albums;			
 		}else{
 			redirect(base_url());
 		}
-		$resultado = $this->Model_perfiles->get_perfil($id);
-		$respuesta4 = $this->Model_usuario->get_usuario($id);
-		$respuesta5 = $this->Model_amigos->get_sigue_pagina($id, $this->session->userdata('id'));
-		$datos['perfil'] = $resultado;
-		$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
-		$datos['cuenta'] = $respuesta4;
+		$respuesta6 = $this->Model_usuario->get_suscripciones();
+		foreach ($respuesta6 as $value) {
+			$datos['duracion'][$value->duracion] = $value->precio;
+		}
 		$this->load->view('suscribirce', $datos);
 	}
 
@@ -531,6 +532,51 @@ class Inicio extends CI_Controller {
 						'descripcion' => $descripcionPagina,
 					);	
 			$this->Model_configuracion->update_perfil_pagina($data2,$this->session->userdata("id"));
+		}
+	}
+
+	public function suscribir(){
+		$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
+		if (!$controlPremium) {
+			if ($this->session->userdata('seleccion') == 'pagina') {
+				$rules = getsuscripcionRules();
+			  	$this->form_validation->set_rules($rules);
+				if ($this->form_validation->run() === FALSE or !empty($fecha_nac)) {
+					$errors = array(
+						'numeroTarjeta' => form_error('numeroTarjeta'),
+						'vencimientoMes' => form_error('vencimientoMes'),
+						'vencimientoAño' => form_error('vencimientoAño'),
+	                	'CVC' => form_error('CVC'),
+						);
+					echo json_encode($errors);
+					$this->output->set_status_header(400);
+					exit();
+	        	}
+	            $nombreEntidad = $this->input->post('nombreEntidad');
+	            $paisPagina = $this->input->post('paisPagina');
+				$callePagina = $this->input->post('callePagina');
+				if ($this->input->post('duracion') == '7') {
+					$dias = 7;
+				}elseif ($this->input->post('duracion') == '31') {
+					$dias = 31;
+				}elseif ($this->input->post('duracion') == '365') {
+					$dias = 365;
+				}else{
+					$data['estado'] = 'error';
+					$data['error'] = 'Se a producido un error';
+					echo json_encode($data);
+					exit();
+				}
+				$this->Model_usuario->setupdate_premium_pagina($this->session->userdata('id'),$dias);
+				$data['estado'] = 'bien';
+				echo json_encode($data);
+			}else{
+				redirect(base_url());
+			}
+		}else{
+			$data['estado'] = 'error';
+			$data['error'] = 'Ya tiene la cuenta premium activa';
+			echo json_encode($data);
 		}
 	}
 

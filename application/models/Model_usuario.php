@@ -51,7 +51,7 @@ class Model_usuario extends CI_Model {
 		$this->db->where('NOW() >= compra.fecha_inicio');
 		$this->db->where('NOW() <= compra.fecha_fin');
 		$this->db->where('perfil_pagina.id_cuenta', $data);
-		$resultado = $this->db->get("cuenta_frontend");
+		$resultado = $this->db->get();
 		if (empty($resultado->row())) {
 			return FALSE;
 		}else{
@@ -64,8 +64,25 @@ class Model_usuario extends CI_Model {
 		$this->db->from('perfil_pagina');
 		$this->db->join('compra', 'compra.id_pagina = perfil_pagina.id_cuenta', 'INNER');
 		$this->db->where('perfil_pagina.id_cuenta', $data);
-		$resultado = $this->db->get("cuenta_frontend");
+		$resultado = $this->db->get();
 		return $resultado->row();
+	}
+
+	public function get_suscripciones(){
+		$resultado = $this->db->get("suscripcion");
+		return $resultado->result();
+	}
+
+	public function setupdate_premium_pagina($data,$data2){
+		$this->db->where('id_pagina', $data);
+		$resultado = $this->db->get("compra");
+		if(!empty($resultado->row())){
+			$sql = "UPDATE compra INNER JOIN suscripcion ON suscripcion.duracion = '".$data2."' SET compra.id_suscripcion = suscripcion.id_suscripcion, fecha_inicio = CURRENT_DATE(),
+			fecha_fin = DATE_ADD(CURRENT_DATE(), INTERVAL ".$data2." DAY) compra.precio = suscripcion.precio WHERE id_pagina = ".$data;
+		}else{
+			$sql = "INSERT INTO compra SELECT ".$data." AS id_pagina, suscripcion.id_suscripcion, CURRENT_DATE() AS fecha_inicio ,DATE_ADD(CURRENT_DATE(), INTERVAL ".$data2." DAY) AS fecha_fin, suscripcion.precio FROM suscripcion WHERE duracion = '".$data2."'";
+		} 
+		$this->db->query($sql);
 	}
 
 	public function activacion($data){

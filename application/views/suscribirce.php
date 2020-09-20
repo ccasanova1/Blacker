@@ -48,7 +48,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;padding-top:20px">     
+<div class="w3-container w3-content" style="max-width:1400px;padding-top:20px">    
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
@@ -56,33 +56,32 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Profile -->
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
-         <h4 class="w3-center"><?php echo $perfil->nombre_entidad; ?></h4>
-         <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <h4 class="w3-center"><?php if($seleccion == 'pagina'){
+                                    echo $perfil->nombre_entidad;       
+                                    }else{
+                                echo "<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~')))."'>".$perfil->nombre.' '.$perfil->apellido."</a>";
+                            }?></h4>
+         <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="width:106px;height:106px" alt="Avatar"></p>
          <hr>
-         <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i> </p> Pagina Premium";} ?>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Calle: <?php if(!empty($perfil->calle)){ echo $perfil->calle;}else{ echo "Sin ninguna calle";} ?></p>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Esquina: <?php if(!empty($perfil->esquina)){ echo $perfil->esquina;}else{ echo "Sin ninguna esquina";} ?></p>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Numero Puerta: <?php if(!empty($perfil->numero)){ echo $perfil->numero;}else{ echo "Sin ninguna numero de puerta";} ?></p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
-          <?php if (empty($sigue->estado) AND $premium === TRUE): ?>
-          <form method="POST" id="frm-seguir">
-          <input class="" type="text" id="id-seguir" value="<?php echo $perfil->id_cuenta; ?>" name="seguir" hidden>
-          <button class="w3-button w3-block w3-theme-d2" id="btn-seguir" title="Seguir">Seguir</button>
-          </form>
-          <?php elseif ($sigue->estado == 'bloqueado'): ?>
-            <p class="w3-red w3-center">Bloqueado</p> 
-          <?php elseif ($sigue->estado == 'siguiendo'): ?>
-            <p class="w3-green w3-center">Siguiendo</p> 
-            <form method="POST" id="frm-eliminar">
-            <input class="" type="text" id="id-eliminar" value="<?php echo $perfil->id_cuenta; ?>" name="seguir" hidden>
-            <button class="w3-button w3-block w3-red" id="btn-eliminar" title="Seguir">Dejar de seguir</button>
-            </form>
-          <?php endif; ?>
-            
+          <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i>Pagina Premium </p> ";} ?>
+           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($calle)){ echo $calle;}else{ echo "Sin calle registrada";} ?></p>
+           <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($numero)){ echo $numero;}else{ echo "Sin numero de puerta";} ?></p>
+           <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($esquina)){ echo $esquina;}else{ echo "Sin esquina registrada";}  ?></p>
+           <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($pais)){ echo $pais;} ?></p>
         </div>
       </div>
       <br>
-        
+      
+      <!-- Accordion -->
+      <div class="w3-card w3-round">
+        <div class="w3-white">
+          <?php if($seleccion == 'pagina'): ?>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Inicio/suscribirce')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Suscribirce</a>
+          <?php endif; ?>
+        </div>      
+      </div>
+      <br>
+
     <!-- End Left Column -->
     </div>
     
@@ -96,12 +95,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <h6 class="w3-opacity">Comprar suscripcion</h6>
               <form id="frm-suscribir" class="w3-container" method="POST">
                 <p>Duracion:</p>
-                <p><input type="radio" id="checkUnaSemana" value="1" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="UnaSemana"><label>7 Dias</label></p>
-                <p><input type="radio" id="checkUnMes" value="2" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="UnMes"><label>1 mes</label></p>
-                <p><input type="radio" id="checkUnAño" value="3" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="UnAño"><label>1 Año</label></p>
-                <div id="numeroTarjeta"><p><label>Numero de tarjeta</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="numeroTarjeta" maxlength="16" size="16"></p><div class="invalido w3-text-red"><span></span></div></div>
-                <div id="vencimientoAño"><p><label>Vencimiento</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem " name="vencimientoMes" maxlength="2" size="2"><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="vencimientoAño" maxlength="2" size="2"></p><div class="invalido w3-text-red"><span></span></div></div>
-                <div id="CVD"><p><label>Codigo de seguridad</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="numeroTarjeta" maxlength="4" size="4"></p><div class="invalido w3-text-red"><span></span></div></div>
+                <p><input type="radio" id="checkUnaSemana" value="7" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="duracion"><label>7 Dias Costo: U$S<?php echo $duracion['7'] ?></label></br>
+                <input type="radio" id="checkUnMes" value="31" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="duracion"><label>1 Mes Costo: U$S<?php echo $duracion['31'] ?></label></br>
+                <input type="radio" id="checkUnAño" value="365" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="duracion"><label>1 Año Costo: U$S<?php echo $duracion['365'] ?></label></p>
+                <div id="numeroTarjeta"><p><label>Numero de tarjeta: </label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="numeroTarjeta" maxlength="16" size="16"></p><div class="invalido w3-text-red"><span></span></div></div>
+                <div id="vencimientoAño"><p><label>Vencimiento: </label><input class="" style="margin-top: 0.5rem; " name="vencimientoMes" maxlength="2" size="2">/<input class="" style="margin-top: 0.5rem;margin-right: 1rem" name="vencimientoAño" maxlength="2" size="2"></p><div class="invalido w3-text-red"><span></span></div></div>
+                <div id="CVC"><p><label>Codigo de seguridad: </label><input class="" style="margin-top: 0.5rem;margin-right: 1rem" name="CVC" maxlength="4" size="4"></p><div class="invalido w3-text-red"><span></span></div></div>
                 <button type="submit" id="btn-suscribir" class="w3-button w3-theme" style="margin-top: 0.5rem"><i class="fa fa-pencil"></i>Suscribir</button> 
               </form>
             </div>
@@ -145,8 +144,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 <script>
   var baseurl = "<?=base_url()?>";
-  var sigueEstado = "<?php echo $sigue->estado ?>";
-  var id_cuenta = "<?php echo $perfil->id_cuenta ?>";
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);
@@ -171,7 +168,6 @@ function openNav() {
 }
 
 </script>
-<script src="<?=base_url('assets/js/publicarPagina.js') ?>"></script>
-<script src="<?=base_url('assets/js/sigue.js') ?>"></script>
+<script src="<?=base_url('assets/js/suscribirce.js') ?>"></script>
 </body>
 </html> 

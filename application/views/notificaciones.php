@@ -205,7 +205,7 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
-
+<?php if($seleccion == 'usuario'): ?>
 var slideIndex = 1;
 showDivs(slideIndex);
 
@@ -223,6 +223,7 @@ function showDivs(n) {
   }
   x[slideIndex-1].style.display = "block";  
 }
+<?php endif; ?>
 
 </script>
 <script type="text/javascript" src="<?=base_url('assets/js/notificaciones.js') ?>"></script>

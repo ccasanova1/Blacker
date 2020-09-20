@@ -81,26 +81,33 @@ class Notificaciones extends CI_Controller {
 		}else{
 			$i = 0;
 			$data = array();
-			$data[$i]['busqueda'] = '';
 			if ($this->session->userdata("seleccion") == "pagina" AND $limite == 0) {
 				$resultado2 = $this->Model_usuario->get_premium($this->session->userdata('id'));
 				if ($resultado2) {
 					$resultado3 = $this->Model_usuario->get_premium_datos($this->session->userdata('id'));
-					$fecha1 = $resultado3->fecha_fin;
-					$fecha2 = date("Y-m-d");
+					$fecha1 = new DateTime($resultado3->fecha_fin);
+					$fecha2 = new DateTime(date("Y-m-d"));
 					if ($fecha1 >= $fecha2) {
-						$interval = date_diff($fecha1, $fecha2);
+						$interval = $fecha1->diff($fecha2);
 						if(intval($interval->format('%a')) <= 7){
-							$data[$i]['busqueda'] .= "<div class='w3-container w3-card w3-white w3-round w3-margin'><h6>Su suscripcion acabara en ".$interval->format('%a dias')."</h6></div>";
+							$data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin'><h6>Su suscripcion acabara en ".$interval->format('%a dias')."</h6></div>";
+						}elseif (empty($resultado)) {
+							$data['estado'] = 'vacio';
+							$data['busqueda'] = "<div class='w3-container w3-center w3-card w3-white w3-round w3-margin'><br><p>No se encuentran mas notificaciones</p></div>";
+							echo json_encode($data);
+							exit();	
 						}
 					}else{
-						$data[$i]['busqueda'] .= "<div class='w3-container w3-card w3-white w3-round w3-margin'><h6>No esperas mas y suscribete para tener beneficios</h6><a href='".base_url('inicio/suscripcion')."'><button class='w3-button w3-theme-d1 w3-margin-bottom' id='visitar'>Visitar</button></a></div>";
+						$data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin'><h6>No esperas mas y suscribete para tener beneficios</h6><a href='".base_url('inicio/suscripcion')."'><button class='w3-button w3-theme-d1 w3-margin-bottom' id='visitar'>Visitar</button></a></div>";
 					}
 				}else{
-					$data[$i]['busqueda'] .= "<div class='w3-container w3-card w3-white w3-round w3-margin'><h6>No esperas mas y suscribete para tener beneficios</h6><a href='".base_url('inicio/suscripcion')."'><button class='w3-button w3-theme-d1 w3-margin-bottom' id='visitar'>Visitar</button></a></div>";
+					$data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin'><h6>No esperas mas y suscribete para tener beneficios</h6><a href='".base_url('inicio/suscripcion')."'><button class='w3-button w3-theme-d1 w3-margin-bottom' id='visitar'>Visitar</button></a></div>";
 				}
 			}
 			if (!empty($resultado)) {
+				if ($data[$i]['busqueda'] == '') {
+					$data[$i]['busqueda'] = '';
+				}
 				foreach ($resultado as $busqueda){
 					$this->Model_notificaciones->update_notificaciones($busqueda->id_notificacion);
 				    $data[$i]['busqueda'] .= "<div class='w3-container w3-card w3-white w3-round w3-margin'><br>";

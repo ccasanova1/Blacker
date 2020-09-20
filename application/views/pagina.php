@@ -59,7 +59,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <h4 class="w3-center"><?php echo $perfil->nombre_entidad; ?></h4>
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i> </p> Pagina Premium";} ?>
+         <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i>Pagina Premium</p> ";} ?>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Calle: <?php if(!empty($perfil->calle)){ echo $perfil->calle;}else{ echo "Sin ninguna calle";} ?></p>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Esquina: <?php if(!empty($perfil->esquina)){ echo $perfil->esquina;}else{ echo "Sin ninguna esquina";} ?></p>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Numero Puerta: <?php if(!empty($perfil->numero)){ echo $perfil->numero;}else{ echo "Sin ninguna numero de puerta";} ?></p>

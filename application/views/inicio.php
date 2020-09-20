@@ -75,7 +75,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="width:106px;height:106px" alt="Avatar"></p>
          <hr>
          <?php if($seleccion == 'pagina'): ?>
-          <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i> </p> Pagina Premium";} ?>
+          <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i>Pagina Premium</p> ";} ?>
            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($calle)){ echo $calle;}else{ echo "Sin calle registrada";} ?></p>
            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($numero)){ echo $numero;}else{ echo "Sin numero de puerta";} ?></p>
            <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($esquina)){ echo $esquina;}else{ echo "Sin esquina registrada";}  ?></p>
@@ -103,16 +103,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                 } ?>
               <a id="btn-grupo" class="w3-button w3-block w3-theme" href="<?php echo base_url('Grupos/crearGrupo')?>">Crear Grupo</a>
             </div>
-        <?php endif; ?>
-          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Mis events</button>
-          <div id="Demo2" class="w3-hide w3-container">
-            <p>Some other text..</p>
-          </div>
-          <?php if($this->session->userdata("seleccion") == "usuario"): ?>
             <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Amigos')?>"><i class="fa fa-address-book fa-fw w3-margin-right"></i> Mis Amigos</a>
-          <?php endif; ?>
-          <?php if($seleccion == 'usuario'): ?>
             <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$id_cuenta)?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Mis Albums</a>
+          <?php endif; ?>
+          <?php if($seleccion == 'pagina'): ?>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Inicio/suscribirce')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Suscribirce</a>
           <?php endif; ?>
         </div>      
       </div>
