@@ -41,7 +41,7 @@ class Publicacion extends CI_Controller {
 		}else{
 			if($this->session->userdata("seleccion") == "pagina"){
 				$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
-				if($controlPremium){
+				if(!$controlPremium){
 					$control = $this->Model_publicacion->control_publicacion_pagina($this->session->userdata("id"));
 					if ($control === FALSE) {
 						$data['estado'] = 'limitada';
@@ -90,7 +90,7 @@ class Publicacion extends CI_Controller {
 				}else{
 					$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
 					if($controlPremium){
-						$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+						$this->Model_notificaciones->set_notificacion_publicacion_pagina($this->session->userdata("id"));
 					}
 				}
 			}elseif($this->upload->display_errors('','') == "You did not select a file to upload.") {
@@ -120,7 +120,7 @@ class Publicacion extends CI_Controller {
 					}else{
 						$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
 						if($controlPremium){
-							$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
+							$this->Model_notificaciones->set_notificacion_publicacion_pagina($this->session->userdata("id"));
 						}
 					}
 				}

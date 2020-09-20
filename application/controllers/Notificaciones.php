@@ -105,7 +105,7 @@ class Notificaciones extends CI_Controller {
 				}
 			}
 			if (!empty($resultado)) {
-				if ($data[$i]['busqueda'] == '') {
+				if (empty($data[$i]['busqueda'])) {
 					$data[$i]['busqueda'] = '';
 				}
 				foreach ($resultado as $busqueda){

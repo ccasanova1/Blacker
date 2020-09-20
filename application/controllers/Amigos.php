@@ -122,7 +122,7 @@ class Amigos extends CI_Controller {
 			'estado' => 'siguiendo',
 			'fecha' => date("Y-m-d"),
 		);
-		$this->Model_amigos->set_addsigue($data);
+		$this->Model_amigos->add_sigue($data);
 	}
 
 	public function eliminar_sigue(){

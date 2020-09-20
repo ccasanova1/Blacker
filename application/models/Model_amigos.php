@@ -27,7 +27,7 @@ class Model_amigos extends CI_Model {
 		$this->db->where('id_pagina', $data);
 		$this->db->where('id_usuario', $data2);
 		$resultado = $this->db->get('sigue');
-		return $resultado->result();
+		return $resultado->row();
 	}
 
 	Public function get_amigo_especifico($data, $data2){

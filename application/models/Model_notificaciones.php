@@ -20,7 +20,7 @@ class Model_notificaciones extends CI_Model {
 				SELECT cuenta_frontend.id_cuenta, ".$data.", '".date("Y-m-d")."', 'pendiente', 'A publicado algo', 'publicacion_pagina'
 				FROM cuenta_frontend
 				INNER JOIN sigue ON sigue.id_pagina = ".$data." AND sigue.id_usuario = cuenta_frontend.id_cuenta
-				INNER JOIN establece ON establece.id_cuenta = cuenta_frontend.id_cuenta
+				INNER  JOIN establece ON establece.id_cuenta = cuenta_frontend.id_cuenta
 				INNER JOIN configuracion ON configuracion.id_configuracion = establece.id_configuracion AND configuracion.not_publicacion = 'si'
 				WHERE cuenta_frontend.id_cuenta != ".$data."
 				AND sigue.estado != 'bloqueado'";
@@ -130,7 +130,7 @@ class Model_notificaciones extends CI_Model {
 	public function get_notificaciones($data,$limite){
 		$this->db->select('cuenta_frontend.id_cuenta, notifica.id_notificacion, perfil_usuario.nombre, perfil_usuario.apellido, perfil_pagina.nombre_entidad, notifica.contenido');
 		$this->db->from('notifica');
-		$this->db->join('cuenta_frontend', 'cuenta_frontend.id_cuenta = notifica.id_usuario1', 'INNER');
+		$this->db->join('cuenta_frontend', 'cuenta_frontend.id_cuenta = notifica.id_usuario2', 'INNER');
 		$this->db->join('perfil_usuario', 'cuenta_frontend.id_cuenta = perfil_usuario.id_cuenta', 'LEFT');
 		$this->db->join('perfil_pagina', 'cuenta_frontend.id_cuenta = perfil_pagina.id_cuenta', 'LEFT');
 		$this->db->where('notifica.id_usuario1', $data);

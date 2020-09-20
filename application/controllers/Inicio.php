@@ -164,12 +164,13 @@ class Inicio extends CI_Controller {
 	public function pagina($id){
 		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
 		$bloqueado = $this->Model_amigos->get_sigue_pagina($id, $this->session->userdata('id'));
-		if ($bloqueado != null AND $bloqueado != '') {
-			if ($bloqueado->estado == 'Bloqueado') {
+		if (!empty($bloqueado)) {
+			if ($bloqueado->estado == 'bloqueado') {
 				redirect(base_url('?error=BlockPage'));
+				exit();
 			}
 		}
-		$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
+		$controlPremium = $this->Model_usuario->get_premium($id);
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
@@ -182,14 +183,12 @@ class Inicio extends CI_Controller {
                 'buscar' => 'Buscar',
                 'notificaciones' => $respuesta3,
                 'premium' => $controlPremium,
-            ); 			
+            );			
 		}else{
 			redirect(base_url());
 		}
 		$this->Model_perfiles->increment_visit($id);
 		$resultado = $this->Model_perfiles->get_perfil($id);
-		//$respuesta2 = $this->Model_publicacion->get_publicacion($id);
-		//$respuesta3 = $this->Model_album->get_foto_publicada($id);
 		$respuesta4 = $this->Model_usuario->get_usuario($id);
 		$respuesta5 = $this->Model_amigos->get_sigue_pagina($id, $this->session->userdata('id'));
 		$datos['perfil'] = $resultado;
@@ -199,14 +198,7 @@ class Inicio extends CI_Controller {
 		if (empty($datos['sigue'])) {
 			$datos['sigue'] = new \stdClass(); 
 			$datos['sigue']->estado = '';
-		}
-		/*$datos .= array(
-			'perfil' => $resultado,
-			//'publicacion' => $respuesta2,
-			//'foto_publicacion' => $respuesta3,
-			'cuenta' => $respuesta4,
-			'amigo'	=> $respuesta5,
-		);*/
+		}	
 		$this->load->view('pagina', $datos);
 	}
 

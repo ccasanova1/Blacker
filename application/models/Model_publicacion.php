@@ -111,7 +111,6 @@ class Model_publicacion extends CI_Model {
 	public function control_publicacion_pagina($data){
 		$this->db->select('MAX(Fecha) AS Fecha');
 		$this->db->from('publicacion');
-		$this->db->where('hecha.id_usuario', $data);
 		$resultado = $this->db->get();
 		$resultado = $resultado->row();
 		$fecha = date("Y-m-d H:i:s",strtotime($resultado->Fecha."+ 1 days"));
