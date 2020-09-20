@@ -18,8 +18,8 @@ html, body {
 
 <!-- Navigation Bar -->
 <div class="w3-bar w3-left-align w3-large w3-theme-d2" >
-    <a href="<?php echo base_url()?>" class="w3-bar-item w3-button w3-theme-d4 w3-mobile w3-hide-small w3-padding-large"></i>Blacker</a>
-    <a href="Login.html" class="w3-bar-item w3-button w3-mobile w3-theme-l5 w3-hide-small w3-padding-large w3-hover-white">Login</a>
+    <a href="<?php echo base_url()?>" class="w3-bar-item w3-button w3-theme-d4 w3-mobile w3-hide-small w3-padding-large">Blacker</a>
+    <a href="#" class="w3-bar-item w3-button w3-mobile w3-theme-l5 w3-hide-small w3-padding-large w3-hover-white">Login</a>
     <a href="<?php echo base_url('login/registrar') ?>" class="w3-bar-item w3-button w3-mobile w3-hide-small w3-padding-large w3-hover-white">Registrate</a>
 </div>
 <!-- Header -->
@@ -76,6 +76,7 @@ html, body {
       <input class="w3-input w3-border" type="password" name="password" placeholder="Contraseña">
       <div class="invalido w3-text-red"><span></span></div>
     </div>
+    <span><a href="<?php echo base_url('login/cambiarContrasenia/1')?>">Olvidaste tu contrseña?</a></span>
     <div class="w3-col w3-margin-top">
       <button class="w3-button w3-block w3-theme-d2" type="submit">Ingresar</button>
     </div>

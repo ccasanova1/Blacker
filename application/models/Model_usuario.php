@@ -19,6 +19,20 @@ class Model_usuario extends CI_Model {
 		return $resultado->row();
 	}
 
+	public function get_usuario_codactivador($data){
+		$this->db->where("activador", "'".$data."'", fALSE);
+		$this->db->where("estado", 'activar');
+		$resultado = $this->db->get("cuenta_frontend");
+		return $resultado->row();
+	}
+
+	public function get_usuario_codcontrasenia($data){
+		$this->db->where("activador", "'".$data."'", fALSE);
+		$resultado = $this->db->get("cuenta_frontend");
+		return $resultado->row();
+	}
+
+
 	public function get_busca_usuarios($data, $data2){
 		$this->db->select('*, cuenta_frontend.id_cuenta AS id');
 		$this->db->from('cuenta_frontend');
@@ -85,30 +99,35 @@ class Model_usuario extends CI_Model {
 		$this->db->query($sql);
 	}
 
-	public function activacion($data){
+	public function set_codigo_contraseña($data, $data2){
+		$this->db->set('activador', $data2);
+		$this->db->where('id_cuenta', $data);
+		$this->db->update('cuenta_frontend');
+	}
+
+	public function update_password($data,$data2){
+		$this->db->set('pass', $data2);
+		$this->db->set('activador', '');
+		$this->db->where('id_cuenta', $data);
+		$this->db->update('cuenta_frontend');
+	}
+
+	public function activacion($data, $data2){
+		$this->db->where('id_cuenta', $data2);
 		$this->db->where('activador', $data);
+		$this->db->where('estado', 'activar');
 		$respuesta = $this->db->get('cuenta_frontend');
 		$resultado = $respuesta->row();
-		if (!empty($resultado)) {
-			if (empty($resultado->activador)) {
-				return 'inactivo';
-			}else{
-				$this->db->set('activador', 'activo');
-				$this->db->where('id_cuenta', $resultado->id_cuenta);
-				$this->db->update('cuenta_frontend');
-				return 'activada';
-			}
+		if (empty($resultado->activador)) {
+			return 'inactivo';
+		}elseif($respuesta->estado == 'activo'){
+			return 'activo';
 		}else{
-			$this->db->where('activador', 'activo');
-			$respuesta = $this->db->get('cuenta_frontend');
-			$resultado = $respuesta->row();
-			if (!empty($resultado)) {
-				return 'activo';
-			}else{
-				return NULL;
-			}
-			
+			$this->db->set('estado', 'activo');
+			$this->db->set('activador', '');
+			$this->db->where('id_cuenta', $resultado->id_cuenta);
+			$this->db->update('cuenta_frontend');
+			return 'activada';
 		}
-
 	}
 }
