@@ -7,11 +7,13 @@ $("#seleccion select").change(function(){
                 $("#nombre").fadeOut(0);
                 $("#apellido").fadeOut(0);
                 $("#nombre_pag").fadeIn(0);
+                $("#fecha_nac").fadeOut(0);
             };
             if ($(this).val() == "Usuario") {
                 $("#nombre").fadeIn(0);
                 $("#apellido").fadeIn(0);
-                $("#nombre_pag").fadeOut(0);
+                $("#apellido").fadeOut(0);
+                $("#fecha_nac").fadeIn(0);
             }
         } else {
             $("#seleccion").addClass('w3-border-red');

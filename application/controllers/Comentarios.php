@@ -11,6 +11,8 @@ class Comentarios extends CI_Controller {
 		$this->load->model("Model_comentarios");
 		$this->load->model("Model_publicacion");
 		$this->load->model("Model_megusta");
+		$this->load->model("Model_notificaciones");
+		$this->load->model("Model_album");
 		$this->load->helper('string');
 		$this->load->library('encrypt');
 	}
@@ -74,6 +76,8 @@ class Comentarios extends CI_Controller {
 			'fecha' => date('Y-m-d H:m:s'),
 			'id_usuario' => $this->session->userdata("id"),
 		);
+		$resultado = $this->Model_publicacion->get_datos_publicacion($id_publicacion);
+		$this->Model_notificaciones->set_notificacion_comentario_usuario($this->session->userdata("id"),$resultado->id_usuario);
 		$this->Model_comentarios->set_comentario($data, $this->session->userdata("id"), $id_publicacion);
 		$comentarios = $this->Model_comentarios->get_comentarios($id_publicacion);
 		$i = 0;
@@ -117,8 +121,6 @@ class Comentarios extends CI_Controller {
     		$data[$i]['comentarios'] = str_replace($escapers, $replacements, $data[$i]['comentarios']);
     		$i++;
     	}
-		//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-		//header('Content-Type: application/json ; charset=utf-8');
 		echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 	}
 
@@ -130,6 +132,8 @@ class Comentarios extends CI_Controller {
 			'fecha' => date('Y-m-d H:m:s'),
 			'id_usuario' => $this->session->userdata("id"),
 		);
+		$resultado = $this->Model_album->get_datos_album($id_album);
+		$this->Model_notificaciones->set_notificacion_comentarioAlbum_usuario($this->session->userdata("id"),$resultado->id_cuenta);
 		$this->Model_comentarios->set_comentario_album($data, $this->session->userdata("id"), $id_album);
 		$comentarios = $this->Model_comentarios->get_comentarios_albums($id_album);
 		$i = 0;
@@ -166,8 +170,6 @@ class Comentarios extends CI_Controller {
     		$data[$i]['comentarios'] = str_replace($escapers, $replacements, $data[$i]['comentarios']);
     		$i++;
     	}
-		//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-		//header('Content-Type: application/json ; charset=utf-8');
 		echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 	}
 }

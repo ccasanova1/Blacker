@@ -3,6 +3,8 @@
 <title>Blacker</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">-->
 <link rel="stylesheet" href="<?php echo base_url('assets/css/W3CSS.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/css/W3CSSThemes.css'); ?>">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
@@ -10,6 +12,8 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/css/emojionearea.min.css'); ?>">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+#cuerpoPiblicaciones a{text-decoration:none;}
+#cuerpoPiblicaciones a:hover{text-decoration:underline;}
 .emojionearea{z-index: 0;}
 </style>
 <body class="w3-theme-l5">
@@ -23,7 +27,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="<?php echo base_url('notificaciones'); ?>" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Notificaciones"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"><?php echo $notificaciones->CantNotificaciones; ?></span></a>  
   <?php if($seleccion == 'usuario'): ?>
     <form action="<?php echo base_url('inicio/buscar')?>" method="POST">
-    <input class="w3-input w3-bar-item w3-mobile w3-padding-large w3-border " type="text" id="buscador" name="publicarBusqueda" placeholder="<?php echo $buscar ?>">
+    <input class="w3-input w3-bar-item w3-mobile w3-padding-large w3-border " type="text" id="buscador" name="publicarBusqueda">
     </form>
   <?php endif; ?>
   <div class="w3-dropdown-hover w3-hide-small w3-hover-white w3-right">
@@ -52,8 +56,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 </div>
 
+<!-- Navbar on small screens -->
+
+
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;padding-top:20px">      
+<div class="w3-container w3-content" style="max-width:1400px;padding-top:20px">    
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
@@ -61,35 +68,25 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Profile -->
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
-         <h4 class="w3-center"><?php if(empty($perfil->nombre)){
+         <h4 class="w3-center"><?php if($seleccion == 'pagina'){
                                     echo $perfil->nombre_entidad;       
                                     }else{
-                                echo "<a href='".base_url('inicio/perfil')."/".$perfil->id_cuenta."'>".$perfil->nombre.' '.$perfil->apellido."</a>";
+                                echo "<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~')))."'>".$perfil->nombre.' '.$perfil->apellido."</a>";
                             }?></h4>
-         <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>Fecha Nacimiento: <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
-         <?php if ($amigo->estado == 'amigos' OR $amigoEstado->banderaPerfil != 'OK'): ?>
+         <?php if($seleccion == 'pagina'): ?>
+           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($calle)){ echo $calle;}else{ echo "Sin calle registrada";} ?></p>
+           <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($numero)){ echo $numero;}else{ echo "Sin numero de puerta";} ?></p>
+           <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($esquina)){ echo $esquina;}else{ echo "Sin esquina registrada";}  ?></p>
+         <?php else:?>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
+          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>Fecha Nacimiento: <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Telefono: <?php if(!empty($cuenta->telefono)){ echo $cuenta->telefono;}else{ echo "Sin telefono";} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Genero: <?php if(!empty($perfil->genero)){ echo $perfil->genero;}else{ echo "Sin especificar genero";} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Estado Sentimental: <?php if(!empty($perfil->estado_sentimental)){ echo $perfil->estado_sentimental;}else{ echo "Sin estado sentimental";} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Ocupacion: <?php if(!empty($perfil->ocupacion)){ echo $perfil->ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
-        <?php endif; ?>
-        <?php if (empty($amigo->estado) and $amigoEstado->banderaPerfil == 'OK'): ?>
-         
-          <form method="POST" id="frm-amigo">
-          <input class="" type="text" id="id-amigo" value="<?php echo $perfil->id_cuenta; ?>" name="amigo" hidden>
-          <button class="w3-button w3-block w3-green" id="btn-amigo" title="Amigo">Agregar</button>
-          </form>
-          <?php elseif ($amigo->estado == 'pendiente'): ?>
-            <p class="w3-blue w3-center" >Pendiente</p>
-          <?php elseif ($amigo->estado == 'rechazado'): ?>
-            <p class="w3-red w3-center" >Rechazado</p> 
-          <?php elseif ($amigo->estado == 'amigos'): ?>
-            <p class="w3-green w3-center" >Amigos</p> 
-        <?php endif; ?>
-            
+         <?php endif; ?>
         </div>
       </div>
       <br>
@@ -97,58 +94,35 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <?php if ($amigoEstado->banderaPerfil != 'OK'): ?>
-            <button onclick="myFunction('GruposDrop')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Mis Grupos</button>
-            <div id="GruposDrop" class="w3-hide w3-container" style="padding: 0">
+        <?php if($seleccion == 'usuario'): ?>
+          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> Mi Grupos</button>
+            <div id="Demo1" class="w3-hide w3-container" style="padding: 0">
               <?php foreach ($grupos as $value) {
-                echo "<a id='btn-grupo' class='w3-button w3-block w3-theme' href='".base_url('/Grupos/verGrupo/'.urlencode(strtr($this->encrypt->encode($value->id_grupo),array('+' => '.', '=' => '-', '/' => '~'))))."'>".$value->nombre."</a>";
-              } ?>
+                  echo "<a id='btn-grupo' class='w3-button w3-block w3-theme' href='".base_url('/Grupos/verGrupo/'.urlencode(strtr($this->encrypt->encode($value->id_grupo),array('+' => '.', '=' => '-', '/' => '~'))))."'>".$value->nombre."</a>";
+                } ?>
               <a id="btn-grupo" class="w3-button w3-block w3-theme" href="<?php echo base_url('Grupos/crearGrupo')?>">Crear Grupo</a>
             </div>
-          <?php endif; ?>
-          <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Amigos')?>"><i class="fa fa-address-book fa-fw w3-margin-right"></i> Mis Amigos</a>
-          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
+          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Mis events</button>
           <div id="Demo2" class="w3-hide w3-container">
             <p>Some other text..</p>
           </div>
-          <?php if ($amigoEstado->banderaPerfil != 'OK'): ?>
-            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$perfil->id_cuenta)?>"><i class="fa fa-users fa-fw w3-margin-right"></i>Mis Albums</a>
-          <?php else: ?>
-            <?php if ($amigo->estado == 'amigos'): ?>
-              <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$perfil->id_cuenta)?>"><i class="fa fa-users fa-fw w3-margin-right"></i> Albums</a>
-            <?php endif; ?>
-          <?php endif; ?>
+          <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Amigos')?>"><i class="fa fa-address-book fa-fw w3-margin-right"></i> Mis Amigos</a>
+          <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$id_cuenta)?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Mis Albums</a>
+        <?php endif; ?>
         </div>      
       </div>
       <br>
-     
+
     <!-- End Left Column -->
     </div>
     
     <!-- Middle Column -->
     <div class="w3-col m7">
-      <?php if ($amigoEstado->banderaPerfil != 'OK'): ?>
-      <div class="w3-row-padding">
-        <div class="w3-col m12">
-          <div class="w3-card w3-round w3-white">
-            <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">Crea un nuevo album</h6>
-              <form id="frm-album" action="<?php echo base_url('Album/nuevoAlbum')?>" method="POST">
-                <input class="w3-input w3-padding w3-border" type="text" id="albumNuevo" name="albumNuevo"> 
-                <button type="submit" id="btn-album" class="w3-button w3-theme" style="margin-top: 0.5rem"><i class="fa fa-pencil"></i>  Post</button> 
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <?php endif; ?>
-      <div id="cuerpoAlbums">
+      <div id="cuerpoBusqueda">
         
+      <!-- End Middle Column -->
       </div>
-      
-    <!-- End Middle Column -->
     </div>
-    
     <!-- Right Column -->
     <div class="w3-col m2">
       <div class="w3-card w3-round w3-white w3-center">
@@ -161,7 +135,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         </div>
       </div>
       <br>
-      
       <?php if($seleccion == 'usuario'): ?>
       <div class="w3-card w3-round w3-white w3-center" style="padding-bottom: 8px">
         <div class="w3-container">
@@ -188,6 +161,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <br>
       <?php endif; ?>
 
+      <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
+        <p>ADS</p>
+      </div>
+      <br>
+
       
     <!-- End Right Column -->
     </div>
@@ -199,19 +177,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 <br>
 
-
-<script src="<?=base_url('assets/js/jquery.min.js') ?>"></script>
+<script type="text/javascript" src="<?=base_url('assets/js/jquery.min.js') ?>"></script>
 <script type="text/javascript" src="<?=base_url('assets/js/emojionearea.min.js'); ?>"></script>
 
 <script>
   var baseurl = "<?=base_url()?>";
-  var banderaPerfil = "<?php echo $amigoEstado->banderaPerfil ?>";
-  var amigoEstado = "<?php echo $amigo->estado ?>";
-  var id_cuenta = "<?php echo $perfil->id_cuenta ?>";
 // Accordion
-  $("#contComentario").emojioneArea({
-    pickerPosition: "right"
-  });
 function myFunction(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
@@ -224,6 +195,7 @@ function myFunction(id) {
   }
 }
 
+
 // Used to toggle the menu on smaller screens when clicking on the menu button
 function openNav() {
   var x = document.getElementById("navDemo");
@@ -234,8 +206,26 @@ function openNav() {
   }
 }
 
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+
 </script>
-<script src="<?=base_url('assets/js/albums.js') ?>"></script>
-<script src="<?=base_url('assets/js/amigo.js') ?>"></script>
+<script type="text/javascript" src="<?=base_url('assets/js/notificaciones.js') ?>"></script>
+<script type="text/javascript" src="<?=base_url('assets/js/amigo.js') ?>"></script>
 </body>
 </html> 

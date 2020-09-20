@@ -59,35 +59,29 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <h4 class="w3-center"><?php echo $perfil->nombre_entidad; ?></h4>
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
+         <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i> </p> Pagina Premium";} ?>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Calle: <?php if(!empty($perfil->calle)){ echo $perfil->calle;}else{ echo "Sin ninguna calle";} ?></p>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Esquina: <?php if(!empty($perfil->esquina)){ echo $perfil->esquina;}else{ echo "Sin ninguna esquina";} ?></p>
          <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Numero Puerta: <?php if(!empty($perfil->numero)){ echo $perfil->numero;}else{ echo "Sin ninguna numero de puerta";} ?></p>
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
-          <?php if (empty($sigue->estado)): ?>
+          <?php if (empty($sigue->estado) AND $premium === TRUE): ?>
           <form method="POST" id="frm-seguir">
           <input class="" type="text" id="id-seguir" value="<?php echo $perfil->id_cuenta; ?>" name="seguir" hidden>
-          <button class="w3-button w3-block w3-green" id="btn-seguir" title="Seguir">Seguir</button>
+          <button class="w3-button w3-block w3-theme-d2" id="btn-seguir" title="Seguir">Seguir</button>
           </form>
-          <?php elseif ($sigue->estado == 'rechazado'): ?>
-            <p class="w3-red w3-center" >Rechazado</p> 
-          <?php elseif ($seguir->estado == 'siguiendo'): ?>
-            <p class="w3-green w3-center" >Amigos</p> 
+          <?php elseif ($sigue->estado == 'bloqueado'): ?>
+            <p class="w3-red w3-center">Bloqueado</p> 
+          <?php elseif ($sigue->estado == 'siguiendo'): ?>
+            <p class="w3-green w3-center">Siguiendo</p> 
+            <form method="POST" id="frm-eliminar">
+            <input class="" type="text" id="id-eliminar" value="<?php echo $perfil->id_cuenta; ?>" name="seguir" hidden>
+            <button class="w3-button w3-block w3-red" id="btn-eliminar" title="Seguir">Dejar de seguir</button>
+            </form>
           <?php endif; ?>
             
         </div>
       </div>
       <br>
-    
-      
-      
-      <!-- Alert Box -->
-      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
-        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
-          <i class="fa fa-remove"></i>
-        </span>
-        <p><strong>Hey!</strong></p>
-        <p>People are looking at your profile. Find out who.</p>
-      </div>
         
     <!-- End Left Column -->
     </div>

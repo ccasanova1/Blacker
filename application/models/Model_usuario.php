@@ -40,12 +40,8 @@ class Model_usuario extends CI_Model {
 		$this->db->from('cuenta_frontend');
 		$this->db->where('id_cuenta', $data);
 		$resultado = $this->db->get();
-		$resultado = $resultado->row();
-		if (empty($resultado)) {
-			return FALSE;
-		}else{
-			return TRUE;
-		}
+		return $resultado->row();
+		
 	}
 
 	public function get_premium($data){
@@ -54,6 +50,20 @@ class Model_usuario extends CI_Model {
 		$this->db->join('compra', 'compra.id_pagina = perfil_pagina.id_cuenta', 'INNER');
 		$this->db->where('NOW() >= compra.fecha_inicio');
 		$this->db->where('NOW() <= compra.fecha_fin');
+		$this->db->where('perfil_pagina.id_cuenta', $data);
+		$resultado = $this->db->get("cuenta_frontend");
+		if (empty($resultado->row())) {
+			return FALSE;
+		}else{
+			return TRUE;
+		}
+	}
+
+	public function get_premium_datos($data){
+		$this->db->select('*');
+		$this->db->from('perfil_pagina');
+		$this->db->join('compra', 'compra.id_pagina = perfil_pagina.id_cuenta', 'INNER');
+		$this->db->where('perfil_pagina.id_cuenta', $data);
 		$resultado = $this->db->get("cuenta_frontend");
 		return $resultado->row();
 	}

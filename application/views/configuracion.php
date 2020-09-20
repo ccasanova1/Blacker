@@ -62,12 +62,19 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                             }?></h4>
          <p class="w3-center"><img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
-          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme">Fecha Nacimiento: </i> <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
+          <?php if($seleccion == 'pagina'): ?>
+           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($calle)){ echo $calle;}else{ echo "Sin calle registrada";} ?></p>
+           <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($numero)){ echo $numero;}else{ echo "Sin numero de puerta";} ?></p>
+           <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($esquina)){ echo $esquina;}else{ echo "Sin esquina registrada";}  ?></p>
+           <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($pais)){ echo $pais;} ?></p>
+         <?php else:?>
+          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($pais)){ echo $pais;} ?></p>
+          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>Fecha Nacimiento: <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Telefono: <?php if(!empty($cuenta->telefono)){ echo $cuenta->telefono;}else{ echo "Sin telefono";} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Genero: <?php if(!empty($perfil->genero)){ echo $perfil->genero;}else{ echo "Sin especificar genero";} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Estado Sentimental: <?php if(!empty($perfil->estado_sentimental)){ echo $perfil->estado_sentimental;}else{ echo "Sin estado sentimental";} ?></p>
           <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Ocupacion: <?php if(!empty($perfil->ocupacion)){ echo $perfil->ocupacion;}else{ echo "Sin ninguna ocupacion";} ?></p>
+         <?php endif; ?>
         </div>
       </div>
       <br>
@@ -93,17 +100,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         </div>      
       </div>
       <br>
-      
-      
-      <!-- Alert Box -->
-      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
-        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
-          <i class="fa fa-remove"></i>
-        </span>
-        <p><strong>Hey!</strong></p>
-        <p>People are looking at your profile. Find out who.</p>
-      </div>
-    
+
     <!-- End Left Column -->
     </div>
     
@@ -121,7 +118,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                 <h6 style="margin-top: 0.5rem;margin-right: 1rem">Configuracion de notificaciones</h6>
                   <p><input type="checkbox" id="checkPublicacion" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem" name="mostrarPublicaciones" <?php if ($configuracion->not_publicacion == 'si'){ echo "checked='true'";} ?>><label>Mostrar Publicaciones</label></p>
                   <p><input type="checkbox" id="checkComentario" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem" name="mostrarComentarios" <?php if ($configuracion->not_comentario == 'si'){ echo "checked='true'";} ?>><label>Mostrar Comentarios</label></p>
-                  <p><input type="checkbox" id="checkMeGusta" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarMeGustas" <?php if ($configuracion->not_megusta == 'si'){ echo "checked='true'";} ?>><label>Mostrar Me Gusta</label></p>
+                  <p><input type="checkbox" id="checkMeGusta" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarMeGusta" <?php if ($configuracion->not_megusta == 'si'){ echo "checked='true'";} ?>><label>Mostrar Me Gusta</label></p>
                   <p><input type="checkbox" id="checkComparte" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarComparte" <?php if ($configuracion->not_comparte == 'si'){ echo "checked='true'";} ?>><label>Mostrar Comparten</label></p>
                   <p><input type="checkbox" id="checkPerfil" class="w3-check" value="si" style="margin-top: 0.5rem;margin-right: 1rem;margin-bottom: 1rem" name="mostrarPerfil" <?php if ($configuracion->not_perfil == 'si'){ echo "checked='true'";} ?>><label>Mostrar cambios Perfil</label></p>
                 </div>
@@ -405,7 +402,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                   </div>
                   <div id="fotoUsuario">
                     <p>
-                      <label>Canbiar foto perfil</label><br>
+                      <label>Cambiar foto perfil</label><br>
                       <input type="file" class="custom-file-input" id="customFileLang" lang="es" style="margin-top: 0.5rem;margin-right: 1rem" name="fotoUsuario" >
                     </p>
                     <div class="invalido w3-text-red"><span></span></div>
@@ -692,6 +689,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                   <div id="esquinaPagina"><p><label>Esquina</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="esquinaPagina" value="<?php echo $configuracion->esquina ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
                   <div id="telefonoPagina"><p><label>Telefono</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="telefonoPagina" value="<?php echo $configuracion->telefono ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
                   <div id="descripcionPagina"><p><label>Descripcion</label><textarea style="margin-top: 0.5rem;margin-right: 1rem; width: 100%" rows="3"  name="descripcionPagina" value="<?php echo $configuracion->descripcion ?>"><?php echo $configuracion->descripcion ?></textarea></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="fotoUsuario">
+                    <p>
+                      <label>Cambiar foto perfil</label><br>
+                      <input type="file" class="custom-file-input" id="customFileLang" lang="es" style="margin-top: 0.5rem;margin-right: 1rem" name="fotoUsuario" >
+                    </p>
+                    <div class="invalido w3-text-red"><span></span></div>
+                  </div>
                   <div id="password">
                     <p>
                       <label>Contraseña</label>

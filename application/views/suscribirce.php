@@ -3,8 +3,6 @@
 <title>Blacker</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">-->
 <link rel="stylesheet" href="<?php echo base_url('assets/css/W3CSS.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/css/W3CSSThemes.css'); ?>">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
@@ -40,12 +38,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
   </div>
    <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large" >
-    <button onclick="myFunction('Demo2')" class="w3-button w3-bar-item"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Mi Grupos</button>
-     <div id="Demo2" class="w3-hide w3-container" style="padding: 0">
-      <?php foreach ($grupos as $value) {
-        echo "<a id='btn-grupo' class='w3-button w3-block w3-theme' href='".base_url('/Grupos/verGrupo/'.urlencode(strtr($this->encrypt->encode($value->id_grupo),array('+' => '.', '=' => '-', '/' => '~'))))."'>".$value->nombre."</a>";
-      } ?>
-    </div>
     <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 1</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 2</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 3</a>
@@ -56,7 +48,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;padding-top:20px">      
+<div class="w3-container w3-content" style="max-width:1400px;padding-top:20px">     
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
@@ -64,64 +56,58 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Profile -->
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
-         <h4 class="w3-center"><?php echo $grupo->nombre; ?></h4>
-         <p class="w3-center"><img src="<?php echo base_url('assets/grupos/fotos/'.$grupo->ruta_foto); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <h4 class="w3-center"><?php echo $perfil->nombre_entidad; ?></h4>
+         <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <hr>
+         <?php if($premium === TRUE){echo "<p><i class='fa fa-pencil fa-fw w3-margin-right w3-text-theme'></i> </p> Pagina Premium";} ?>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Calle: <?php if(!empty($perfil->calle)){ echo $perfil->calle;}else{ echo "Sin ninguna calle";} ?></p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Esquina: <?php if(!empty($perfil->esquina)){ echo $perfil->esquina;}else{ echo "Sin ninguna esquina";} ?></p>
+         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i>Numero Puerta: <?php if(!empty($perfil->numero)){ echo $perfil->numero;}else{ echo "Sin ninguna numero de puerta";} ?></p>
+         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
+          <?php if (empty($sigue->estado) AND $premium === TRUE): ?>
+          <form method="POST" id="frm-seguir">
+          <input class="" type="text" id="id-seguir" value="<?php echo $perfil->id_cuenta; ?>" name="seguir" hidden>
+          <button class="w3-button w3-block w3-theme-d2" id="btn-seguir" title="Seguir">Seguir</button>
+          </form>
+          <?php elseif ($sigue->estado == 'bloqueado'): ?>
+            <p class="w3-red w3-center">Bloqueado</p> 
+          <?php elseif ($sigue->estado == 'siguiendo'): ?>
+            <p class="w3-green w3-center">Siguiendo</p> 
+            <form method="POST" id="frm-eliminar">
+            <input class="" type="text" id="id-eliminar" value="<?php echo $perfil->id_cuenta; ?>" name="seguir" hidden>
+            <button class="w3-button w3-block w3-red" id="btn-eliminar" title="Seguir">Dejar de seguir</button>
+            </form>
+          <?php endif; ?>
+            
         </div>
       </div>
       <br>
-      
-      <!-- Accordion -->
-      <div class="w3-card w3-round">
-        <div class="w3-white">
-          <button onclick="myFunction('GruposDrop')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Mis Grupos</button>
-            <div id="GruposDrop" class="w3-hide w3-container" style="padding: 0">
-              <?php foreach ($grupos as $value) {
-                echo "<a id='btn-grupo' class='w3-button w3-block w3-theme' href='".base_url('/Grupos/verGrupo/'.urlencode(strtr($this->encrypt->encode($value->id_grupo),array('+' => '.', '=' => '-', '/' => '~'))))."'>".$value->nombre."</a>";
-              } ?>
-              <a id="btn-grupo" class="w3-button w3-block w3-theme" href="<?php echo base_url('Grupos/crearGrupo')?>">Crear Grupo</a>
-            </div>
-          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
-          <div id="Demo2" class="w3-hide w3-container">
-            <p>Some other text..</p>
-          </div>
-          <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Amigos')?>"><i class="fa fa-address-book fa-fw w3-margin-right"></i> Mis Amigos</a>
-          <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$id_cuenta)?>"><i class="fa fa-users fa-fw w3-margin-right"></i> Mis Albums</a>
-        </div>      
-      </div>
-      <br>
-
+        
     <!-- End Left Column -->
     </div>
     
     <!-- Middle Column -->
     <div class="w3-col m7">
-
-      <div class='w3-container w3-card w3-white w3-round w3-margin' id='publi_$value->id_publicacion' id="descripcion"><br>
-        <h4>Descripcion del grupo:</h6>
-        <p><?php echo $grupo->descripcion ?></p>
-      </div>
-      <div class="w3-row-padding">
+    
+     <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">Publicar</h6>
-              <form id="frm-publicarGrupo" action="<?php echo base_url('Publicacion/publicarGrupo')?>" method="POST">
-                <input hidden type="text" id="id_grupo" class="w3-border w3-padding" style="width: 100%; margin-top: 0.5rem" name="id_grupo" value="<?php echo urlencode(strtr($this->encrypt->encode($grupo->id_grupo),array('+' => '.', '=' => '-', '/' => '~')))?>">
-                <textarea id="publicarTexto" name="publicarTexto" class="w3-border w3-padding" style="width: 100%" rows="3" placeholder="Publica algo"></textarea> 
-                <input type="text" id="publicarVideo" class="w3-border w3-padding" style="width: 100%; margin-top: 0.5rem" name="publicarVideo" placeholder="Ingrese URL de video de youtube">
-                <p style="width: 100%">Suba una foto</p>
-                <input type="file" class="custom-file-input w3-border w3-padding" id="customFileLang" lang="es" name="foto" style="width: 50%">
-                <button type="submit" id="btn-publicar" class="w3-button w3-theme" style="margin-top: 0.5rem"><i class="fa fa-pencil"></i>  Post</button> 
+              <h6 class="w3-opacity">Comprar suscripcion</h6>
+              <form id="frm-suscribir" class="w3-container" method="POST">
+                <p>Duracion:</p>
+                <p><input type="radio" id="checkUnaSemana" value="1" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="UnaSemana"><label>7 Dias</label></p>
+                <p><input type="radio" id="checkUnMes" value="2" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="UnMes"><label>1 mes</label></p>
+                <p><input type="radio" id="checkUnAño" value="3" class="w3-radio" style="margin-top: 0.5rem;margin-right: 1rem" name="UnAño"><label>1 Año</label></p>
+                <div id="numeroTarjeta"><p><label>Numero de tarjeta</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="numeroTarjeta" maxlength="16" size="16"></p><div class="invalido w3-text-red"><span></span></div></div>
+                <div id="vencimientoAño"><p><label>Vencimiento</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem " name="vencimientoMes" maxlength="2" size="2"><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="vencimientoAño" maxlength="2" size="2"></p><div class="invalido w3-text-red"><span></span></div></div>
+                <div id="CVD"><p><label>Codigo de seguridad</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="numeroTarjeta" maxlength="4" size="4"></p><div class="invalido w3-text-red"><span></span></div></div>
+                <button type="submit" id="btn-suscribir" class="w3-button w3-theme" style="margin-top: 0.5rem"><i class="fa fa-pencil"></i>Suscribir</button> 
               </form>
             </div>
           </div>
         </div>
       </div>
-      <div id="cuerpoPublicaciones">
-        
-      </div>
-      
-    <!-- End Middle Column -->
     </div>
     
     <!-- Right Column -->
@@ -137,6 +123,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       </div>
       <br>
       
+      <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
+        <p>ADS</p>
+      </div>
+      <br>
+
+      
     <!-- End Right Column -->
     </div>
     
@@ -147,12 +139,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 <br>
 
-<script type="text/javascript" src="<?=base_url('assets/js/jquery.min.js') ?>"></script>
+
+<script src="<?=base_url('assets/js/jquery.min.js') ?>"></script>
 <script type="text/javascript" src="<?=base_url('assets/js/emojionearea.min.js'); ?>"></script>
 
 <script>
   var baseurl = "<?=base_url()?>";
-  var id_grupo = "<?php echo urlencode(strtr($this->encrypt->encode($grupo->id_grupo),array('+' => '.', '=' => '-', '/' => '~'))) ?>";
+  var sigueEstado = "<?php echo $sigue->estado ?>";
+  var id_cuenta = "<?php echo $perfil->id_cuenta ?>";
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);
@@ -166,7 +160,6 @@ function myFunction(id) {
   }
 }
 
-
 // Used to toggle the menu on smaller screens when clicking on the menu button
 function openNav() {
   var x = document.getElementById("navDemo");
@@ -178,6 +171,7 @@ function openNav() {
 }
 
 </script>
-<script type="text/javascript" src="<?=base_url('assets/js/grupos.js') ?>"></script>
+<script src="<?=base_url('assets/js/publicarPagina.js') ?>"></script>
+<script src="<?=base_url('assets/js/sigue.js') ?>"></script>
 </body>
 </html> 

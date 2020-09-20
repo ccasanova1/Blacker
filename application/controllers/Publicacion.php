@@ -39,14 +39,15 @@ class Publicacion extends CI_Controller {
 			$this->output->set_status_header(400);
 			exit();
 		}else{
-			//echo date('Y-m-d H:i:s');
-			if(!$this->session->userdata("seleccion") == "pagina"){
-				$control = $this->Model_publicacion->control_publicacion_pagina($this->session->userdata("id"));
-				//var_dump($control);
-				if ($control === FALSE) {
-					$data['estado'] = 'limitada';
-					echo json_encode($data);
-					exit();
+			if($this->session->userdata("seleccion") == "pagina"){
+				$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
+				if($controlPremium){
+					$control = $this->Model_publicacion->control_publicacion_pagina($this->session->userdata("id"));
+					if ($control === FALSE) {
+						$data['estado'] = 'limitada';
+						echo json_encode($data);
+						exit();
+					}
 				}
 			}
 			$album = $this->Model_album->get_album_id($this->input->post('publicarSelectAlbum'),$this->session->userdata("id"));
@@ -80,10 +81,6 @@ class Publicacion extends CI_Controller {
 					'fecha' => date('Y-m-d H:i:s'),
 				);
 				$respuesta = $this->Model_publicacion->set_publicacion($data);
-				/*$data = array(
-					'id_publicacion' => $respuesta->id_publicacion,
-					'id_usuario' => $this->session->userdata("id"),
-				);*/
 				$this->Model_album->set_foto($file_name['upload_data']['file_name'], $album->id_album, $respuesta);
 				if (!empty($video)) {
 						$this->Model_publicacion->set_video($respuesta,$video);
@@ -118,10 +115,6 @@ class Publicacion extends CI_Controller {
 					if (!empty($video)) {
 						$this->Model_publicacion->set_video($respuesta,$video);
 					}
-					/*$data = array(
-						'id_publicacion' => $respuesta->id_publicacion,
-						'id_usuario' => $this->session->userdata("id"),
-					);*/
 					if ($this->session->userdata("seleccion") == 'usuario') {
 						$this->Model_notificaciones->set_notificacion_publicacion_usuario($this->session->userdata("id"));
 					}else{
@@ -213,11 +206,6 @@ class Publicacion extends CI_Controller {
 					if (!empty($video)) {
 						$this->Model_publicacion->set_video($respuesta,$video);
 					}
-					/*$data = array(
-						'id_publicacion' => $respuesta->id_publicacion,
-						'id_usuario' => $this->session->userdata("id"),
-					);*/
-					//$this->Model_notificaciones->set_notificacion_publicacion($this->session->userdata("id"));
 				}
 			}else{
 				$errors = array(
@@ -233,7 +221,6 @@ class Publicacion extends CI_Controller {
 				exit();
 			}
 		}
-		//redirect(base_url());
 	}
 
 	public function obtenerPuclicaciones(){
@@ -249,18 +236,6 @@ class Publicacion extends CI_Controller {
 		}else{
 			$i = 0;
 			$data = array();
-			/*foreach ($publicaciones as $value) {
-				$data['publicaciones'][$i] = array(
-					'id_publicacion' => $value->id_publicacion,
-					'foto_perfil' => base_url('assets/'.$value->foto_perfil),
-					'nombrePerfil' => $value->nombrePerfil,
-					'apellido' => $value->apellido,
-					'texto' => $value->texto
-					'nombreAlbum' => $value->nombreAlbum,
-					'rutacompleta' => base_url('assets/albumes/'.$value->nombreAlbum.'/'.$value->ruta."/".$value->titulo)
-					'titulo' => $value->titulo
-				);
-			}*/
 			foreach ($publicaciones as $value) {
 				$date1 = new DateTime($value->fecha);
 				$date2 = new DateTime(date("Y-m-d H:m:s"));
@@ -379,9 +354,6 @@ class Publicacion extends CI_Controller {
 				        	
       					";
       			$data[$i]['publicacion'] .="</div>";
-      			/*$escapers = array("\n",  "\r",  "\t", "\x08", "\x0c");
-    			$replacements = array("", "", "",  "",  "");
-    			$data[$i]['publicacion'] = str_replace($escapers, $replacements, $data[$i]['publicacion']);*/
     			$data[$i]['idc'] = "#publi_$value->id_publicacion #contComentario";
     			$i++;
 			}
@@ -392,9 +364,6 @@ class Publicacion extends CI_Controller {
       			</div>";
     		$data[$i]['publicacion'] = str_replace($escapers, $replacements, $data[$i]['publicacion']);
 			$data['limite'] = $limite+3;
-
-			//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-			//header('Content-Type: application/json ; charset=utf-8');
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 		}
 	}
@@ -452,7 +421,7 @@ class Publicacion extends CI_Controller {
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>";
-					if (!empty($value->id_compartida) AND $value->id_cuenta == $this->session->userdata('id')) {
+					if (!empty($value->id_compartida) AND $value->id_cuenta_comparte == $id_cuenta) {
 						$data[$i]['publicacion'] .="
 							<div class='w3-mobile w3-col' style='width:100%; margin-bottom:5px'>
 	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil_comparte")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
@@ -546,8 +515,7 @@ class Publicacion extends CI_Controller {
       						<div id='contenerComentario'>
       							<textarea id='contComentario' name='publicarComentario; class='w3-border w3-padding' style='width: 100%'' rows='1' placeholder='Comentar algo'></textarea>
       							<button class='w3-button w3-theme-d2 w3-margin-bottom' id='btn-comentar$i' value='$value->id_publicacion'><i class='fa fa-comment'></i> 	 Comment</button> 
-				        	</div>
-				        	
+				        	</div>				        	
       					";
       			$data[$i]['publicacion'] .="</div>";
       			$escapers = array("\n",  "\r",  "\t", "\x08", "\x0c");
@@ -556,11 +524,7 @@ class Publicacion extends CI_Controller {
     			$data[$i]['idc'] = "#publi_$value->id_publicacion #contComentario";
     			$i++;
 			}
-
 			$data['limite'] = $limite+3;
-
-			//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-			//header('Content-Type: application/json ; charset=utf-8');
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 		}
 	}
@@ -578,18 +542,6 @@ class Publicacion extends CI_Controller {
 		}else{
 			$i = 0;
 			$data = array();
-			/*foreach ($publicaciones as $value) {
-				$data['publicaciones'][$i] = array(
-					'id_publicacion' => $value->id_publicacion,
-					'foto_perfil' => base_url('assets/'.$value->foto_perfil),
-					'nombrePerfil' => $value->nombrePerfil,
-					'apellido' => $value->apellido,
-					'texto' => $value->texto
-					'nombreAlbum' => $value->nombreAlbum,
-					'rutacompleta' => base_url('assets/albumes/'.$value->nombreAlbum.'/'.$value->ruta."/".$value->titulo)
-					'titulo' => $value->titulo
-				);
-			}*/
 			foreach ($publicaciones as $value) {
 				$date1 = new DateTime($value->fecha);
 				$date2 = new DateTime(date("Y-m-d H:m:s"));
@@ -688,11 +640,7 @@ class Publicacion extends CI_Controller {
     			$data[$i]['idc'] = "#publi_$value->id_publicacion #contComentario";
     			$i++;
 			}
-
 			$data['limite'] = $limite+3;
-
-			//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-			//header('Content-Type: application/json ; charset=utf-8');
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 		}
 	}
@@ -815,11 +763,7 @@ class Publicacion extends CI_Controller {
     			$data[$i]['idc'] = "#publi_$value->id_publicacion #contComentario";
     			$i++;
 			}
-
 			$data['limite'] = $limite+3;
-
-			//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-			//header('Content-Type: application/json ; charset=utf-8');
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 		}
 	}

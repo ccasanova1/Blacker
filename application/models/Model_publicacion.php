@@ -115,12 +115,18 @@ class Model_publicacion extends CI_Model {
 		$resultado = $this->db->get();
 		$resultado = $resultado->row();
 		$fecha = date("Y-m-d H:i:s",strtotime($resultado->Fecha."+ 1 days"));
-		if ($fecha <= date('Y-m-d H:i:s')) {
+		if ($fecha >= date('Y-m-d H:i:s')) {
 			$resultado = TRUE;
 		}else{
 			$resultado = FALSE;
 		}
 		return $resultado;
+	}
+
+	public function get_datos_publicacion($data){
+		$this->db->where('id_publicacion', $data);
+		$resultado = $this->db->get('publicacion');
+		return $resultado->row();
 	}
 
 	public function get_format_time($df) {

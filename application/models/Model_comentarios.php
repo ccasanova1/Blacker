@@ -53,4 +53,10 @@ class Model_comentarios extends CI_Model {
 		$resultado = $this->db->get();
 		return $resultado->result();
 	}
+
+	public function get_datos_comentario($data){
+		$this->db->where('id_comentario', $data);
+		$resultado = $this->db->get('comentario');
+		return $resultado->row();
+	}
 }

@@ -199,6 +199,7 @@ class Albums extends CI_Controller {
 		$albumNuevo = $this->input->post('albumNuevo');
 		$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
 		$this->Model_album->set_album($ruta->nombre, $albumNuevo, $this->session->userdata('id'));
+		$this->Model_notificaciones->set_notificacion_album_usuario($this->session->userdata("id"));
 		$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$albumNuevo";
 		mkdir($dir, 777, TRUE);
 		echo 'ok';
@@ -300,11 +301,6 @@ class Albums extends CI_Controller {
             				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
             			";
         		}
-        		/*if (!empty($value->enlace)) {
-        			$data[$i]['fotos'] .= "
-        					<iframe width='100%' height='315' src='https://www.youtube.com/embed/$value->enlace' frameborder='0' allow='accelerometer; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
-            			";
-        		}*/
           		$meGusta = $this->Model_megusta->get_megusta_publicacion($value->id_publicacion,$this->session->userdata("id"));
         		if ($meGusta->estado == 'like') {
         			$colorLike = 'w3-green';
@@ -359,9 +355,6 @@ class Albums extends CI_Controller {
     			$i++;
     		}
 			$data['limite'] = $limite+3;
-
-			//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-			//header('Content-Type: application/json ; charset=utf-8');
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 		}
 	}

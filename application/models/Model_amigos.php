@@ -56,6 +56,14 @@ class Model_amigos extends CI_Model {
 		$this->db->insert("amigo", $data);
 	}
 
+	public function add_sigue($data){
+		$this->db->insert("sigue", $data);
+	}
+
+	public function delete_sigue($data){
+		$this->db->delete("sigue", $data);
+	}
+
 	public function update_amigo_ok($data, $data2){
 		$this->db->set('estado', 'amigos');
 		$this->db->where('id_usuario1', $data);

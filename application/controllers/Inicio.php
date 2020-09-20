@@ -52,6 +52,7 @@ class Inicio extends CI_Controller {
         }else{
             $respuesta2 = $this->Model_perfiles->get_perfil_pagina($this->session->userdata("id"));
             $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
+            $controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
             $datos = array(
                 'nombre_pagina' => $respuesta2->nombre_entidad,
                 "foto_perfil" => $respuesta->foto_perfil,
@@ -64,6 +65,7 @@ class Inicio extends CI_Controller {
   				'descripcion' => $respuesta2->descripcion,
                 'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
                 'notificaciones' => $respuesta3,
+                'premium' => $controlPremium,
             );
                 $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
 				$datos['perfil'] = $resultado;
@@ -167,6 +169,7 @@ class Inicio extends CI_Controller {
 				redirect(base_url('?error=BlockPage'));
 			}
 		}
+		$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
@@ -178,6 +181,7 @@ class Inicio extends CI_Controller {
                 'seleccion' => $this->session->userdata("seleccion"),
                 'buscar' => 'Buscar',
                 'notificaciones' => $respuesta3,
+                'premium' => $controlPremium,
             ); 			
 		}else{
 			redirect(base_url());
@@ -206,23 +210,38 @@ class Inicio extends CI_Controller {
 		$this->load->view('pagina', $datos);
 	}
 
-	public function add_amigo(){
-		$data = array(
-			'id_usuario1' => $this->session->userdata('id'),
-			'id_usuario2' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('amigo')),array('.' => '+', '-' => '=', '~' => '/'))),
-			'estado' => 'pendiente',
-			'fecha' => date("Y-m-d"),
-		);
-		$this->Model_amigos->set_addamigo($data);
-		/*$data = array(
-			'id_usuario1' => $this->session->userdata('id'),
-			'id_usuario2' => $this->input->post('amigo'),
-			'fecha' => date("Y-m-d"),
-			'contenido' => 'Quiero ser tu amigo',
-			'estado' => 'pendiente',
-			'tipo_notificacion' => 'amistad',
-		);
-		$this->Model_notificaciones->set_notificacion($data);*/
+	public function suscribirce(){
+		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
+		$bloqueado = $this->Model_amigos->get_sigue_pagina($id, $this->session->userdata('id'));
+		if ($bloqueado != null AND $bloqueado != '') {
+			if ($bloqueado->estado == 'Bloqueado') {
+				redirect(base_url('?error=BlockPage'));
+			}
+		}
+		$controlPremium = $this->Model_usuario->get_premium($this->session->userdata("id"));
+		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
+		if($this->session->userdata("seleccion") == "usuario"){
+			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
+            $datos = array(
+                'nombre' => $respuesta2->nombre,
+                'apellido' => $respuesta2->apellido,
+                "foto_perfil" => $respuesta->foto_perfil,
+                'seleccion' => $this->session->userdata("seleccion"),
+                'buscar' => 'Buscar',
+                'notificaciones' => $respuesta3,
+                'premium' => $controlPremium,
+            ); 			
+		}else{
+			redirect(base_url());
+		}
+		$resultado = $this->Model_perfiles->get_perfil($id);
+		$respuesta4 = $this->Model_usuario->get_usuario($id);
+		$respuesta5 = $this->Model_amigos->get_sigue_pagina($id, $this->session->userdata('id'));
+		$datos['perfil'] = $resultado;
+		$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
+		$datos['cuenta'] = $respuesta4;
+		$this->load->view('suscribirce', $datos);
 	}
 
 	public function busqueda(){
@@ -304,18 +323,6 @@ class Inicio extends CI_Controller {
 			$data['limite'] = $limite+10;
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 		}
-	}
-
-	public function aceptar_amigo(){
-		$id = $this->input->post("id");
-		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
-		$this->Model_amigos->update_amigo_ok($id, $this->session->userdata('id'));
-	}
-
-	public function rechazar_amigo(){
-		$id = $this->input->post("id");
-		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
-		$this->Model_amigos->update_amigo_fail($id, $this->session->userdata('id'));
 	}
 
 	public function configuracion(){
@@ -425,7 +432,6 @@ class Inicio extends CI_Controller {
             );
             }else{
             	$foto_perfil = array('upload_data' => $this->upload->data());
-            	delete_files('./assets/'.$respuesta->foto_perfil);
             	$data = array(
                 'pais' => $pais,
                 'telefono' => $telefono,
@@ -443,7 +449,7 @@ class Inicio extends CI_Controller {
             $config = array(
             	'not_publicacion' => ($this->input->post('mostrarPublicaciones') == 'si') ? 'si' : 'no',
             	'not_comentario' => ($this->input->post('mostrarComentarios') == 'si') ? 'si' : 'no',
-            	'not_megusta' => ($this->input->post('mostarMeGustas') == 'si') ? 'si' : 'no',
+            	'not_megusta' => ($this->input->post('mostrarMeGusta') == 'si') ? 'si' : 'no',
             	'not_comparte' => ($this->input->post('mostrarComparte') == 'si') ? 'si' : 'no',
             	'not_perfil' => ($this->input->post('mostrarPerfil') == 'si') ? 'si' : 'no',
             );
@@ -458,7 +464,8 @@ class Inicio extends CI_Controller {
                 'genero' => $genero,
             );		
 			$this->Model_configuracion->update_perfil_usuario($data2,$this->session->userdata("id"));
-		}elseif ($seleccion == 'Pagina') {
+			$this->Model_notificaciones->set_notificacion_perfil_usuario($this->session->userdata("id"));
+		}elseif ($seleccion == 'pagina') {
 			$rules = getregistroRulesConfig2();
 		  	$this->form_validation->set_rules($rules);
 			if ($this->form_validation->run() === FALSE or !empty($fecha_nac)) {
@@ -494,14 +501,13 @@ class Inicio extends CI_Controller {
 			$telefonoPagina = $this->input->post('telefonoPagina');
 			$descripcionPagina = $this->input->post('descripcionPagina');
 			$password = $this->input->post('password');
-            if(!$this->upload->do_upload('foto_perfil') ){
+            if(!$this->upload->do_upload('fotoUsuario') ){
                 $data = array(
                 	'pais' => $paisPagina,
                 	'telefono' => $telefonoPagina,
             	);
             }else{
             	$foto_perfil = array('upload_data' => $this->upload->data());
-				delete_files('./assets/'.$respuesta->foto_perfil);
             	$data = array(
                 	'pais' => $paisPagina,
                 	'telefono' => $telefonoPagina,

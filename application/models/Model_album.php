@@ -138,4 +138,10 @@ class Model_album extends CI_Model {
 		$resultado = $this->db->get();
 		return $resultado->result();
 	}
+
+	public function get_datos_album($data){
+		$this->db->where('id_album', $data);
+		$resultado = $this->db->get('album');
+		return $resultado->row();
+	}
 }

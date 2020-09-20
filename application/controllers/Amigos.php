@@ -92,6 +92,46 @@ class Amigos extends CI_Controller {
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 		}
 	}
+
+	public function add_amigo(){
+		$data = array(
+			'id_usuario1' => $this->session->userdata('id'),
+			'id_usuario2' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('amigo')),array('.' => '+', '-' => '=', '~' => '/'))),
+			'estado' => 'pendiente',
+			'fecha' => date("Y-m-d"),
+		);
+		$this->Model_amigos->set_addamigo($data);
+	}
+
+	public function aceptar_amigo(){
+		$id = $this->input->post("id");
+		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
+		$this->Model_amigos->update_amigo_ok($id, $this->session->userdata('id'));
+	}
+
+	public function rechazar_amigo(){
+		$id = $this->input->post("id");
+		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
+		$this->Model_amigos->update_amigo_fail($id, $this->session->userdata('id'));
+	}
+
+	public function add_sigue(){
+		$data = array(
+			'id_usuario' => $this->session->userdata('id'),
+			'id_pagina' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('seguir')),array('.' => '+', '-' => '=', '~' => '/'))),
+			'estado' => 'siguiendo',
+			'fecha' => date("Y-m-d"),
+		);
+		$this->Model_amigos->set_addsigue($data);
+	}
+
+	public function eliminar_sigue(){
+		$data = array(
+			'id_usuario' => $this->session->userdata('id'),
+			'id_pagina' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('seguir')),array('.' => '+', '-' => '=', '~' => '/'))),
+		);
+		$this->Model_amigos->delete_sigue($data);
+	}
 }
 
 

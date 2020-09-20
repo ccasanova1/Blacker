@@ -184,8 +184,8 @@ class Login extends CI_Controller {
 			$conf['protocol'] = 'smtp';
 			$conf['smtp_host'] = 'blacker.com.uy';
 			$conf['smtp_port'] = 465;
-			$conf['smtp_user'] = 'dragon@blacker.com.uy';
-			$conf['smtp_pass'] = 'Notelacreo';
+			$conf['smtp_user'] = 'dragon2@blacker.com.uy';
+			$conf['smtp_pass'] = '3ntradA..';
 			$conf['smtp_crypto'] = 'ssl';
 			$conf['charset'] = 'utf-8';
 			$conf['mailtype'] = 'html';
@@ -193,7 +193,7 @@ class Login extends CI_Controller {
 			$conf['validate'] = TRUE;
 			$this->email->initialize($conf);
 			$this->email->set_newline("\r\n"); 
-			$this->email->from('dragon@blacker.com.uy');
+			$this->email->from('dragon2@blacker.com.uy');
 			$this->email->to($email);
 			$this->email->subject('Activacion de cuenta Blacker');
 			$this->email->message('<h2>Active su cuenta Blacker</h2>
@@ -216,10 +216,6 @@ class Login extends CI_Controller {
 			$rules = getregistroRules2();
 		  	$this->form_validation->set_rules($rules);
 		  	$date = $this->input->post('fecha_nac');
-		  	$fecha_nac = '';
-		  	if($date > date("Y-m-d") or $date < '1900-01-01'){
-		  		$fecha_nac = "Ingrese una fecha valida";
-		  	}
 			if ($this->form_validation->run() === FALSE or !empty($fecha_nac)) {
 				$errors = array(
 					'email' => form_error('email'),
@@ -228,7 +224,6 @@ class Login extends CI_Controller {
                 	'telefono' => form_error('telefono'),
                 	'pais' => form_error('pais'),
                 	'nombre_pag' => form_error('nombre_pag'),
-                	'fecha_nac' => $fecha_nac,
                 	'seleccion' => $seleccion,
 					);
 			echo json_encode($errors);
@@ -296,8 +291,8 @@ class Login extends CI_Controller {
 			$conf['protocol'] = 'smtp';
 			$conf['smtp_host'] = 'blacker.com.uy';
 			$conf['smtp_port'] = 465;
-			$conf['smtp_user'] = 'dragon@blacker.com.uy';
-			$conf['smtp_pass'] = 'Notelacreo';
+			$conf['smtp_user'] = 'dragon2@blacker.com.uy';
+			$conf['smtp_pass'] = '3ntradA..';
 			$conf['smtp_crypto'] = 'ssl';
 			$conf['charset'] = 'utf-8';
 			$conf['mailtype'] = 'html';
@@ -305,7 +300,7 @@ class Login extends CI_Controller {
 			$conf['validate'] = TRUE;
 			$this->email->initialize($conf);
 			$this->email->set_newline("\r\n"); 
-			$this->email->from('dragon@blacker.com.uy');
+			$this->email->from('dragon2@blacker.com.uy');
 			$this->email->to($email);
 			$this->email->subject('Avticacion de cuenta Blacker');
 			$this->email->message('<h2>Active su cuenta Blacker</h2>
