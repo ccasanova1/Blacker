@@ -8,6 +8,8 @@ class Model_notificaciones extends CI_Model {
 				SELECT cuenta_frontend.id_cuenta, ".$data.", '".date("Y-m-d")."', 'pendiente', 'a publicado algo', 'publicacion_usuario'
 				FROM cuenta_frontend
 				INNER JOIN amigo ON (amigo.id_usuario1 = cuenta_frontend.id_cuenta AND amigo.id_usuario2 = ".$data.") OR (amigo.id_usuario2 = cuenta_frontend.id_cuenta AND amigo.id_usuario1 = ".$data.")
+				INNER JOIN establece ON establece.id_cuenta = cuenta_frontend.id_cuenta
+				INNER JOIN configuracion ON configuracion.id_configuracuin = establece.id_configuracuin AND configuracion.not_publicacion
 				WHERE cuenta_frontend.id_cuenta != ".$data."
 				AND amigo.estado = 'amigos'";
 		$this->db->query($sql);	
@@ -37,9 +39,8 @@ class Model_notificaciones extends CI_Model {
 		$this->db->from('notifica');
 		$this->db->where('id_usuario1', $data);
 		$this->db->where('estado', 'pendiente');
-		$this->db->group_by('id_notificacion');
 		$this->db->limit(3);
 		$resultado = $this->db->get();
-		return $resultado->result();
+		return $resultado->row();
 	}
 }

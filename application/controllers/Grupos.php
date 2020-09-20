@@ -24,6 +24,7 @@ class Grupos  extends CI_Controller {
 	{
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
         $respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
+        $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
         $datos = array(
             'nombre' => $respuesta2->nombre,
             'apellido' => $respuesta2->apellido,
@@ -34,6 +35,7 @@ class Grupos  extends CI_Controller {
             'pais' => $respuesta->pais,
             'fecha_nac' => $respuesta2->fecha_nacimiento,
             'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
+            'notificaciones' => $respuesta3,
         );
         $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
 		$datos['perfil'] = $resultado;
@@ -53,6 +55,7 @@ class Grupos  extends CI_Controller {
 		}
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
         $respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
+        $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
         $datos = array(
             'nombre' => $respuesta2->nombre,
             'apellido' => $respuesta2->apellido,
@@ -63,6 +66,7 @@ class Grupos  extends CI_Controller {
             'pais' => $respuesta->pais,
             'fecha_nac' => $respuesta2->fecha_nacimiento,
             'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
+            'notificaciones' => $respuesta3,
         );
         $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
 		$datos['perfil'] = $resultado;
@@ -103,7 +107,7 @@ class Grupos  extends CI_Controller {
 			$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
 			$id_album = $this->Model_album->set_album($ruta->nombre, $nombreGrupo, $this->session->userdata('id'));
 			$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$nombreGrupo";
-			mkdir($dir, 777, TRUE);
+			mkdir($dir, 0777, TRUE);
 			if($this->upload->do_upload('foto')){
 				$file_name = array('upload_data' => $this->upload->data());
 				$data = array(

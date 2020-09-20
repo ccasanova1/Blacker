@@ -28,7 +28,6 @@ class Inicio extends CI_Controller {
         if($this->session->userdata("seleccion") == "usuario"){
             $respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
             $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
-
             $datos = array(
                 'nombre' => $respuesta2->nombre,
                 'apellido' => $respuesta2->apellido,
@@ -52,6 +51,7 @@ class Inicio extends CI_Controller {
 			$datos['amigoPendiente'] = $pendienteAmigos;
         }else{
             $respuesta2 = $this->Model_perfiles->get_perfil_pagina($this->session->userdata("id"));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             $datos = array(
                 'nombre_pagina' => $respuesta2->nombre_entidad,
                 "foto_perfil" => $respuesta->foto_perfil,
@@ -63,6 +63,7 @@ class Inicio extends CI_Controller {
   				'esquina' => $respuesta2->esquina,
   				'descripcion' => $respuesta2->descripcion,
                 'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
+                'notificaciones' => $respuesta3,
             );
                 $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
 				$datos['perfil'] = $resultado;
@@ -77,7 +78,7 @@ class Inicio extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             //$respuesta4 = $this->Model_grupo->get_grupos_ingresados($this->session->userdata("id"));
             $datos = array(
                 'nombre' => $respuesta2->nombre,
@@ -89,7 +90,7 @@ class Inicio extends CI_Controller {
                 'pais' => $respuesta->pais,
                 'fecha_nac' => $respuesta2->fecha_nacimiento,
                 'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
                 //'grupo_ingresado' => $respuesta4,
             );
             $resultado= $this->Model_perfiles->get_perfil($this->session->userdata("id"));
@@ -122,14 +123,14 @@ class Inicio extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             $datos = array(
                 'nombre' => $respuesta2->nombre,
                 'apellido' => $respuesta2->apellido,
                 "foto_perfil" => $respuesta->foto_perfil,
                 'seleccion' => $this->session->userdata("seleccion"),
                 'buscar' => 'Buscar',
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
             ); 			
 		}else{
 			redirect(base_url());
@@ -169,14 +170,14 @@ class Inicio extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             $datos = array(
                 'nombre' => $respuesta2->nombre,
                 'apellido' => $respuesta2->apellido,
                 "foto_perfil" => $respuesta->foto_perfil,
                 'seleccion' => $this->session->userdata("seleccion"),
                 'buscar' => 'Buscar',
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
             ); 			
 		}else{
 			redirect(base_url());
@@ -321,7 +322,7 @@ class Inicio extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             //$respuesta4 = $this->Model_grupo->get_grupos_ingresados($this->session->userdata("id"));
             $datos = array(
                 'nombre' => $respuesta2->nombre,
@@ -333,7 +334,7 @@ class Inicio extends CI_Controller {
                 'pais' => $respuesta->pais,
                 'fecha_nac' => $respuesta2->fecha_nacimiento,
                 'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
                 //'grupo_ingresado' => $respuesta4,
             );
             $resultado= $this->Model_perfiles->get_perfil($this->session->userdata("id"));
@@ -346,6 +347,7 @@ class Inicio extends CI_Controller {
 			$datos['amigoPendiente'] = $pendienteAmigos;    			
 		}else{
             $respuesta2 = $this->Model_perfiles->get_perfil_pagina($this->session->userdata("id"));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             $datos = array(
                 'nombre_pagina' => $respuesta2->nombre_entidad,
                 "foto_perfil" => $respuesta->foto_perfil,
@@ -357,6 +359,7 @@ class Inicio extends CI_Controller {
   				'esquina' => $respuesta2->esquina,
   				'descripcion' => $respuesta2->descripcion,
                 'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
+                'notificaciones' => $respuesta3,
             );
                 $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
 				$datos['perfil'] = $resultado;

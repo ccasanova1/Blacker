@@ -21,14 +21,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
   <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
-  <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="#" class="w3-bar-item w3-button">One new friend request</a>
-      <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
-      <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
-    </div>
-  </div>
+  <a href="<?php echo base_url('notificaciones'); ?>" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Notificaciones"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"><?php echo $notificaciones->CantNotificaciones; ?></span></a>  
   <form action="<?php echo base_url('inicio/buscar')?>" method="POST">
   <input class="w3-input w3-bar-item w3-padding-large w3-border" type="text" id="buscador" name="publicarBusqueda" placeholder="<?php echo $buscar ?>">
   </form>
@@ -134,17 +127,17 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                 </div>
                 <div style="margin-left: 1rem">
                   <h6 style="margin-top: 0.5rem;margin-right: 1rem">Configuracion de Usuario</h6>
-                  <div id="nombreUsuario"><p><label>Nombre</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="nombreUsuario" value="<?php echo $configuracion->nombre ?>"></p></div>
-                  <div id="apellidoUsuario"><p><label>Apellido</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="apellidoUsuario" value="<?php echo $configuracion->apellido ?>"></p></div>
-                  <div id="fechaNacUsuario"><p><label>Fecha de nacimiento</label><input type="date" class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="fechaNacUsuario" value="<?php echo $configuracion->fecha_nacimiento ?>"></p></div>
-                  <div id="estadoSentimentalUsuario"><p><label>Estado sentimental</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="estadoSentimentalUsuario" value="<?php echo $configuracion->estado_sentimental ?>"></p></div>
-                  <div id="ocupacionUsuario"><p><label>Ocupacion</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="ocupacionUsuario" value="<?php echo $configuracion->ocupacion ?>"></p></div>
+                  <div id="nombreUsuario"><p><label>Nombre</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="nombreUsuario" value="<?php echo $configuracion->nombre ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="apellidoUsuario"><p><label>Apellido</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="apellidoUsuario" value="<?php echo $configuracion->apellido ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="fechaNacUsuario"><p><label>Fecha de nacimiento</label><input type="date" class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="fechaNacUsuario" value="<?php echo $configuracion->fecha_nacimiento ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="estadoSentimentalUsuario"><p><label>Estado sentimental</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="estadoSentimentalUsuario" value="<?php echo $configuracion->estado_sentimental ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="ocupacionUsuario"><p><label>Ocupacion</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="ocupacionUsuario" value="<?php echo $configuracion->ocupacion ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
                   <div id="generoUsuario"><p><label>Genero</label><select class="w3-select" style="margin-top: 0.5rem;margin-right: 1rem" name="generoUsuario">
                     <option value="" id="selected" <?php if($configuracion->genero == null OR $configuracion->genero == ''){ echo 'selected';} ?>>Seleccione...</option> 
                     <option value="Hombre" id="Hombre" <?php if($configuracion->genero == 'Hombre'){echo 'selected';}?>>Hombre</option> 
                     <option value="Mujero" id="Mujero" <?php if($configuracion->genero == 'Mujer'){echo 'selected';}?>>Mujer</option> 
                     <option value="Otro" id="Otro" <?php if($configuracion->genero == 'Otro'){echo 'selected';}?>>Otro</option>
-                  </select></p></div> 
+                  </select></p><div class="invalido w3-text-red"><span></span></div></div> 
                   <div id="paisUsuario"><p><label>Pais</label>
                     <select class="w3-select" style="margin-top: 0.5rem;margin-right: 1rem" name="paisUsuario">
                       <option value="" id="selected" selected>Seleccione...</option>  
@@ -402,36 +395,40 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                       <option value="Yibuti ">Yibuti </option>
                       <option value="Zambia ">Zambia </option>
                       <option value="Zimbabue ">Zimbabue </option>
-                  </select></p></div>
+                  </select></p><div class="invalido w3-text-red"><span></span></div></div>
                   <div id="telefonoUsuario">
                     <p>
                       <label>Telefono</label>
                       <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="telefonoUsuario" value="<?php echo $configuracion->telefono ?>">
                     </p>
+                    <div class="invalido w3-text-red"><span></span></div>
                   </div>
                   <div id="fotoUsuario">
                     <p>
                       <label>Canbiar foto perfil</label><br>
                       <input type="file" class="custom-file-input" id="customFileLang" lang="es" style="margin-top: 0.5rem;margin-right: 1rem" name="fotoUsuario" >
                     </p>
+                    <div class="invalido w3-text-red"><span></span></div>
                   </div>
                   <div id="password">
                     <p>
                       <label>Contraseña</label>
                       <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" type="password" value="">
                     </p>
+                    <div class="invalido w3-text-red"><span></span></div>
                   </div>
                   <div id="rep_password">
                     <p>
                       <label>Contraseña</label>
                       <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" type="password" value="">
                     </p>
+                    <div class="invalido w3-text-red"><span></span></div>
                   </div>
                 </div>
                 <?php elseif ($this->session->userdata("seleccion") == "pagina"): ?>
                 <div style="margin-left: 1rem">
                   <h6 style="margin-top: 0.5rem;margin-right: 1rem">Configuracion de Usuario</h6>
-                  <div id="nombreEntidad"><p><label>Nombre de la pagina</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="nombreEntidad" value="<?php echo $configuracion->nombre_entidad ?>"></p></div>
+                  <div id="nombreEntidad"><p><label>Nombre de la pagina</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="nombreEntidad" value="<?php echo $configuracion->nombre_entidad ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
                   <div id="paisPagina"><p><label>Pais</label>
                     <select class="w3-select" style="margin-top: 0.5rem;margin-right: 1rem" name="paisPagina">
                       <option value="" id="selected" selected>Seleccione...</option>  
@@ -689,23 +686,25 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                       <option value="Yibuti ">Yibuti </option>
                       <option value="Zambia ">Zambia </option>
                       <option value="Zimbabue ">Zimbabue </option>
-                  </select></p></div>
-                  <div id="callePagina"><p><label>Calle</label><input  class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="callePagina" value="<?php echo $configuracion->calle ?>"></p></div>
-                  <div id="numeroPagina"><p><label>Numero</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="numeroPagina" value="<?php echo $configuracion->numero ?>"></p></div>
-                  <div id="esquinaPagina"><p><label>Esquina</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="esquinaPagina" value="<?php echo $configuracion->esquina ?>"></p></div>
-                  <div id="telefonoPagina"><p><label>Telefono</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="telefonoPagina" value="<?php echo $configuracion->telefono ?>"></p></div>
-                  <div id="descripcionPagina"><p><label>Descripcion</label><textarea style="margin-top: 0.5rem;margin-right: 1rem; width: 100%" rows="3"  name="descripcionPagina" value="<?php echo $configuracion->descripcion ?>"><?php echo $configuracion->descripcion ?></textarea></p></div>
+                  </select></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="callePagina"><p><label>Calle</label><input  class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="callePagina" value="<?php echo $configuracion->calle ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="numeroPagina"><p><label>Numero</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="numeroPagina" value="<?php echo $configuracion->numero ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="esquinaPagina"><p><label>Esquina</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="esquinaPagina" value="<?php echo $configuracion->esquina ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="telefonoPagina"><p><label>Telefono</label><input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="telefonoPagina" value="<?php echo $configuracion->telefono ?>"></p><div class="invalido w3-text-red"><span></span></div></div>
+                  <div id="descripcionPagina"><p><label>Descripcion</label><textarea style="margin-top: 0.5rem;margin-right: 1rem; width: 100%" rows="3"  name="descripcionPagina" value="<?php echo $configuracion->descripcion ?>"><?php echo $configuracion->descripcion ?></textarea></p><div class="invalido w3-text-red"><span></span></div></div>
                   <div id="password">
                     <p>
                       <label>Contraseña</label>
                       <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="password" type="password" value="">
                     </p>
+                    <div class="invalido w3-text-red"><span></span></div>
                   </div>
                   <div id="rep_password">
                     <p>
                       <label>Contraseña</label>
                       <input class="w3-input" style="margin-top: 0.5rem;margin-right: 1rem" name="rep_password" type="password" value="">
                     </p>
+                    <div class="invalido w3-text-red"><span></span></div>
                   </div>
                 </div>
                 <?php endif; ?>

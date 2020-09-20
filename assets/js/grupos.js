@@ -31,23 +31,23 @@ $(document).ready(function(){
 				window.location.replace(baseurl+"Grupos/verGrupo/"+grupo);  
 			},
 			error: function(xhr){
-				$("#nombreGrupoID > div").html('');
-				$("#descripcion > div").html('');
-				$("#fotoGrupo > div").html('');
+				$("#nombreGrupoID > .invalido").html('');
+				$("#descripcion > .invalido").html('');
+				$("#fotoGrupo > .invalido").html('');
 				$("#nombreGrupoID > input").removeClass('w3-border-red');
 				$("#descripcion > textarea").removeClass('w3-border-red');
 				if(xhr.status == 400){
 					var json = JSON.parse(xhr.responseText);
 					if (json.nombreGrupo.length != 0){
-						$("#nombreGrupoID > div").html(json.nombreGrupo);
+						$("#nombreGrupoID > .invalido").html(json.nombreGrupo);
 						$("#nombreGrupoID > input").addClass('w3-border-red');
 					}
 					if (json.descripcionGrupo.length != 0){
-						$("#descripcion > div").html(json.descripcionGrupo);
+						$("#descripcion > .invalido").html(json.descripcionGrupo);
 						$("#descripcion > input").addClass('w3-border-red');
 					}
 					if (json.foto.length != 0){
-						$("#fotoGrupo > div").html(json.foto);
+						$("#fotoGrupo > .invalido").html(json.foto);
 						$("#fotoGrupo > input").addClass('w3-border-red');
 					}
 				}

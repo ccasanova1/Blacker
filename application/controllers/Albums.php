@@ -27,14 +27,14 @@ class Albums extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             $datos = array(
                 'nombre' => $respuesta2->nombre,
                 'apellido' => $respuesta2->apellido,
                 "foto_perfil" => $respuesta->foto_perfil,
                 'seleccion' => $this->session->userdata("seleccion"),
                 'buscar' => 'Buscar',
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
             ); 			
 		}else{
 			redirect(base_url());
@@ -209,14 +209,14 @@ class Albums extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             $datos = array(
                 'nombre' => $respuesta2->nombre,
                 'apellido' => $respuesta2->apellido,
                 "foto_perfil" => $respuesta->foto_perfil,
                 'seleccion' => $this->session->userdata("seleccion"),
                 'buscar' => 'Buscar',
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
             ); 			
 		}else{
 			redirect(base_url());

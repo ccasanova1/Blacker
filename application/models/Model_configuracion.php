@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Model_configuracion extends CI_Model {
 
 	public function get_configuracion($data){
-		$this->db->select('pais, telefono, nombre, apellido, fecha_nacimiento, estado_sentimental, ocupacion, genero, nombre_entidad, calle, numero, esquina, descripcion, not_publicacion, not_comentario, not_megusta, not_comparte');
+		$this->db->select('pais, telefono, nombre, apellido, fecha_nacimiento, estado_sentimental, ocupacion, genero, nombre_entidad, calle, numero, esquina, descripcion, not_publicacion, not_comentario, not_megusta, not_comparte, not_perfil');
 		$this->db->from('cuenta_frontend');
 		$this->db->join('perfil_usuario', 'cuenta_frontend.id_cuenta = perfil_usuario.id_cuenta', 'left');
 		$this->db->join('perfil_pagina', 'cuenta_frontend.id_cuenta = perfil_pagina.id_cuenta', 'left');

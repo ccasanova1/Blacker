@@ -11,6 +11,7 @@ class Amigos extends CI_Controller {
 		$this->load->model("Model_usuario");
 		$this->load->model("Model_album");
 		$this->load->model("Model_perfiles");
+		$this->load->model("Model_notificaciones");
 		$this->load->model("Model_amigos");
 		$this->load->model("Model_grupo");
 		$this->load->library('encrypt');
@@ -21,8 +22,7 @@ class Amigos extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
         if($this->session->userdata("seleccion") == "usuario"){
             $respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            //$respuesta3 = $this->Model_notificaciones->get_notificaciones_usuarios_cont($this->session->userdata('id'));
-
+            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
             $datos = array(
                 'nombre' => $respuesta2->nombre,
                 'apellido' => $respuesta2->apellido,
@@ -33,7 +33,7 @@ class Amigos extends CI_Controller {
                 'pais' => $respuesta->pais,
                 'fecha_nac' => $respuesta2->fecha_nacimiento,
                 'id_cuenta' => urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~'))),
-                //'notificaciones' => $respuesta3,
+                'notificaciones' => $respuesta3,
             );
             $resultado = $this->Model_perfiles->get_perfil($this->session->userdata("id"));
 			$datos['perfil'] = $resultado;
