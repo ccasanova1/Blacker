@@ -34,7 +34,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px; right:0">
       <a href="<?php echo base_url('login/logout'); ?>" class="w3-bar-item w3-button">Salir</a>
       <a href="<?php echo base_url('inicio/configuracion'); ?>" class="w3-bar-item w3-button">Configuracion</a>
-      <a href="#" class="w3-bar-item w3-button">no se que</a>
     </div>
   </div>
    <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large" >
@@ -113,7 +112,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <div class="w3-col m2">
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
-          <p>Visitas:</p>
+          <p>Visitas: a mi perfil:</p>
           <p><strong><?php echo $visitas ?></strong></p>
         </div>
       </div>
