@@ -43,7 +43,7 @@ class Grupos  extends CI_Controller {
 		$datos['albums'] = $albums;
 		$grupos = $this->Model_grupo->get_grupos($this->session->userdata("id"));
 		$datos['grupos'] = $grupos;
-       
+       	$datos['visitas'] = $respuesta->visitas;
 		$this->load->view('crearGrupos', $datos);
 	}
 
@@ -76,7 +76,7 @@ class Grupos  extends CI_Controller {
 		$datos['grupos'] = $grupos;
 		$grupo = $this->Model_grupo->get_grupo($id_grupo);
 		$datos['grupo'] = $grupo;
-       
+       	$datos['visitas'] = $respuesta->visitas;
 		$this->load->view('verGrupos', $datos);
 	}
 	
@@ -142,5 +142,11 @@ class Grupos  extends CI_Controller {
 				exit();
 			}
 		}
+	}
+
+	public function aceptar_amigo(){
+		$id = $this->input->post("id");
+		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
+		$this->Model_amigos->update_amigo_ok($id, $this->session->userdata('id'));
 	}
 }

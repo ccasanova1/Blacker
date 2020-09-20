@@ -72,6 +72,7 @@ class Inicio extends CI_Controller {
 				$albums = $this->Model_album->get_album($this->session->userdata("id"));
 				$datos['albums'] = $albums;
         }
+        $datos['visitas'] = $respuesta->visitas;
 		$this->load->view('inicio', $datos);
 	}
 
@@ -111,6 +112,7 @@ class Inicio extends CI_Controller {
 		$datos['usuario'] = $this->input->post("busquedaUsuario");
 		$datos['pagina'] = $this->input->post("busquedaPagina");
 		$datos['grupo'] = $this->input->post("busquedaGrupo");
+		$datos['visitas'] = $respuesta->visitas;
 		//$datos['resultado'] = $this->Model_buscar->get_busqueda($this->input->post("buscar"));
 		/*$datos['resultado2'] = $this->Model_grupo->get_buscar_grupos($this->input->post("buscar"));*/
 		//$this->load->view('layouts/header', $datos);
@@ -157,7 +159,8 @@ class Inicio extends CI_Controller {
 		$grupos = $this->Model_grupo->get_grupos($this->session->userdata("id"));
 		$datos['grupos'] = $grupos;
 		$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
-		$datos['amigoPendiente'] = $pendienteAmigos; 
+		$datos['amigoPendiente'] = $pendienteAmigos;
+		$datos['visitas'] = $respuesta->visitas; 
 		$this->load->view('perfil', $datos);
 	}
 
@@ -199,6 +202,7 @@ class Inicio extends CI_Controller {
 			$datos['sigue'] = new \stdClass(); 
 			$datos['sigue']->estado = '';
 		}	
+		$datos['visitas'] = $respuesta->visitas;
 		$this->load->view('pagina', $datos);
 	}
 
@@ -234,6 +238,7 @@ class Inicio extends CI_Controller {
 		foreach ($respuesta6 as $value) {
 			$datos['duracion'][$value->duracion] = $value->precio;
 		}
+		$datos['visitas'] = $respuesta->visitas;
 		$this->load->view('suscribirce', $datos);
 	}
 
@@ -366,6 +371,7 @@ class Inicio extends CI_Controller {
 				$albums = $this->Model_album->get_album($this->session->userdata("id"));
 				$datos['albums'] = $albums;
 		}
+		$datos['visitas'] = $respuesta->visitas;
 		$configuracion = $this->Model_configuracion->get_configuracion($this->session->userdata("id"));
 		$datos['configuracion'] = $configuracion;
 		$this->load->view('configuracion', $datos);

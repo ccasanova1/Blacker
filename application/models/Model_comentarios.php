@@ -54,9 +54,47 @@ class Model_comentarios extends CI_Model {
 		return $resultado->result();
 	}
 
+	public function get_id_publicacion_comentario($data){
+		$this->db->select('recibe1.id_publicacion');
+		$this->db->from('recibe1');
+		$this->db->where('recibe1.id_comentario', $data);
+		$resultado = $this->db->get();
+		return $resultado->row();
+	}
+
+	public function get_id_album_comentario($data){
+		$this->db->select('recibe2.id_album');
+		$this->db->from('recibe2');
+		$this->db->where('recibe2.id_comentario', $data);
+		$resultado = $this->db->get();
+		return $resultado->row();
+	}
+
+	public function delete_comentario($data){
+		$this->db->where('id_comentario', $data);
+		$this->db->delete('recibe1');
+		$this->db->where('id_comentario', $data);
+		$this->db->delete('recibe2');
+		$this->db->where('id_comentario', $data);
+		$this->db->delete('gusta2');
+		$this->db->where('id_comentario', $data);
+		$this->db->delete('comentario');
+	}
+
 	public function get_datos_comentario($data){
 		$this->db->where('id_comentario', $data);
 		$resultado = $this->db->get('comentario');
 		return $resultado->row();
+	}
+
+	public function control_comentario($data, $data2){
+		$this->db->where('id_usuario', $data2);
+		$this->db->where('id_comentario', $data);
+		$resultado = $this->db->get('comentario');
+		if (empty($resultado->row())) {
+			return FALSE;
+		}else{
+			return TRUE;
+		}
 	}
 }

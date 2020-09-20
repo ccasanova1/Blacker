@@ -89,6 +89,7 @@ class Model_album extends CI_Model {
 	public function get_fotos($data, $limite, $data2, $data3){
 		$this->db->select('publicacion.id_publicacion, publicacion.texto, publicacion.fecha, foto.titulo, album.nombre AS nombreAlbum, album.ruta, video.enlace, cuenta_frontend.foto_perfil,cuenta_frontend.id_cuenta , perfil_usuario.nombre AS nombrePerfil, perfil_usuario.apellido');
 		$this->db->from('publicacion');
+		$this->db->join('hecha', 'publicacion.id_publicacion = hecha.id_publicacion', 'LEFT');
 		$this->db->join('amigo', 'publicacion.id_usuario = amigo.id_usuario1 OR publicacion.id_usuario = amigo.id_usuario2', 'left');
 		$this->db->join('foto', 'publicacion.id_publicacion = foto.id_foto', 'INNER');
 		$this->db->join('album', 'foto.id_album = album.id_album', 'INNER');
@@ -113,6 +114,10 @@ class Model_album extends CI_Model {
 			$this->db->group_end();
 		}
 		$this->db->where('album.id_album', $data2);
+		$this->db->group_end();
+		$this->db->group_start();
+		$this->db->where('hecha.id_grupo IS NULL');
+		$this->db->or_where('hecha.id_grupo', '');
 		$this->db->group_end();
 		$this->db->group_by('publicacion.id_publicacion');
 		$this->db->order_by('publicacion.fecha', 'DESC');

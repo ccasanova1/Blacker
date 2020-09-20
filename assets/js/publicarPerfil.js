@@ -123,7 +123,7 @@ $(document).ready(function(){
 		});
   	});
 
-  	$(document).on("click",".Comentario_pers button",function(){
+  	$(document).on("click",".Comentario_pers #meGusta button",function(){
     	var id_comentario = $(this).val();
     	$.ajax({
 			url: baseurl+'Megusta/setMegustaComentario',
@@ -131,14 +131,35 @@ $(document).ready(function(){
 			data: {id_comentario:id_comentario},
 			success: function(resultado){
 				resultado = JSON.parse(resultado);
-				$('#Comentario_pers'+id_comentario+' #MegustaComentCant').text(resultado.countMegustaComent);
+				$('#Comentario_pers'+id_comentario+' #meGusta #MegustaComentCant').text(resultado.countMegustaComent);
 				console.log(resultado.estado);
 				if (resultado.estado == 'like') {
-					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-theme-d1');
-					$('#Comentario_pers'+id_comentario+' button').addClass('w3-green');
+					$('#Comentario_pers'+id_comentario+' #meGusta button').removeClass('w3-theme-d1');
+					$('#Comentario_pers'+id_comentario+' #meGusta button').addClass('w3-green');
 				}else{
-					$('#Comentario_pers'+id_comentario+' button').removeClass('w3-green');
-					$('#Comentario_pers'+id_comentario+' button').addClass('w3-theme-d1');
+					$('#Comentario_pers'+id_comentario+' #meGusta button').removeClass('w3-green');
+					$('#Comentario_pers'+id_comentario+' #meGusta button').addClass('w3-theme-d1');
+				}
+			}
+		});
+  	});
+
+  	$(document).on("click",".Comentario_pers #EliminarComent button",function(){
+    	var id_comentario = $(this).val();
+    	$.ajax({
+			url: baseurl+'Comentarios/deleteComentario',
+			type: 'POST',
+			data: {id_comentario:id_comentario},
+			success: function(resultado){
+				resultado = JSON.parse(resultado);
+				if (resultado.estado == 'error') {
+					alert(resultado.error);
+				}else{
+					id_publicacion = resultado.id_publicacion;
+					$('#publi_'+id_publicacion+' #comentarios').html('');
+					$.each(resultado, function(index, value){
+						$('#publi_'+id_publicacion+' #comentarios').append(value.comentarios);
+					});
 				}
 			}
 		});

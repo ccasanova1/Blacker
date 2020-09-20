@@ -244,7 +244,7 @@ class Publicacion extends CI_Controller {
 				if (empty($value->nombrePerfilPagina)) {
 					$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' style='padding-top:0px' id='publi_$value->id_publicacion'><br>";
 					if ($value->id_cuenta == $this->session->userdata("id")) {
-						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+						$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='Eliminar'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
@@ -262,7 +262,7 @@ class Publicacion extends CI_Controller {
 				}else{
 					$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' style='padding-top:0px' id='publi_$value->id_publicacion'><br>";
 					if ($value->id_cuenta == $this->session->userdata("id")) {
-						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+						$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='Eliminar'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
@@ -328,7 +328,12 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido </a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido </a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>
+        					";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -339,7 +344,11 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina </a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='id_comentario' class='w3-button $colorLikeComent' style='height=15px; padding:5px; margin: 5px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina </a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='id_comentario' class='w3-button $colorLikeComent' style='height=15px; padding:5px; margin: 5px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -391,7 +400,7 @@ class Publicacion extends CI_Controller {
 				if (empty($value->nombrePerfilPagina)) {
 					$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' style='padding-top:0px' id='publi_$value->id_publicacion'><br>";
 					if ($value->id_cuenta == $this->session->userdata("id")) {
-						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+						$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='Eliminar'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>";
@@ -493,7 +502,11 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -504,7 +517,11 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -549,7 +566,7 @@ class Publicacion extends CI_Controller {
 				$dateTotal = $this->Model_publicacion->get_format_time($diff);
 				$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='publi_$value->id_publicacion'><br>";
 					if ($value->id_cuenta == $this->session->userdata("id") OR $value->id_administrador == $this->session->userdata("id")) {
-						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+						$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='Eliminar'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
@@ -608,7 +625,11 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -619,7 +640,11 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -667,7 +692,7 @@ class Publicacion extends CI_Controller {
 				$dateTotal = $this->Model_publicacion->get_format_time($diff);
 				$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' style='padding-top:0px' id='publi_$value->id_publicacion'><br>";
 					if ($value->id_cuenta == $this->session->userdata("id")) {
-						$data[$i]['publicacion'] .= "<span class='w3-right' ><button id='btn-eliminar' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+						$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='Eliminar'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
@@ -731,7 +756,11 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -742,7 +771,11 @@ class Publicacion extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfilPagina</a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        				if ($value2->id_usuario == $this->session->userdata("id")) {
+        					$data[$i]['publicacion'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        				}
+        					$data[$i]['publicacion'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";

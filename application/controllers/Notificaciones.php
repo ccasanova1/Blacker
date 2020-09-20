@@ -65,6 +65,7 @@ class Notificaciones extends CI_Controller {
 				$albums = $this->Model_album->get_album($this->session->userdata("id"));
 				$datos['albums'] = $albums;
         }
+        $datos['visitas'] = $respuesta->visitas;
 		$this->load->view('notificaciones', $datos);
 	}
 

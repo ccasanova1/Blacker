@@ -34,6 +34,7 @@ class Model_publicacion extends CI_Model {
 	public function get_publicacion_unico($data, $data2, $limite, $estado){
 		$this->db->select('publicacion.id_publicacion, publicacion.texto, publicacion.fecha, foto.titulo, album.nombre AS nombreAlbum, album.ruta, video.enlace, cuenta_frontend.foto_perfil, cuenta_frontend.id_cuenta, perfil_usuario.nombre AS nombrePerfil, perfil_usuario.apellido, count(gusta1.id_publicacion) as countMegusta, perfil_pagina.nombre_entidad AS nombrePerfilPagina, comparte.id_compartida, cuenta_frontend_comparte.foto_perfil as foto_perfil_comparte, cuenta_frontend_comparte.id_cuenta as id_cuenta_comparte, perfil_usuario_comparte.nombre AS nombrePerfilComparte, perfil_usuario_comparte.apellido AS apellidoComparte');
 		$this->db->from('publicacion');
+		$this->db->join('hecha', 'publicacion.id_publicacion = hecha.id_publicacion', 'LEFT');
 		$this->db->join('foto', 'publicacion.id_publicacion = foto.id_foto', 'left');
 		$this->db->join('album', 'foto.id_album = album.id_album', 'left');
 		$this->db->join('video', 'publicacion.id_publicacion = video.id_video', 'left');
@@ -41,7 +42,6 @@ class Model_publicacion extends CI_Model {
 		$this->db->join('cuenta_frontend', 'publicacion.id_usuario = cuenta_frontend.id_cuenta', 'inner');
 		$this->db->join('perfil_usuario', 'cuenta_frontend.id_cuenta = perfil_usuario.id_cuenta', 'left');
 		$this->db->join('perfil_pagina', 'cuenta_frontend.id_cuenta = perfil_pagina.id_cuenta', 'left');
-		//$this->db->join('amigo', '(amigo.id_usuario1 = cuenta_frontend.id_cuenta AND amigo.id_usuario2 = '.$data2.') OR (amigo.id_usuario2 = cuenta_frontend.id_cuenta AND amigo.id_usuario1 = '.$data2.')', 'left');
 		$this->db->join('comparte', 'publicacion.id_publicacion = comparte.id_publicacion', 'left');
 		$this->db->join('cuenta_frontend AS cuenta_frontend_comparte', 'comparte.id_usuario = cuenta_frontend_comparte.id_cuenta', 'left');
 		$this->db->join('perfil_usuario AS perfil_usuario_comparte', 'cuenta_frontend_comparte.id_cuenta = perfil_usuario_comparte.id_cuenta', 'left');
@@ -49,12 +49,12 @@ class Model_publicacion extends CI_Model {
 		$this->db->where('publicacion.id_usuario', $data);
 		$this->db->or_where('comparte.id_usuario', $data);
 		$this->db->group_end();
-		/*if ($estado == 'rechazado') {
-			$this->db->where('publicacion.fecha <= amigo.fecha');
-		}*/
+		$this->db->group_start();
+		$this->db->where('hecha.id_grupo IS NULL');
+		$this->db->or_where('hecha.id_grupo', '');
+		$this->db->group_end();
 		$this->db->group_by('publicacion.id_publicacion');
 		$this->db->order_by("if(comparte.Fecha IS NOT NULL AND comparte.Fecha != '', comparte.Fecha, publicacion.fecha) DESC");
-		//$this->db->order_by('comparte.Fecha DESC, publicacion.fecha DESC');
 		if ($limite == 0) {
 			$this->db->limit(3);
 		}else{

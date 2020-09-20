@@ -68,6 +68,7 @@ class Albums extends CI_Controller {
 			'cuenta' => $respuesta4,
 			'amigo'	=> $respuesta5,
 		);*/
+		$datos['visitas'] = $respuesta->visitas;
 		$this->load->view('albums', $datos);
 	}
 
@@ -95,21 +96,8 @@ class Albums extends CI_Controller {
 				$dateTotal = $this->Model_publicacion->get_format_time($diff);
 				$data[$i]['albums'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='album_$value->id_album'><br>";
 				if ($id == $this->session->userdata("id")) {
-						$data[$i]['albums'] .= "<span class='w3-right' ><button id='btn-eliminar-album' type='button' value='$value->id_album' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+						$data[$i]['albums'] .= "<span class='w3-right' ><div id='Eliminar'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value->id_album' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
 				}
-				/*$data[$i]['albums'] = "
-						<div class='w3-row'>
-						<div class='w3-mobile w3-col' style='width:90%'>
-                			<span class='w3-right w3-opacity'>$dateTotal</span>
-                			<a href='".base_url('albums/fotos/'.$value->id_album.'/'.urlencode(strtr($this->encrypt->encode($id),array('+' => '.', '=' => '-', '/' => '~'))))."'>
-                				<h4>$value->ruta
-                			</a>
-                		</div>
-                		<div class='w3-mobile w3-col' style='width:10%'>
-        					<span class='w3-right w3-opacity'>$dateTotal</span>
-        				</div>
-        				</div>
-                			";*/
                 $data[$i]['albums'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
@@ -127,13 +115,6 @@ class Albums extends CI_Controller {
         		}else{
         			$colorLike = 'w3-theme-d1';
         		}
-          		/*$data[$i]['albums'] .="
-          				<div id='Megusta'>
-        					<button id='btn-megusta$i' type='button' value='$value->id_album' class='w3-button $colorLike w3-margin-bottom'><i class='fa fa-thumbs-up'></i>Like</button>
-        					<span id='MegustaCant'>$meGusta->countMegusta</span>
-        				</div> 
-      					<div class='w3-row' id='comentarios'>
-      				";*/
       			$data[$i]['albums'] .="
           				<div id='Megusta' style='margin-top: 10px' class='w3-row'>
           				<div class='w3-mobile w3-col ' style='width:100%'>
@@ -166,8 +147,11 @@ class Albums extends CI_Controller {
         						<h6 style='margin:0px; margin-top:10px'>
         							<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido
         							</a>
-        							<button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span>
-        						</h6>
+        							<div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+        		if ($value2->id_usuario == $this->session->userdata("id")) {
+        			$data[$i]['albums'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+        		}
+        		$data[$i]['albums'] .= "</h6>
                 				<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
@@ -188,9 +172,6 @@ class Albums extends CI_Controller {
     			$i++;
 			}
 			$data['limite'] = $limite+6;
-
-			//$data['script'] = "$('#contenerComentario button').click(function(){console.log('algo');console.log($(this).val());alert($(this).val());});";
-			//header('Content-Type: application/json ; charset=utf-8');
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	
 		}
 	}
@@ -223,8 +204,6 @@ class Albums extends CI_Controller {
 			redirect(base_url());
 		}
 		$resultado = $this->Model_perfiles->get_perfil($id);
-		//$respuesta2 = $this->Model_publicacion->get_publicacion($id);
-		//$respuesta3 = $this->Model_album->get_foto_publicada($id);
 		$respuesta4 = $this->Model_usuario->get_usuario($id);
 		$respuesta5 = $this->Model_amigos->get_amigo_especifico($id, $this->session->userdata('id'));
 		$datos['perfil'] = $resultado;
@@ -246,6 +225,7 @@ class Albums extends CI_Controller {
 		$datos['grupos'] = $grupos;
 		$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
 		$datos['amigoPendiente'] = $pendienteAmigos; 
+		$datos['visitas'] = $respuesta->visitas;
 		$this->load->view('Fotos', $datos);
 
 	}
@@ -253,7 +233,6 @@ class Albums extends CI_Controller {
 	public function obtenerFotos()
 	{
 		$id = $this->encrypt->decode(strtr(rawurldecode($this->input->post('id_cuenta')),array('.' => '+', '-' => '=', '~' => '/')));
-		//echo "$id";
 		$limite = $this->input->post('limite');
 		$id_album = $this->input->post('id_album');
 		if ($limite == null or $limite == '') {
@@ -274,15 +253,8 @@ class Albums extends CI_Controller {
 				$dateTotal = $this->Model_publicacion->get_format_time($diff);
 				$data[$i]['fotos'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='fotos_$value->id_publicacion'><br>";
 				if ($value->id_cuenta == $this->session->userdata("id")) {
-						$data[$i]['fotos'] .= "<span class='w3-right' ><button id='btn-eliminar-foto' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></span>";
+						$data[$i]['fotos'] .= "<span class='w3-right' ><div id='Eliminar'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value->id_publicacion' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
 				}
-				/*$data[$i]['fotos'] .= "
-        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
-        				<span class='w3-right w3-opacity'>$dateTotal</span>
-        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4><br></a>
-        				<hr class='w3-clear'>
-        				<p>$value->texto</p>
-        			";*/
         		$data[$i]['fotos'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
@@ -334,13 +306,17 @@ class Albums extends CI_Controller {
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
-        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></h6>
+        					<h6 style='margin:0px; margin-top:10px'><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>$value2->nombrePerfil $value2->apellido</a><div id='meGusta' style='display: inline;'><button id='btn-megustaComent".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button $colorLikeComent' style='height=10px; padding:3px; margin: 5px;padding-right:10px;padding-left:10px'><i class='fa fa-thumbs-up'></i></button><span class='' style='margin: 10px; margin-top: 10px' id='MegustaComentCant' >$value2->countMegustaComent</span></div>";
+	        		if ($value2->id_usuario == $this->session->userdata("id")) {
+	        			$data[$i]['fotos'] .= "<span class='w3-right' ><div id='EliminarComent' style='display: inline'><button id='btn-eliminar".random_string('alnum', 11)."' type='button' value='$value2->id_comentario' class='w3-button' style='height=20px; padding:0px; margin: 0px'><i class='fa fa fa-close'></i></button></div></span>";
+	        		}
+	        		$data[$i]['fotos'] .= "</h6>
                 			<p style='margin:0px; margin-bottom:10px'>$value2->contenido</p>
 				        	</div>
       					";
-      			}
-      			$data[$i]['fotos'] .="</div>";
-      			$data[$i]['fotos'] .= "
+	      			}
+	      			$data[$i]['fotos'] .="</div>";
+	      			$data[$i]['fotos'] .= "
       						<div id='contenerComentario'>
       							<textarea id='contComentario' name='publicarComentario; class='w3-border w3-padding' style='width: 100%'' rows='1' placeholder='Comentar algo'></textarea>
       							<button class='w3-button w3-theme-d2 w3-margin-bottom' id='btn-comentar$i' value='$value->id_publicacion'><i class='fa fa-comment'></i> 	 Comment</button> 

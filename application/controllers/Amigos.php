@@ -47,7 +47,7 @@ class Amigos extends CI_Controller {
             redirect(base_url());
         }
         $datos['buscar'] = $this->input->post("publicarBusqueda");
-        
+        $datos['visitas'] = $respuesta->visitas;
 		$this->load->view('amigos', $datos);
 	}
 

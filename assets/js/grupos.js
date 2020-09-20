@@ -155,6 +155,27 @@ $(document).ready(function(){
 		});
   	});
 
+  	 $(document).on("click",".Comentario_pers #EliminarComent button",function(){
+    	var id_comentario = $(this).val();
+    	$.ajax({
+			url: baseurl+'Comentarios/deleteComentario',
+			type: 'POST',
+			data: {id_comentario:id_comentario},
+			success: function(resultado){
+				resultado = JSON.parse(resultado);
+				if (resultado.estado == 'error') {
+					alert(resultado.error);
+				}else{
+					id_publicacion = resultado.id_publicacion;
+					$('#publi_'+id_publicacion+' #comentarios').html('');
+					$.each(resultado, function(index, value){
+						$('#publi_'+id_publicacion+' #comentarios').append(value.comentarios);
+					});
+				}
+			}
+		});
+  	});
+
   	$(document).on("click","#Megusta button",function(){
     	var id_publicacion = $(this).val();
     	$.ajax({
