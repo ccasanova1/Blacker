@@ -70,7 +70,7 @@ class Amigos extends CI_Controller {
 			    $data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='Amigo'><br><a href='"; 
 			    $data[$i]['busqueda'] .= base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($busqueda->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
 			    $data[$i]['busqueda'] .= "'><img src='";
-			    $data[$i]['busqueda'] .= base_url('assets/'.$busqueda->foto_perfil);
+			    $data[$i]['busqueda'] .= base_url_assets.'assets/'.$busqueda->foto_perfil;
 			    $data[$i]['busqueda'] .= "' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a><a href='";
 			    $data[$i]['busqueda'] .= base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($busqueda->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
 			    $data[$i]['busqueda'] .= "'><h5>";     

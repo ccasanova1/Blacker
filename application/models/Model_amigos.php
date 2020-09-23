@@ -13,6 +13,16 @@ class Model_amigos extends CI_Model {
 		return $resultado->result();
 	}
 
+	Public function get_amigos_datos($data){
+		$this->db->select('cuenta_frontend.id_cuenta, cuenta_frontend.foto_perfil, perfil_usuario.nombre, perfil_usuario.apellido');
+		$this->db->from('cuenta_frontend');
+		$this->db->join('perfil_usuario', 'cuenta_frontend.id_cuenta = perfil_usuario.id_cuenta', 'inner');
+		$this->db->join('amigo', "(amigo.id_usuario1 = cuenta_frontend.id_cuenta AND amigo.id_usuario2 = $data AND amigo.estado = 'amigos') OR (amigo.id_usuario2 = cuenta_frontend.id_cuenta AND amigo.id_usuario1 = $data AND amigo.estado = 'amigos')", 'inner');
+		$this->db->where('cuenta_frontend.id_cuenta !=', $data);
+		$resultado = $this->db->get();
+		return $resultado->result();
+	}
+
 	Public function get_pendiente($data){
 		$this->db->select('cuenta_frontend.id_cuenta, cuenta_frontend.foto_perfil, perfil_usuario.nombre, perfil_usuario.apellido, amigo.estado');
 		$this->db->join('cuenta_frontend', 'cuenta_frontend.id_cuenta = amigo.id_usuario1', 'inner');

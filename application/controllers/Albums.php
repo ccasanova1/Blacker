@@ -133,7 +133,7 @@ class Albums extends CI_Controller {
       				$data[$i]['albums'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
         						<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>
-        							<img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
+        							<img src='".base_url_assets."assets/$value2->foto_perfil"."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
         						</a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
@@ -176,7 +176,7 @@ class Albums extends CI_Controller {
 			$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
 			$this->Model_album->set_album($ruta->nombre, $albumNuevo, $this->session->userdata('id'));
 			$this->Model_notificaciones->set_notificacion_album_usuario($this->session->userdata("id"));
-			$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$albumNuevo";
+			$dir = "/mnt/assets/albumes/$ruta->nombre/$albumNuevo";
 			mkdir($dir, 0777, TRUE);
 		}	
 	}
@@ -256,7 +256,7 @@ class Albums extends CI_Controller {
         		$data[$i]['fotos'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
-        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value->foto_perfil"."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
@@ -268,7 +268,7 @@ class Albums extends CI_Controller {
         		";
         		if (!empty($value->nombreAlbum)){
         			$data[$i]['fotos'] .= "
-            				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
+            				<img src='".base_url_assets."assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo"."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
             			";
         		}
           		$meGusta = $this->Model_megusta->get_megusta_publicacion($value->id_publicacion,$this->session->userdata("id"));
@@ -300,7 +300,7 @@ class Albums extends CI_Controller {
 	        		}
       				$data[$i]['fotos'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil"."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->

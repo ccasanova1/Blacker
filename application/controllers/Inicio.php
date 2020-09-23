@@ -269,11 +269,11 @@ class Inicio extends CI_Controller {
 			    }
 			    $data[$i]['busqueda'] .= "'><img src='";
 			    if($busqueda->tipo == 'usuario'){
-			      $data[$i]['busqueda'] .= base_url('assets/'.$busqueda->foto_perfil);
+			      $data[$i]['busqueda'] .= base_url_assets.'assets/'.$busqueda->foto_perfil;
 			    }elseif($busqueda->tipo == 'pagina'){
-			      $data[$i]['busqueda'] .= base_url('assets/'.$busqueda->foto_perfil);
+			      $data[$i]['busqueda'] .= base_url_assets.'assets/'.$busqueda->foto_perfil;
 			    }else{
-			      $data[$i]['busqueda'] .= base_url('assets/grupos/fotos/'.$busqueda->foto_perfil);
+			      $data[$i]['busqueda'] .= base_url_assets.'assets/grupos/fotos/'.$busqueda->foto_perfil;
 			    }
 			    $data[$i]['busqueda'] .= "' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a><a href='";
 			    if($busqueda->tipo == 'usuario'){
@@ -402,7 +402,7 @@ class Inicio extends CI_Controller {
 			exit();
         	}
             $config = [
-			"upload_path" => "./assets/imagenes/",
+			"upload_path" => "/mnt/assets/imagenes/",
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
@@ -433,7 +433,7 @@ class Inicio extends CI_Controller {
             	$respuestaFoto = $this->Model_usuario->get_fotoPerfil($this->session->userdata("id"));
             	$pos = strpos($respuestaFoto->foto_perfil, "predeterminado1");
             	if ($pos === FALSE) {            		
-            		unlink('/var/www/html/frontend/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
+            		unlink('/mnt/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
             	}
             }
             if (!empty($password)) {
@@ -479,7 +479,7 @@ class Inicio extends CI_Controller {
 			exit();
         	}
             $config = [
-			"upload_path" => "./assets/imagenes/",
+			"upload_path" => "/mnt/assets/imagenes/",
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
@@ -509,7 +509,7 @@ class Inicio extends CI_Controller {
             	$respuestaFoto = $this->Model_usuario->get_fotoPerfil($this->session->userdata("id"));
             	$pos = strpos($respuestaFoto->foto_perfil, "predeterminado1");
             	if ($pos === FALSE) {            		
-            		unlink('/var/www/html/frontend/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
+            		unlink('/mnt/assets/'.$respuestaFoto->foto_perfil) or die("Failed to <strong class='highlight'>delete</strong> file");
             	}
             }
             if (!empty($password)) {

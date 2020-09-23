@@ -64,7 +64,7 @@ class Publicacion extends CI_Controller {
 				exit();
 			}
 			$config = [
-			"upload_path" => "./assets/albumes/".$album->nombre."/".$album->ruta."/",
+			"upload_path" => "/mnt/assets/albumes/".$album->nombre."/".$album->ruta."/",
 			'allowed_types' => "png|jpg|jpeg",
 			"max_size" => "20480",
 			"remove_spaces" => TRUE,
@@ -159,7 +159,7 @@ class Publicacion extends CI_Controller {
 		}else{
 			$album = $this->Model_album->get_album_grupo($id_grupo);
 			$config = [
-			"upload_path" => "./assets/albumes/".$album->nombre."/".$album->ruta."/",
+			"upload_path" => "/mnt/assets/albumes/".$album->nombre."/".$album->ruta."/",
 			'allowed_types' => "png|jpg|jpeg",
 			"max_size" => "20480",
 			"remove_spaces" => TRUE,
@@ -251,7 +251,7 @@ class Publicacion extends CI_Controller {
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
-        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value->foto_perfil' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
@@ -269,7 +269,7 @@ class Publicacion extends CI_Controller {
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
-        				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value->foto_perfil' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfilPagina</h4></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
@@ -283,7 +283,7 @@ class Publicacion extends CI_Controller {
 				
         		if (!empty($value->nombreAlbum)){
         			$data[$i]['publicacion'] .= "
-            				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
+            				<img src='".base_url_assets."assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
             			";
         		}
         		if (!empty($value->enlace)) {
@@ -326,7 +326,7 @@ class Publicacion extends CI_Controller {
 					if (empty($value2->nombrePerfilPagina)) {
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -342,7 +342,7 @@ class Publicacion extends CI_Controller {
 					}else{
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -409,13 +409,13 @@ class Publicacion extends CI_Controller {
 					if (!empty($value->id_compartida) AND $value->id_cuenta_comparte == $id_cuenta) {
 						$data[$i]['publicacion'] .="
 							<div class='w3-mobile w3-col' style='width:100%; margin-bottom:5px'>
-	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil_comparte")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value->foto_perfil_comparte' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
 	        				<h6><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'>$value->nombrePerfilComparte $value->apellidoComparte</a> Comparte</h6>
 	        				</div>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-mobile w3-col' style='width:100%'>
-        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value->foto_perfil' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfil $value->apellido</h4></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
@@ -435,13 +435,13 @@ class Publicacion extends CI_Controller {
 					if (!empty($value->id_compartida) AND $value->id_cuenta_comparte == $id_cuenta) {
 						$data[$i]['publicacion'] .="
 							<div class='w3-mobile w3-col' style='width:100%; margin-bottom:5px'>
-	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil_comparte")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+	        				<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value->foto_perfil_comparte' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
 	        				<h6><a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta_comparte),array('+' => '.', '=' => '-', '/' => '~')))."'>$value->nombrePerfilComparte $value->apellidoComparte</a> Comparte</h6>
 	        				</div>";
 					}
 					$data[$i]['publicacion'] .="
 						<div class='w3-mobile w3-col' style='width:90%'>
-        				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
+        				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value->foto_perfil' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>
         				<a href='".base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."'><h4>$value->nombrePerfilPagina</h4></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
@@ -454,7 +454,7 @@ class Publicacion extends CI_Controller {
 				}
         		if (!empty($value->nombreAlbum)){
         			$data[$i]['publicacion'] .= "
-            				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
+            				<img src='".base_url_assets."assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
             			";
         		}
         		if (!empty($value->enlace)) {
@@ -500,7 +500,7 @@ class Publicacion extends CI_Controller {
       				if (empty($value2->nombrePerfilPagina)) {
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -515,7 +515,7 @@ class Publicacion extends CI_Controller {
 					}else{
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -573,7 +573,7 @@ class Publicacion extends CI_Controller {
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
-        				<img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'>
+        				<img src='".base_url_assets."assets/$value->foto_perfil' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'>
         				<a href=''><h4>$value->nombrePerfil $value->apellido</h4><br></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
@@ -585,7 +585,7 @@ class Publicacion extends CI_Controller {
         			";
         		if (!empty($value->nombreAlbum)){
         			$data[$i]['publicacion'] .= "
-            				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
+            				<img src='".base_url_assets."assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
             			";
         		}
         		if (!empty($value->enlace)) {
@@ -623,7 +623,7 @@ class Publicacion extends CI_Controller {
       				if (empty($value2->nombrePerfilPagina)) {
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -638,7 +638,7 @@ class Publicacion extends CI_Controller {
 					}else{
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -699,7 +699,7 @@ class Publicacion extends CI_Controller {
 					$data[$i]['publicacion'] .="
 						<div class='w3-row'>
 						<div class='w3-mobile w3-col' style='width:90%'>
-        				<img src='".base_url("assets/$value->foto_perfil")."' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'>
+        				<img src='".base_url_assets."assets/$value->foto_perfil' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'>
         				<a href=''><h4>$value->nombrePerfil</h4><br></a>
         				</div>
         				<!--<div class='w3-mobile w3-col' style='width:10%'>
@@ -711,7 +711,7 @@ class Publicacion extends CI_Controller {
         			";
         		if (!empty($value->nombreAlbum)){
         			$data[$i]['publicacion'] .= "
-            				<img src='".base_url("assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo")."' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
+            				<img src='".base_url_assets."assets/albumes/$value->nombreAlbum/$value->ruta/$value->titulo' style='width:100%' alt='.$value->titulo.' class='w3-margin-bottom'>
             			";
         		}
         		if (!empty($value->enlace)) {
@@ -754,7 +754,7 @@ class Publicacion extends CI_Controller {
       				if (empty($value2->nombrePerfilPagina)) {
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -769,7 +769,7 @@ class Publicacion extends CI_Controller {
 					}else{
 						$data[$i]['publicacion'] .= "
       						<div class='w3-col'style='width:40px; padding-top:10px'>
-        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        					<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         					</div>
         					<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             				<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->

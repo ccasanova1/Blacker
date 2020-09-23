@@ -145,7 +145,7 @@ class Model_publicacion extends CI_Model {
 		$resultado = $this->db->get();
 		$resultado = $resultado->row();
 		if (!empty($resultado)) {
-			unlink("./assets/albumes/".$resultado->nombre."/".$resultado->ruta."/".$resultado->titulo) or die("Failed to <strong class='highlight'>delete</strong> file");
+			unlink("/mnt/assets/albumes/".$resultado->nombre."/".$resultado->ruta."/".$resultado->titulo) or die("Failed to <strong class='highlight'>delete</strong> file");
 			$this->db->where('id_foto', $resultado->id_foto);
 			$this->db->delete('foto');
 		}

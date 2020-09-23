@@ -36,7 +36,7 @@ class Comentarios extends CI_Controller {
       		if (empty($value2->nombrePerfilPagina)) {
 				$data[$i]['publicacion'] .= "
       			<div class='w3-col'style='width:40px; padding-top:10px'>
-        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         		</div>
         		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -51,7 +51,7 @@ class Comentarios extends CI_Controller {
 			}else{
 				$data[$i]['publicacion'] .= "
       			<div class='w3-col'style='width:40px; padding-top:10px'>
-        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
         		</div>
         		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
             	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -105,7 +105,7 @@ class Comentarios extends CI_Controller {
 	      		if (empty($value2->nombrePerfilPagina)) {
 					$data[$i]['comentarios'] = "
 	      			<div class='w3-col'style='width:40px; padding-top:10px'>
-	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
 	        		</div>
 	        		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
 	            	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -120,7 +120,7 @@ class Comentarios extends CI_Controller {
 				}else{
 					$data[$i]['comentarios'] = "
 	      			<div class='w3-col'style='width:40px; padding-top:10px'>
-	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
 	        		</div>
 	        		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
 	            	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -174,7 +174,7 @@ class Comentarios extends CI_Controller {
 	      		$data[$i]['comentarios'] = "
 	      			<div class='w3-col'style='width:40px; padding-top:10px'>
 	        			<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>
-	        				<img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
+	        				<img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
 	        			</a>
 	        		</div>
 	        		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
@@ -222,7 +222,7 @@ class Comentarios extends CI_Controller {
 	      		if (empty($value2->nombrePerfilPagina)) {
 					$data[$i]['comentarios'] = "
 	      			<div class='w3-col'style='width:40px; padding-top:10px'>
-	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
 	        		</div>
 	        		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
 	            	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -237,7 +237,7 @@ class Comentarios extends CI_Controller {
 				}else{
 					$data[$i]['comentarios'] = "
 	      			<div class='w3-col'style='width:40px; padding-top:10px'>
-	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
+	        		<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'><img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'></a>
 	        		</div>
 	        		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>
 	            	<!--<span class='w3-right w3-opacity' style='margin-top:10px'>$dateTotal</span>-->
@@ -287,7 +287,7 @@ class Comentarios extends CI_Controller {
 	      		$data[$i]['comentarios'] = "
 	      			<div class='w3-col'style='width:40px; padding-top:10px'>
 	        			<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($value2->id_usuario),array('+' => '.', '=' => '-', '/' => '~')))."'>
-	        				<img src='".base_url("assets/$value2->foto_perfil")."' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
+	        				<img src='".base_url_assets."assets/$value2->foto_perfil' style='width:30px; height:30px' alt='Avatar' class='w3-circle w3-margin-right'>
 	        			</a>
 	        		</div>
 	        		<div class='w3-rest Comentario_pers' id='Comentario_pers$value2->id_comentario'>

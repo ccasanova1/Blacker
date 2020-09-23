@@ -95,7 +95,7 @@ class Grupos  extends CI_Controller {
 			exit();
 		}else{
 			$config = [
-			"upload_path" => "./assets/grupos/fotos/",
+			"upload_path" => "/mnt/assets/grupos/fotos/",
 			'allowed_types' => "png|jpg|jpeg",
 			"max_size" => "20480",
 			"remove_spaces" => TRUE,
@@ -106,7 +106,7 @@ class Grupos  extends CI_Controller {
 			$descripcionGrupo = $this->input->post('descripcionGrupo');
 			$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
 			$id_album = $this->Model_album->set_album($ruta->nombre, $nombreGrupo, $this->session->userdata('id'));
-			$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$nombreGrupo";
+			$dir = "/mnt/assets/albumes/$ruta->nombre/$nombreGrupo";
 			mkdir($dir, 0777, TRUE);
 			if($this->upload->do_upload('foto')){
 				$file_name = array('upload_data' => $this->upload->data());

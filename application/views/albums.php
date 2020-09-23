@@ -3,11 +3,11 @@
 <title>Blacker</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?php echo base_url('assets/css/W3CSS.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/css/W3CSSThemes.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url_assets.'assets/css/W3CSS.css'; ?>">
+<link rel="stylesheet" href="<?php echo base_url_assets.'assets/css/W3CSSThemes.css'; ?>">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="<?php echo base_url('assets/css/emojionearea.min.css'); ?>">
+<link rel="stylesheet" href="<?php echo base_url_assets.'assets/css/emojionearea.min.css'; ?>">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .emojionearea{z-index: 0;}
@@ -28,7 +28,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <?php endif; ?>
   <div class="w3-dropdown-hover w3-hide-small w3-hover-white w3-right">
     <button class="w3-button w3-padding-large" title="Notifications">
-      <img src="<?php echo base_url('assets/'.$foto_perfil); ?>" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+      <img src="<?php echo base_url_assets.'assets/'.$foto_perfil; ?>" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
     </button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px; right:0">
       <a href="<?php echo base_url('login/logout'); ?>" class="w3-bar-item w3-button">Salir</a>
@@ -65,7 +65,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                                     }else{
                                 echo "<a href='".base_url('inicio/perfil')."/".$perfil->id_cuenta."'>".$perfil->nombre.' '.$perfil->apellido."</a>";
                             }?></h4>
-         <p class="w3-center"><img src="<?php echo base_url('assets/'.$cuenta->foto_perfil); ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><img src="<?php echo base_url_assets.'assets/'.$cuenta->foto_perfil; ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i>Pais: <?php if(!empty($cuenta->pais)){ echo $cuenta->pais;} ?></p>
          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i>Fecha Nacimiento: <?php if(!empty($perfil->fecha_nacimiento)){ echo $perfil->fecha_nacimiento;} ?></p>
@@ -164,7 +164,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <p>Solicitudes de amistad</p>
           <?php foreach ($amigoPendiente as $value2):?>
             <div class="mySlides">
-              <img src="<?php echo base_url('assets/'.$value2->foto_perfil); ?>" alt="Avatar" style="width:50%"><br>
+              <img src="<?php echo base_url_assets.'assets/'.$value2->foto_perfil; ?>" alt="Avatar" style="width:50%"><br>
               <a href="<?php base_url('inicio/perfil').'/'.urlencode(strtr($this->encrypt->encode($value->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))?>"><span><?php echo $value2->nombre." ".$value2->apellido; ?></span></a>
               <div class="w3-row w3-opacity">
                 <div class="w3-half">
@@ -196,8 +196,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <br>
 
 
-<script src="<?=base_url('assets/js/jquery.min.js') ?>"></script>
-<script type="text/javascript" src="<?=base_url('assets/js/emojionearea.min.js'); ?>"></script>
+<script src="<?=base_url_assets.'assets/js/jquery.min.js' ?>"></script>
+<script type="text/javascript" src="<?=base_url_assets.'assets/js/emojionearea.min.js'; ?>"></script>
 
 <script>
   var baseurl = "<?=base_url()?>";
@@ -231,7 +231,7 @@ function openNav() {
 }
 
 </script>
-<script src="<?=base_url('assets/js/albums.js') ?>"></script>
-<script src="<?=base_url('assets/js/amigo.js') ?>"></script>
+<script src="<?=base_url_assets.'assets/js/albums.js' ?>"></script>
+<script src="<?=base_url_assets.'assets/js/amigo.js' ?>"></script>
 </body>
 </html> 

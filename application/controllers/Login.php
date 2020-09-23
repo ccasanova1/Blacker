@@ -113,7 +113,7 @@ class Login extends CI_Controller {
 			exit();
         	}
             $config = [
-			"upload_path" => "./assets/imagenes/",
+			"upload_path" => "/mnt/assets/imagenes/",
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
@@ -183,9 +183,9 @@ class Login extends CI_Controller {
 				'id_cuenta' => $id->id_cuenta,
 				'id_album' => $respuesta->id_album,
 			);
-			$dir = "/var/www/html/frontend/assets/albumes/".$dato;
+			$dir = "/mnt/assets/albumes/".$dato;
 			mkdir($dir, 0777, TRUE);
-			$dir2 = "/var/www/html/frontend/assets/albumes/".$dato."/Predeterminado";
+			$dir2 = "/mnt/assets/albumes/".$dato."/Predeterminado";
 			mkdir($dir2, 0777, TRUE);
 			$conf['protocol'] = 'smtp';
 			$conf['smtp_host'] = 'blacker.com.uy';
@@ -237,7 +237,7 @@ class Login extends CI_Controller {
 			exit();
         	}
             $config = [
-			"upload_path" => "./assets/imagenes/",
+			"upload_path" => "/mnt/assets/imagenes/",
 			'allowed_types' => "png|jpg",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
@@ -292,9 +292,9 @@ class Login extends CI_Controller {
 				'id_cuenta' => $id->id_cuenta,
 				'id_album' => $respuesta->id_album,
 			);
-			$dir = "/var/www/html/frontend/assets/albumes/".$dato;
+			$dir = "/mnt/assets/albumes/".$dato;
 			mkdir($dir, 0777, TRUE);
-			$dir2 = "/var/www/html/frontend/assets/albumes/".$dato."/Predeterminado";
+			$dir2 = "/mnt/assets/albumes/".$dato."/Predeterminado";
 			mkdir($dir2, 0777, TRUE);		
 			$this->Model_perfiles->set_perfil_pagina($data2);
 			$conf['protocol'] = 'smtp';
