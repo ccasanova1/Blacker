@@ -39,7 +39,8 @@ $(document).ready(function(){
 			type: 'POST',
 			data: {id_usuario:id_usuario},
 			success: function(){
-				alert("Se a eliminado de tus seguidores al usuario seleccionado");        
+				alert("Se a eliminado de tus seguidores al usuario seleccionado");
+				location.reload();        
 			},
 			
 		});

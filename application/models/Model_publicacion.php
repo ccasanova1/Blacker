@@ -130,6 +130,52 @@ class Model_publicacion extends CI_Model {
 		return $resultado->row();
 	}
 
+	public function control_publicacion($data, $data2){
+		$this->db->where('id_publicacion', $data);
+		$this->db->where('id_usuario', $data2);
+		$resultado = $this->db->get('publicacion');
+		return $resultado->row();
+	}
+
+	public function delete_publicacion($data){
+		$this->db->select("foto.*, nombre, ruta");
+		$this->db->from('foto');
+		$this->db->join('album', 'album.id_album = foto.id_album', 'inner');
+		$this->db->where('id_foto', $data);
+		$resultado = $this->db->get();
+		$resultado = $resultado->row();
+		if (!empty($resultado)) {
+			unlink("./assets/albumes/".$resultado->nombre."/".$resultado->ruta."/".$resultado->titulo) or die("Failed to <strong class='highlight'>delete</strong> file");
+			$this->db->where('id_foto', $resultado->id_foto);
+			$this->db->delete('foto');
+		}
+		$this->db->where('id_video', $data);
+		$this->db->delete('video');
+		$this->db->where('id_publicacion', $data);
+		$resultado2 = $this->db->get('recibe1');
+		$resultado2 = $resultado2->result();
+		if (!empty($resultado2)) {
+			foreach ($resultado2 as $value) {
+				$this->db->where('id_comentario', $value->id_comentario);
+				$this->db->delete('recibe1');
+				$this->db->where('id_comentario', $value->id_comentario);
+				$this->db->delete('recibe2');
+				$this->db->where('id_comentario', $value->id_comentario);
+				$this->db->delete('gusta2');
+				$this->db->where('id_comentario', $value->id_comentario);
+				$this->db->delete('comentario');
+			}
+		}
+		$this->db->where('id_publicacion', $data);
+		$this->db->delete('gusta1');
+		$this->db->where('id_publicacion', $data);
+		$this->db->delete('hecha');
+		$this->db->where('id_publicacion', $data);
+		$this->db->delete('comparte');
+		$this->db->where('id_publicacion', $data);
+		$this->db->delete('publicacion');
+	}
+
 	public function get_format_time($df) {
 
 		    $str = '';

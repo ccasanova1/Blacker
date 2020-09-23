@@ -99,8 +99,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$id_cuenta)?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Mis Albums</a>
           <?php endif; ?>
           <?php if($seleccion == 'pagina'): ?>
-            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Inicio/suscribirce')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Suscribirce</a>
-            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Sigue')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Seguidores</a>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Inicio/suscribirce')?>"><i class="fa fa-usd fa-fw w3-margin-right"></i> Suscribirce</a>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Sigue')?>"><i class="fa fa-user fa-fw w3-margin-right"></i> Seguidores</a>
           <?php endif; ?>
         </div>      
       </div>

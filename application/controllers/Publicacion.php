@@ -69,6 +69,7 @@ class Publicacion extends CI_Controller {
 			"max_size" => "20480",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
+			'encrypt_name' => TRUE,
 			];
 			$this->load->library("upload", $config);
 			$comentario = $this->input->post('publicarTexto');
@@ -163,6 +164,7 @@ class Publicacion extends CI_Controller {
 			"max_size" => "20480",
 			"remove_spaces" => TRUE,
 			"detect_mime" => TRUE,
+			'encrypt_name' => TRUE,
 			];
 			$this->load->library("upload", $config);
 			$comentario = $this->input->post('publicarTexto');
@@ -801,10 +803,17 @@ class Publicacion extends CI_Controller {
 		}
 	}
 
-	public function algo(){
+	public function deletepublicacion(){
 		
-		echo $this->input->post('comentario');
-		var_dump($this->input->post('comentario'));
+		$id_publicacion = $this->input->post('id_publicacion');;
+		$resultado2 = $this->Model_publicacion->control_publicacion($id_publicacion, $this->session->userdata("id"));
+		if (!empty($resultado2)) {
+			$this->Model_publicacion->delete_publicacion($id_publicacion);
+		}else{
+			$data['estado'] = 'error';
+			echo json_encode($data);
+		}
+
 	}
 }
 

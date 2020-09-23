@@ -183,6 +183,27 @@ $(document).ready(function(){
 		});
   	});
 
+  	$(document).on("click","#Eliminar button",function(){
+    	var id_publicacion = $(this).val();
+    	$.ajax({
+			url: baseurl+'Publicacion/deletepublicacion',
+			type: 'POST',
+			data: {id_publicacion:id_publicacion},
+			success: function(resultado){
+				if (resultado.length > 0) {
+					resultado = JSON.parse(resultado);
+					if (resultado.estado == 'error') {
+						alert('A ocurrido un errror, intente mas tarde');
+					}
+				}else{
+					alert('Se a eliminado la publicacion');
+					location.reload();
+				}
+				
+			}
+		});
+  	});
+
 });
 	/*$("#contenerComentario button").click(function(){
   console.log('algo');

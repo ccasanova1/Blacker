@@ -66,11 +66,12 @@ $(document).ready(function(){
             processData:false,
             contentType:false,
 			success: function(resultado){
-				resultado = JSON.parse(resultado);
-				if (resultado.estado == 'limitada') {
-					//alert(value);
-					alert("Supero el limite de publicaciones diarias. Contrate el servicio Premium para obtener publicaciones ilimitadas.");
-					bandera = false;
+				if (resultado.length > 0) {
+					resultado = JSON.parse(resultado);
+					if (resultado.estado == 'limitada') {
+						//alert(value);
+						alert("Supero el limite de publicaciones diarias. Contrate el servicio Premium para obtener publicaciones ilimitadas.");
+					}
 				}else{
 					location.reload();
 				}   
@@ -217,6 +218,27 @@ $(document).ready(function(){
 				}else{
 					alert("Esta publicacion ya la compartido");
 				}
+			}
+		});
+  	});
+
+  	$(document).on("click","#Eliminar button",function(){
+    	var id_publicacion = $(this).val();
+    	$.ajax({
+			url: baseurl+'Publicacion/deletepublicacion',
+			type: 'POST',
+			data: {id_publicacion:id_publicacion},
+			success: function(resultado){
+				if (resultado.length > 0) {
+					resultado = JSON.parse(resultado);
+					if (resultado.estado == 'error') {
+						alert('A ocurrido un errror, intente mas tarde');
+					}
+				}else{
+					alert('Se a eliminado la publicacion');
+					location.reload();
+				}
+				
 			}
 		});
   	});
