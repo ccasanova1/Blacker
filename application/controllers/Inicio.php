@@ -167,12 +167,6 @@ class Inicio extends CI_Controller {
 	public function pagina($id){
 		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
 		$bloqueado = $this->Model_amigos->get_sigue_pagina($id, $this->session->userdata('id'));
-		if (!empty($bloqueado)) {
-			if ($bloqueado->estado == 'bloqueado') {
-				redirect(base_url('?error=BlockPage'));
-				exit();
-			}
-		}
 		$controlPremium = $this->Model_usuario->get_premium($id);
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){

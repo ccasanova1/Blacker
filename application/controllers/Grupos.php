@@ -143,10 +143,4 @@ class Grupos  extends CI_Controller {
 			}
 		}
 	}
-
-	public function aceptar_amigo(){
-		$id = $this->input->post("id");
-		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
-		$this->Model_amigos->update_amigo_ok($id, $this->session->userdata('id'));
-	}
 }

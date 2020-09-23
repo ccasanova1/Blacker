@@ -15,6 +15,7 @@ class Amigos extends CI_Controller {
 		$this->load->model("Model_amigos");
 		$this->load->model("Model_grupo");
 		$this->load->library('encrypt');
+		$this->load->helper('string');
 	}
 
 	public function index()
@@ -66,7 +67,7 @@ class Amigos extends CI_Controller {
 			$i = 0;
 			$data = array();
 			foreach ($resultado as $busqueda){
-			    $data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin'><br><a href='"; 
+			    $data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='Amigo'><br><a href='"; 
 			    $data[$i]['busqueda'] .= base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($busqueda->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
 			    $data[$i]['busqueda'] .= "'><img src='";
 			    $data[$i]['busqueda'] .= base_url('assets/'.$busqueda->foto_perfil);
@@ -79,10 +80,10 @@ class Amigos extends CI_Controller {
 			    $data[$i]['busqueda'] .= "| Telefono: ".$busqueda->telefono."</p>";
 			    $data[$i]['busqueda'] .= "Correo: ".$busqueda->email."";
 			    $data[$i]['busqueda'] .= "<hr class='w3-clear'>";
-			    $data[$i]['busqueda'] .= "<a href='";
+			    $data[$i]['busqueda'] .= "<div><a href='";
 			    $data[$i]['busqueda'] .= base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($busqueda->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
-			    $data[$i]['busqueda'] .= "'><button type='submit' class='w3-button w3-theme-d1 w3-margin-bottom' id='visitar'>Visitar</button></a>";
-			    $data[$i]['busqueda'] .= "<button type='submit' class='w3-button w3-red w3-margin-bottom' id='eliminar' value = '".urlencode(strtr($this->encrypt->encode($busqueda->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."' style='margin-left: 8px'>Eliminar</button></div>";
+			    $data[$i]['busqueda'] .= "'><button class='w3-button w3-theme-d1 w3-margin-bottom' id='visitar'>Visitar</button></a>";
+			    $data[$i]['busqueda'] .= "<div id='eliminar' style='display: contents;'><button class='w3-button w3-red w3-margin-bottom' id='btn-eliminar".random_string('alnum', 11)."' value = '".urlencode(strtr($this->encrypt->encode($busqueda->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')))."' style='margin-left: 8px'>Eliminar</button></div></div></div>";
 			    $escapers = array("\n",  "\r",  "\t", "\x08", "\x0c");
 	    		$replacements = array("", "", "",  "",  "");
 	    		$data[$i]['busqueda'] = str_replace($escapers, $replacements, $data[$i]['busqueda']);
@@ -99,38 +100,42 @@ class Amigos extends CI_Controller {
 			'id_usuario2' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('amigo')),array('.' => '+', '-' => '=', '~' => '/'))),
 			'estado' => 'pendiente',
 			'fecha' => date("Y-m-d"),
-		);
-		$this->Model_amigos->set_addamigo($data);
+		);	
+		$resultado = $this->Model_usuario->get_usuario($data['id_usuario2']);
+		if(!empty($resultado)){
+			$this->Model_amigos->set_addamigo($data);
+		}
 	}
 
 	public function aceptar_amigo(){
 		$id = $this->input->post("id");
-		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
-		$this->Model_amigos->update_amigo_ok($id, $this->session->userdata('id'));
+		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));		
+		$resultado = $this->Model_usuario->get_usuario($id);
+		if(!empty($resultado)){
+			$this->Model_amigos->update_amigo_ok($id, $this->session->userdata('id'));
+		}
 	}
 
 	public function rechazar_amigo(){
 		$id = $this->input->post("id");
 		$id = $this->encrypt->decode(strtr(rawurldecode($id),array('.' => '+', '-' => '=', '~' => '/')));
-		$this->Model_amigos->update_amigo_fail($id, $this->session->userdata('id'));
+		$resultado = $this->Model_usuario->get_usuario($id);
+		if(!empty($resultado)){
+			$this->Model_amigos->update_amigo_fail($id, $this->session->userdata('id'));
+		}
+		
 	}
 
-	public function add_sigue(){
+	public function eliminar_amigo(){
 		$data = array(
-			'id_usuario' => $this->session->userdata('id'),
-			'id_pagina' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('seguir')),array('.' => '+', '-' => '=', '~' => '/'))),
-			'estado' => 'siguiendo',
-			'fecha' => date("Y-m-d"),
+			'id_usuario1' => $this->session->userdata('id'),
+			'id_usuario2' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('id_usuario')),array('.' => '+', '-' => '=', '~' => '/'))),
 		);
-		$this->Model_amigos->add_sigue($data);
-	}
-
-	public function eliminar_sigue(){
-		$data = array(
-			'id_usuario' => $this->session->userdata('id'),
-			'id_pagina' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('seguir')),array('.' => '+', '-' => '=', '~' => '/'))),
-		);
-		$this->Model_amigos->delete_sigue($data);
+		$resultado = $this->Model_usuario->get_usuario($data['id_usuario2']);
+		if(!empty($resultado)){
+			var_dump("entre");
+			$this->Model_amigos->delete_amigo($data);
+		}
 	}
 }
 

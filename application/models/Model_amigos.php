@@ -64,6 +64,24 @@ class Model_amigos extends CI_Model {
 		$this->db->delete("sigue", $data);
 	}
 
+	public function delete_amigo($data){
+		$this->db->group_start();
+		$this->db->where('id_usuario1', $data['id_usuario1']);
+		$this->db->where('id_usuario2', $data['id_usuario2']);
+		$this->db->group_end();
+		$this->db->or_group_start();
+		$this->db->where('id_usuario1', $data['id_usuario2']);
+		$this->db->where('id_usuario2', $data['id_usuario1']);
+		$this->db->group_end();
+		$this->db->delete("amigo");
+	}
+
+	public function update_sigue($data){
+		$this->db->set('estado', 'bloqueado');
+		$this->db->where($data);
+		$this->db->update('sigue');
+	}
+
 	public function update_amigo_ok($data, $data2){
 		$this->db->set('estado', 'amigos');
 		$this->db->where('id_usuario1', $data);
@@ -79,6 +97,14 @@ class Model_amigos extends CI_Model {
 
 	public function get_busqueda($data, $data2, $data3){
 		$resultado = $this->db->query("CALL `BuscarAmigoSP`('".$data."', '".$data2."','".$data3."')");
+		$resultadoTotal = $resultado->result();
+		$resultado->next_result(); 
+		$resultado->free_result();
+		return $resultadoTotal;
+	}
+
+	public function get_busqueda_sigue($data, $data2, $data3){
+		$resultado = $this->db->query("CALL `BuscarSigueSP`('".$data."', '".$data2."','".$data3."')");
 		$resultadoTotal = $resultado->result();
 		$resultado->next_result(); 
 		$resultado->free_result();

@@ -96,15 +96,20 @@ $(document).ready(function(){
 				type: 'POST',
 				data: {id_album:id_album,comentario:comentario},
 				success: function(resultado){
-					$('#album_'+id_album+' #comentarios').html('');
-					//var json = JSON.parse(resultado.publicacion);
-					$.each(JSON.parse(resultado), function(index, value){
-						//alert(value);
-						$('#album_'+id_album+' #comentarios').append(value.comentarios);
-					});
-					$('#album_'+id_album+' #contComentario').val('');
-					$('#album_'+id_album+' #contComentario').text('');
-					//$('#cuerpoPiblicaciones').html(resultado); 
+					resultado = JSON.parse(resultado);
+					if (resultado.estado == 'error') {
+						alert('A ocurrido un error, intente mas tarde');
+					}else{
+						$('#album_'+id_album+' #comentarios').html('');
+						//var json = JSON.parse(resultado.publicacion);
+						$.each(resultado, function(index, value){
+							//alert(value);
+							$('#album_'+id_album+' #comentarios').append(value.comentarios);
+						});
+						$('#album_'+id_album+' #contComentario').val('');
+						$('#album_'+id_album+' #contComentario').text('');
+						//$('#cuerpoPiblicaciones').html(resultado); 
+					}	
 				}
 			});
     	}

@@ -73,12 +73,18 @@ $(document).ready(function(){
 				type: 'POST',
 				data: {id_publicacion:id_foto,comentario:comentario},
 				success: function(resultado){
-					$('#fotos_'+id_foto+' #comentarios').html('');
-					$.each(JSON.parse(resultado), function(index, value){
-						$('#fotos_'+id_foto+' #comentarios').append(value.comentarios);
-					});
-					$('#fotos_'+id_foto+' #contComentario').val('');
-					$('#fotos_'+id_foto+' #contComentario').text('');
+					resultado = JSON.parse(resultado);
+					if (resultado.estado == 'error') {
+						alert('A ocurrido un error, intente mas tarde');
+					}else{
+						$('#fotos_'+id_foto+' #comentarios').html('');
+						$.each(resultado, function(index, value){
+							$('#fotos_'+id_foto+' #comentarios').append(value.comentarios);
+						});
+						$('#fotos_'+id_foto+' #contComentario').val('');
+						$('#fotos_'+id_foto+' #contComentario').text('');
+					}
+
 				}
 			});
     	}

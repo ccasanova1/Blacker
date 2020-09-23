@@ -93,7 +93,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-        <?php if($seleccion == 'usuario'): ?>
+         <?php if($seleccion == 'usuario'): ?>
           <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> Mi Grupos</button>
             <div id="Demo1" class="w3-hide w3-container" style="padding: 0">
               <?php foreach ($grupos as $value) {
@@ -101,13 +101,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                 } ?>
               <a id="btn-grupo" class="w3-button w3-block w3-theme" href="<?php echo base_url('Grupos/crearGrupo')?>">Crear Grupo</a>
             </div>
-          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Mis events</button>
-          <div id="Demo2" class="w3-hide w3-container">
-            <p>Some other text..</p>
-          </div>
-          <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Amigos')?>"><i class="fa fa-address-book fa-fw w3-margin-right"></i> Mis Amigos</a>
-          <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$id_cuenta)?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Mis Albums</a>
-        <?php endif; ?>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Amigos')?>"><i class="fa fa-address-book fa-fw w3-margin-right"></i> Mis Amigos</a>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('albums/vistaAlbums/'.$id_cuenta)?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Mis Albums</a>
+          <?php endif; ?>
+          <?php if($seleccion == 'pagina'): ?>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Inicio/suscribirce')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Suscribirce</a>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Sigue')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Seguidores</a>
+          <?php endif; ?>
         </div>      
       </div>
       <br>

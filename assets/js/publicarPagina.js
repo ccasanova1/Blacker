@@ -87,16 +87,17 @@ $(document).ready(function(){
 				type: 'POST',
 				data: {id_publicacion:id_publicacion,comentario:comentario},
 				success: function(resultado){
-					$('#publi_'+id_publicacion+' #comentarios').html('');
-					//var json = JSON.parse(resultado.publicacion);
-					$.each(JSON.parse(resultado), function(index, value){
-						//alert(value);
-						console.log(value);
-						$('#publi_'+id_publicacion+' #comentarios').append(value.comentarios);
-					});
-					$('#publi_'+id_publicacion+' #contComentario').val('');
-					$('#publi_'+id_publicacion+' #contComentario').text('');
-					//$('#cuerpoPiblicaciones').html(resultado); 
+					resultado = JSON.parse(resultado);
+					if (resultado.estodo == 'error') {
+						alert('A ocurrido un error, intente mas tarde');
+					}else{
+						$('#publi_'+id_publicacion+' #comentarios').html('');
+						$.each(resultado, function(index, value){
+							$('#publi_'+id_publicacion+' #comentarios').append(value.comentarios);
+						});
+						$('#publi_'+id_publicacion+' #contComentario').val('');
+						$('#publi_'+id_publicacion+' #contComentario').text('');
+					}
 				}
 			});
     	}

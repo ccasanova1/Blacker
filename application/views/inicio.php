@@ -40,12 +40,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
   </div>
    <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large" >
+    <?php if($seleccion == 'usuario'): ?>
     <button onclick="myFunction('Demo2')" class="w3-button w3-bar-item"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Mi Grupos</button>
      <div id="Demo2" class="w3-hide w3-container" style="padding: 0">
       <?php foreach ($grupos as $value) {
         echo "<a id='btn-grupo' class='w3-button w3-block w3-theme' href='".base_url('/Grupos/verGrupo/'.urlencode(strtr($this->encrypt->encode($value->id_grupo),array('+' => '.', '=' => '-', '/' => '~'))))."'>".$value->nombre."</a>";
       } ?>
     </div>
+    <?php endif; ?>
     <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 1</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 2</a>
     <a href="#" class="w3-bar-item w3-button w3-padding-large" >Link 3</a>
@@ -108,6 +110,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <?php endif; ?>
           <?php if($seleccion == 'pagina'): ?>
             <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Inicio/suscribirce')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Suscribirce</a>
+            <a class="w3-button w3-block w3-theme-l1 w3-left-align" href="<?php echo base_url('Sigue')?>"><i class="fa fa-picture-o fa-fw w3-margin-right"></i> Seguidores</a>
           <?php endif; ?>
         </div>      
       </div>

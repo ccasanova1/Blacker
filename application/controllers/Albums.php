@@ -27,49 +27,44 @@ class Albums extends CI_Controller {
 		$respuesta = $this->Model_usuario->get_usuario($this->session->userdata("id"));
 		if($this->session->userdata("seleccion") == "usuario"){
 			$respuesta2 = $this->Model_perfiles->get_perfil_usuario($this->session->userdata("id"));
-            $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
-            $datos = array(
-                'nombre' => $respuesta2->nombre,
-                'apellido' => $respuesta2->apellido,
-                "foto_perfil" => $respuesta->foto_perfil,
-                'seleccion' => $this->session->userdata("seleccion"),
-                'buscar' => 'Buscar',
-                'notificaciones' => $respuesta3,
-            ); 			
+	           $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
+	           $datos = array(
+	               'nombre' => $respuesta2->nombre,
+	               'apellido' => $respuesta2->apellido,
+	               "foto_perfil" => $respuesta->foto_perfil,
+	               'seleccion' => $this->session->userdata("seleccion"),
+	               'buscar' => 'Buscar',
+	               'notificaciones' => $respuesta3,
+	           ); 			
 		}else{
 			redirect(base_url());
 		}
 		$resultado = $this->Model_perfiles->get_perfil($id);
-		//$respuesta2 = $this->Model_publicacion->get_publicacion($id);
-		//$respuesta3 = $this->Model_album->get_foto_publicada($id);
-		$respuesta4 = $this->Model_usuario->get_usuario($id);
-		$respuesta5 = $this->Model_amigos->get_amigo_especifico($id, $this->session->userdata('id'));
-		$datos['perfil'] = $resultado;
-		$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
-		$datos['cuenta'] = $respuesta4;
-		$datos['amigo'] = $respuesta5;
-		if (empty($datos['amigo'])) {
-			$datos['amigo'] = new \stdClass(); 
-			$datos['amigo']->estado = '';
+		if (empty($resultado)) {
+			redirect(base_url());
+		}else{
+			$respuesta4 = $this->Model_usuario->get_usuario($id);
+			$respuesta5 = $this->Model_amigos->get_amigo_especifico($id, $this->session->userdata('id'));
+			$datos['perfil'] = $resultado;
+			$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
+			$datos['cuenta'] = $respuesta4;
+			$datos['amigo'] = $respuesta5;
+			if (empty($datos['amigo'])) {
+				$datos['amigo'] = new \stdClass(); 
+				$datos['amigo']->estado = '';
+			}
+			$datos['amigoEstado'] = new \stdClass(); 
+			$datos['amigoEstado']->banderaPerfil = "OK"; 
+			if ($id == $this->session->userdata("id")){
+				$datos['amigoEstado']->banderaPerfil = "NO";
+			}
+			$grupos = $this->Model_grupo->get_grupos($this->session->userdata("id"));
+			$datos['grupos'] = $grupos;
+			$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
+			$datos['amigoPendiente'] = $pendienteAmigos; 
+			$datos['visitas'] = $respuesta->visitas;
+			$this->load->view('albums', $datos);
 		}
-		$datos['amigoEstado'] = new \stdClass(); 
-		$datos['amigoEstado']->banderaPerfil = "OK"; 
-		if ($id == $this->session->userdata("id")){
-			$datos['amigoEstado']->banderaPerfil = "NO";
-		}
-		$grupos = $this->Model_grupo->get_grupos($this->session->userdata("id"));
-		$datos['grupos'] = $grupos;
-		$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
-		$datos['amigoPendiente'] = $pendienteAmigos; 
-		/*$datos .= array(
-			'perfil' => $resultado,
-			//'publicacion' => $respuesta2,
-			//'foto_publicacion' => $respuesta3,
-			'cuenta' => $respuesta4,
-			'amigo'	=> $respuesta5,
-		);*/
-		$datos['visitas'] = $respuesta->visitas;
-		$this->load->view('albums', $datos);
 	}
 
 	public function obtenerAlbum()
@@ -88,7 +83,6 @@ class Albums extends CI_Controller {
 		}else{
 			$i = 0;
 			$data = array();
-			//<a href='".base_url('inicio/albums/fotos?id_album='.$value->id_album.'&user='.urlencode(strtr($this->encrypt->encode($id),array('+' => '.', '=' => '-', '/' => '~'))))."'>
 		foreach ($albums as $value) {
 				$date1 = new DateTime($value->fecha);
 				$date2 = new DateTime(date("Y-m-d H:m:s"));
@@ -178,12 +172,13 @@ class Albums extends CI_Controller {
 
 	public function nuevoAlbum(){
 		$albumNuevo = $this->input->post('albumNuevo');
-		$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
-		$this->Model_album->set_album($ruta->nombre, $albumNuevo, $this->session->userdata('id'));
-		$this->Model_notificaciones->set_notificacion_album_usuario($this->session->userdata("id"));
-		$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$albumNuevo";
-		mkdir($dir, 777, TRUE);
-		echo 'ok';
+		if (!empty($albumNuevo)) {
+			$ruta = $this->Model_album->get_rutaAlbum($this->session->userdata('id'));
+			$this->Model_album->set_album($ruta->nombre, $albumNuevo, $this->session->userdata('id'));
+			$this->Model_notificaciones->set_notificacion_album_usuario($this->session->userdata("id"));
+			$dir = "/var/www/html/frontend/assets/albumes/$ruta->nombre/$albumNuevo";
+			mkdir($dir, 0777, TRUE);
+		}	
 	}
 
 	public function fotos($id_album,$id_cuenta){
@@ -204,30 +199,33 @@ class Albums extends CI_Controller {
 			redirect(base_url());
 		}
 		$resultado = $this->Model_perfiles->get_perfil($id);
-		$respuesta4 = $this->Model_usuario->get_usuario($id);
-		$respuesta5 = $this->Model_amigos->get_amigo_especifico($id, $this->session->userdata('id'));
-		$datos['perfil'] = $resultado;
-		$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
-		$datos['cuenta'] = $respuesta4;
-		$datos['amigo'] = $respuesta5;
-		if (empty($datos['amigo'])) {
-			$datos['amigo'] = new \stdClass(); 
-			$datos['amigo']->estado = '';
+		if (empty($resultado)) {
+			redirect(base_url());
+		}else{
+			$respuesta4 = $this->Model_usuario->get_usuario($id);
+			$respuesta5 = $this->Model_amigos->get_amigo_especifico($id, $this->session->userdata('id'));
+			$datos['perfil'] = $resultado;
+			$datos['perfil']->id_cuenta = urlencode(strtr($this->encrypt->encode($datos['perfil']->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));
+			$datos['cuenta'] = $respuesta4;
+			$datos['amigo'] = $respuesta5;
+			if (empty($datos['amigo'])) {
+				$datos['amigo'] = new \stdClass(); 
+				$datos['amigo']->estado = '';
+			}
+			$datos['amigoEstado'] = new \stdClass(); 
+			$datos['amigoEstado']->banderaPerfil = "OK"; 
+			if ($id == $this->session->userdata("id")){
+				$datos['amigoEstado']->banderaPerfil = "NO";
+			}
+			$datos['album'] = new \stdClass();
+			$datos['album']->id_album = $id_album;
+			$grupos = $this->Model_grupo->get_grupos($this->session->userdata("id"));
+			$datos['grupos'] = $grupos;
+			$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
+			$datos['amigoPendiente'] = $pendienteAmigos; 
+			$datos['visitas'] = $respuesta->visitas;
+			$this->load->view('Fotos', $datos);
 		}
-		$datos['amigoEstado'] = new \stdClass(); 
-		$datos['amigoEstado']->banderaPerfil = "OK"; 
-		if ($id == $this->session->userdata("id")){
-			$datos['amigoEstado']->banderaPerfil = "NO";
-		}
-		$datos['album'] = new \stdClass();
-		$datos['album']->id_album = $id_album;
-		$grupos = $this->Model_grupo->get_grupos($this->session->userdata("id"));
-		$datos['grupos'] = $grupos;
-		$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
-		$datos['amigoPendiente'] = $pendienteAmigos; 
-		$datos['visitas'] = $respuesta->visitas;
-		$this->load->view('Fotos', $datos);
-
 	}
 
 	public function obtenerFotos()
