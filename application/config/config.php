@@ -23,9 +23,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')  { 
+    $url = "https://";   
+}else{  
+    $url = "http://";   
+}  
+$url.= $_SERVER['HTTP_HOST'];   
 //$config['base_url'] = 'http://blacker.com.uy';
-$config['base_url'] = 'http://192.168.2.202/frontend/';
-define("base_url_assets", 'http://192.168.2.205/');
+$config['base_url'] = $url.'/NuevaCarpeta/';
+define("base_url_assets", $url.'/NuevaCarpeta/');
 
 /*
 |--------------------------------------------------------------------------

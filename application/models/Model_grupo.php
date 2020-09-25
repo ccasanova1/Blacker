@@ -50,4 +50,19 @@ class Model_grupo extends CI_Model {
 		$resultado = $this->db->get('forma');
 		return (empty($resultado)) ? FALSE : TRUE;
 	}
+
+	public function add_unirme($data){
+		$this->db->insert("forma", $data);
+	}
+
+	public function delete_unirme($data){
+		$this->db->delete("forma", $data);
+	}
+
+	public function get_forma($data,$data2){
+		$this->db->where('id_grupo', $data);
+		$this->db->where('id_usuario', $data2);
+		$resultado = $this->db->get('forma');
+		return $resultado->row();
+	}
 }

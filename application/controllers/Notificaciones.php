@@ -15,6 +15,7 @@ class Notificaciones extends CI_Controller {
 		$this->load->model("Model_amigos");
 		$this->load->model("Model_grupo");
 		$this->load->library('encrypt');
+		$this->load->helper('string');
 	}
 
 	public function index()
@@ -44,6 +45,7 @@ class Notificaciones extends CI_Controller {
 			$datos['grupos'] = $grupos;
 			$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
 			$datos['amigoPendiente'] = $pendienteAmigos;
+			$datos['amigos'] = $this->Model_amigos->get_amigos_datos($this->session->userdata("id"));
         }else{
             $respuesta2 = $this->Model_perfiles->get_perfil_pagina($this->session->userdata("id"));
             $respuesta3 = $this->Model_notificaciones->get_notificacion_count($this->session->userdata('id'));
@@ -111,7 +113,11 @@ class Notificaciones extends CI_Controller {
 				}
 				foreach ($resultado as $busqueda){
 					$this->Model_notificaciones->update_notificaciones($busqueda->id_notificacion);
-				    $data[$i]['busqueda'] .= "<div class='w3-container w3-card w3-white w3-round w3-margin'><br>";
+					if (!empty($data[$i]['busqueda'])) {
+						$data[$i]['busqueda'] .= "<div class='w3-container w3-card w3-white w3-round w3-margin'><br>";
+					}else{
+						$data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin'><br>";
+					}				    
 				    $data[$i]['busqueda'] .= "<a href='";
 				   	if (!empty($busqueda->nombre_entidad)) {
 				    	$data[$i]['busqueda'] .= base_url('inicio/pagina')."/".urlencode(strtr($this->encrypt->encode($busqueda->id_cuenta),array('+' => '.', '=' => '-', '/' => '~')));

@@ -23,7 +23,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="<?php echo base_url()?>" class="w3-bar-item w3-button w3-padding-large w3-theme-d4">Blacker</a>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
   <a href="<?php echo base_url('notificaciones'); ?>" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Notificaciones"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green"><?php echo $notificaciones->CantNotificaciones; ?></span></a>  
   <?php if($seleccion == 'usuario'): ?>
     <form action="<?php echo base_url('inicio/buscar')?>" method="POST">
@@ -32,7 +31,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <?php endif; ?>
   <div class="w3-dropdown-hover w3-hide-small w3-hover-white w3-right">
     <button class="w3-button w3-padding-large" title="Notifications">
-      <img src="<?php base_url_assets.'assets/'.$foto_perfil; ?>" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+      <img src="<?php echo base_url_assets.'assets/'.$foto_perfil; ?>" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
     </button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px; right:0">
       <a href="<?php echo base_url('login/logout'); ?>" class="w3-bar-item w3-button">Salir</a>
@@ -72,7 +71,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                                     }else{
                                 echo "<a href='".base_url('inicio/perfil')."/".urlencode(strtr($this->encrypt->encode($this->session->userdata("id")),array('+' => '.', '=' => '-', '/' => '~')))."'>".$perfil->nombre.' '.$perfil->apellido."</a>";
                             }?></h4>
-         <p class="w3-center"><img src="<?php echobase_url_assets.'assets/'.$foto_perfil; ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><img src="<?php echo base_url_assets.'assets/'.$foto_perfil; ?>" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
          <?php if($seleccion == 'pagina'): ?>
            <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> <?php if(!empty($calle)){ echo $calle;}else{ echo "Sin calle registrada";} ?></p>
@@ -132,7 +131,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       </div>
     </div>
     <!-- Right Column -->
-    <div class="w3-col m2">
+    <div class="w3-col m2" style="overflow-y: auto;max-height: 768px;">
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
           <p>Visitas: a mi perfil:</p>
@@ -163,6 +162,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           </div>
         </div>
       </div>
+      <div class="w3-card w3-round w3-white w3-center" id="listaChat">
+        <p>Chats Amigos:</p>
+        <?php $i = 1; foreach ($amigos as $value): ?>
+        <button class="w3-button w3-block" id="btn-amigo-chat" onclick="document.getElementById('id-<?php echo $i; ?>').style.display='block';id_usuarioChat=<?php echo $value->id_cuenta?>;id_chat='#id-<?php echo $i; ?>';" style="text-align: left;text-overflow: ellipsis;" title="<?php echo $value->nombre.' '.$value->apellido?>"><img src="<?php echo base_url_assets.'assets/'.$value->foto_perfil; ?>" class="w3-circle" style="height:20px;width:20px" alt="Avatar"> <?php echo $value->nombre.' '.$value->apellido?></button>
+      <?php $i++; endforeach; ?>
+        </div>
       <br>
       <?php endif; ?>
       <br>
@@ -176,13 +181,39 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   
 <!-- End Page Container -->
 </div>
+
 <br>
+<?php if($seleccion == 'usuario'): ?>
+  <?php $i = 1; foreach ($amigos as $value): ?>
+    <div id='id-<?php echo $i; ?>' class="w3-modal">
+      <div class="w3-modal-content" id="chat">
+
+        <header class="w3-container w3-theme-d2">
+          <span onclick="document.getElementById('id-<?php echo $i; ?>').style.display='none';id_chat='#chat';id_usuarioChat=0;"
+          class="w3-button w3-display-topright"><i class="fa fa-times" aria-hidden="true"></i></span>
+          <h4><?php echo $value->nombre.' '.$value->apellido?></h4>
+        </header>
+
+        <div class="w3-container" id='cuerpoChat' style="overflow-y: auto;min-height: 300px;max-height: 300px;height: 100%">
+        </div>
+
+        <footer class="w3-container w3-theme-d2 w3-padding">
+          <textarea id="mandarChat" name="mandarChat" class="w3-border w3-padding" style="width: 100%" rows="3"></textarea>
+          <button id="btn-chat<?php echo random_string('alnum', 11)?>" class="w3-button w3-theme" style="margin-top: 0.5rem"><i class="fa fa-pencil"></i> Enviar</button> 
+        </footer>
+
+      </div>
+    </div>
+  <?php $i++; endforeach; ?>
+<?php endif; ?>
 
 <script type="text/javascript" src="<?=base_url_assets.'assets/js/jquery.min.js' ?>"></script>
 <script type="text/javascript" src="<?=base_url_assets.'assets/js/emojionearea.min.js'; ?>"></script>
 
 <script>
   var baseurl = "<?=base_url()?>";
+  var id_chat = '#chat';
+  var id_usuarioChat = 0;
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);
@@ -228,5 +259,6 @@ function showDivs(n) {
 </script>
 <script type="text/javascript" src="<?=base_url_assets.'assets/js/buscarAmigos.js' ?>"></script>
 <script type="text/javascript" src="<?=base_url_assets.'assets/js/amigo.js' ?>"></script>
+<script type="text/javascript" src="<?=base_url_assets.'assets/js/chat.js' ?>"></script>
 </body>
 </html> 

@@ -370,9 +370,12 @@ class Publicacion extends CI_Controller {
 			}
 			$escapers = array("\n",  "\r",  "\t", "\x08", "\x0c");
     		$replacements = array("", "", "",  "",  "");
-			$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='Publicidad'><br>
-      			<img src='".base_url("assets/Publicidad/Publicidad.jpg")."' style='width:100%' alt='Publicidad' class='w3-margin-bottom'>
+    		$resultadoPublicidad = $this->Model_publicacion->get_publicidad();
+    		if (!empty($resultadoPublicidad)) {
+    			$data[$i]['publicacion'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='Publicidad'><br>
+      			<img src='".base_url_assets."assets/Publicidad/".$resultadoPublicidad->ruta."' style='width:100%' alt='Publicidad' title='$resultadoPublicidad->titulo' class='w3-margin-bottom'>
       			</div>";
+    		}
     		$data[$i]['publicacion'] = str_replace($escapers, $replacements, $data[$i]['publicacion']);
 			$data['limite'] = $limite+3;
 			echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);	

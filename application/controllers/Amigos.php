@@ -44,6 +44,7 @@ class Amigos extends CI_Controller {
 			$datos['grupos'] = $grupos;
 			$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
 			$datos['amigoPendiente'] = $pendienteAmigos;
+			$datos['amigos'] = $this->Model_amigos->get_amigos_datos($this->session->userdata("id"));
         }else{
             redirect(base_url());
         }

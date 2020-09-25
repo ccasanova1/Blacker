@@ -63,6 +63,7 @@ class Albums extends CI_Controller {
 			$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
 			$datos['amigoPendiente'] = $pendienteAmigos; 
 			$datos['visitas'] = $respuesta->visitas;
+			$datos['amigos'] = $this->Model_amigos->get_amigos_datos($this->session->userdata("id"));
 			$this->load->view('albums', $datos);
 		}
 	}
@@ -224,6 +225,7 @@ class Albums extends CI_Controller {
 			$pendienteAmigos = $this->Model_amigos->get_pendiente($this->session->userdata("id"));
 			$datos['amigoPendiente'] = $pendienteAmigos; 
 			$datos['visitas'] = $respuesta->visitas;
+			$datos['amigos'] = $this->Model_amigos->get_amigos_datos($this->session->userdata("id"));
 			$this->load->view('Fotos', $datos);
 		}
 	}

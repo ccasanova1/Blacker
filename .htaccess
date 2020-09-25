@@ -6,4 +6,4 @@ RewriteBase /
 RewriteCond $1 !^(index\.php|images|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /frontend/index.php/$1 [L,QSA]
+RewriteRule ^(.*)$ /NuevaCarpeta/index.php/$1 [L,QSA]

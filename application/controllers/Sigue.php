@@ -68,7 +68,7 @@ class Sigue extends CI_Controller {
 			foreach ($resultado as $busqueda){
 			    $data[$i]['busqueda'] = "<div class='w3-container w3-card w3-white w3-round w3-margin' id='Sigue'><br>"; 
 			    $data[$i]['busqueda'] .= "<img src='";
-			    $data[$i]['busqueda'] .= base_url_assets.'assets/'.$busqueda->foto_perfil);
+			    $data[$i]['busqueda'] .= base_url_assets.'assets/'.$busqueda->foto_perfil;
 			    $data[$i]['busqueda'] .= "' alt='Avatar' class='w3-left w3-circle w3-margin-right' style='height:60px;width:60px'></a>";
 			    $data[$i]['busqueda'] .= "<h5>";     
 			    $data[$i]['busqueda'] .= $busqueda->nombre." ".$busqueda->apellido."</a><p>Edad:";

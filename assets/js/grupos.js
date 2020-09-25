@@ -216,6 +216,40 @@ $(document).ready(function(){
 			}
 		});
   	});
+
+  	$("#btn-unirme").click(function(ev){
+		var formdata = new FormData($("#frm-unirme")[0]);
+		$.ajax({
+			url: baseurl+'Grupos/add_unirme',
+			type: 'POST',
+			data: formdata,
+			cache:false,
+            contentType:false,
+            processData:false,
+			success: function(){
+				window.location.replace(baseurl+"grupos/verGrupo/"+id_grupo);        
+			},
+			
+		});
+		ev.preventDefault();
+	});
+
+	$("#btn-eliminar").click(function(ev){
+		var formdata = new FormData($("#frm-eliminar")[0]);
+		$.ajax({
+			url: baseurl+'Grupos/eliminar_unirme',
+			type: 'POST',
+			data: formdata,
+			cache:false,
+            contentType:false,
+            processData:false,
+			success: function(){
+				window.location.replace(baseurl+"grupos/verGrupo/"+id_grupo);       
+			},
+			
+		});
+		ev.preventDefault();
+	});
 });
 
 

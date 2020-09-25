@@ -15,9 +15,11 @@ class Grupos  extends CI_Controller {
 		$this->load->model("Model_perfiles");
 		$this->load->model("Model_notificaciones");
 		$this->load->model("Model_grupo");
+		$this->load->model("Model_amigos");
 		$this->load->helper(array('crear_grupo_rules'));
 		$this->form_validation->set_error_delimiters('', '');
 		$this->load->library('encrypt');
+		$this->load->helper('string');
 	}
 
 	public function crearGrupo()
@@ -44,6 +46,7 @@ class Grupos  extends CI_Controller {
 		$grupos = $this->Model_grupo->get_grupos($this->session->userdata("id"));
 		$datos['grupos'] = $grupos;
        	$datos['visitas'] = $respuesta->visitas;
+       	$datos['amigos'] = $this->Model_amigos->get_amigos_datos($this->session->userdata("id"));
 		$this->load->view('crearGrupos', $datos);
 	}
 
@@ -77,6 +80,8 @@ class Grupos  extends CI_Controller {
 		$grupo = $this->Model_grupo->get_grupo($id_grupo);
 		$datos['grupo'] = $grupo;
        	$datos['visitas'] = $respuesta->visitas;
+       	$datos['amigos'] = $this->Model_amigos->get_amigos_datos($this->session->userdata("id"));
+       	$datos['forma'] = $this->Model_grupo->get_forma($id_grupo,$this->session->userdata("id"));
 		$this->load->view('verGrupos', $datos);
 	}
 	
@@ -141,6 +146,29 @@ class Grupos  extends CI_Controller {
 				$this->output->set_status_header(400);
 				exit();
 			}
+		}
+	}
+
+	public function add_unirme(){
+		$data = array(
+			'id_usuario' => $this->session->userdata('id'),
+			'id_grupo' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('unirme')),array('.' => '+', '-' => '=', '~' => '/'))),
+			'fecha' => date("Y-m-d"),
+		);		
+		$resultado = $this->Model_grupo->get_grupo($data['id_grupo']);
+		if(!empty($resultado)){
+			$this->Model_grupo->add_unirme($data);
+		}
+	}
+
+	public function eliminar_unirme(){
+		$data = array(
+			'id_usuario' => $this->session->userdata('id'),
+			'id_grupo' => $this->encrypt->decode(strtr(rawurldecode($this->input->post('unirme')),array('.' => '+', '-' => '=', '~' => '/'))),
+		);	
+		$resultado = $this->Model_grupo->get_grupo($data['id_grupo']);
+		if(!empty($resultado)){
+			$this->Model_grupo->delete_unirme($data);
 		}
 	}
 }
